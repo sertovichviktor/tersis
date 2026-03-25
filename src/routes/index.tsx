@@ -242,109 +242,58 @@ function TersisApp() {
       </nav>
 
       {/* ─── HERO SECTION ─── */}
-      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center">
-        {/*
-          VIDEO BACKGROUND INSTRUCTIONS:
-          1. Generate your video in Google Veo
-          2. Export/download it as an MP4 file
-          3. Place the file as public/hero-video.mp4
-          4. Uncomment the <video> block below
-
-          The video will play automatically, muted, in a loop as the hero background.
-        */}
-        {/*
+      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center overflow-hidden">
+        {/* VIDEO BACKGROUND ADDED */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-0"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[#050a14]/80" />
-        */}
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-[#050a14]/60 z-10" />
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fadeInUp">
-              <div
-                className={`inline-block mb-6 px-4 py-2 ${
-                  isDark ? 'bg-[#0052ff]/10 border-[#0052ff]/30' : 'bg-[#0052ff]/5 border-[#0052ff]/20'
-                } border rounded-md`}
-              >
-                <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                  {t.hero.badge}
-                </p>
-              </div>
-              <h1
-                className={`text-5xl sm:text-6xl md:text-7xl font-black ${textPrimary} mb-6 leading-[1.05] tracking-tight`}
-              >
-                {t.hero.title1}
-                <br />
-                {t.hero.title2}
-                <br />
-                <span className="text-[#0052ff]">{t.hero.title3}</span>
-                <br />
-                {t.hero.title4}
-              </h1>
-              <p className={`text-lg ${textSecondary} mb-10 leading-relaxed max-w-lg`}>
-                {t.hero.subtitle}
+        <div className="max-w-7xl mx-auto w-full relative z-20">
+          <div className="animate-fadeInUp">
+            <div
+              className={`inline-block mb-6 px-4 py-2 ${
+                isDark ? 'bg-[#0052ff]/10 border-[#0052ff]/30' : 'bg-[#0052ff]/5 border-[#0052ff]/20'
+              } border rounded-md`}
+            >
+              <p className="text-[#0052ff] text-sm font-bold tracking-wider">
+                {t.hero.badge}
               </p>
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/20"
-                >
-                  {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => scrollToSection('fleet')}
-                  className={`border-2 ${isDark ? 'border-white/20 text-white hover:bg-white/5' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide`}
-                >
-                  {t.hero.fleetDetails}
-                </button>
-              </div>
             </div>
-
-            {/* Hero stats card */}
-            <div className="hidden md:block relative h-[480px]">
-              <div
-                className={`absolute inset-0 flex flex-col justify-center items-center text-center ${bgCard} border ${borderAccent} rounded-xl overflow-hidden backdrop-blur-sm`}
+            <h1
+              className={`text-5xl sm:text-6xl md:text-7xl font-black ${textPrimary} mb-6 leading-[1.05] tracking-tight`}
+            >
+              {t.hero.title1}
+              <br />
+              {t.hero.title2}
+              <br />
+              <span className="text-[#0052ff]">{t.hero.title3}</span>
+              <br />
+              {t.hero.title4}
+            </h1>
+            <p className={`text-lg ${textSecondary} mb-10 leading-relaxed max-w-lg`}>
+              {t.hero.subtitle}
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/20"
               >
-                <div className="space-y-8 p-8">
-                  <div>
-                    <Truck className="h-14 w-14 text-[#0052ff] mx-auto mb-4 opacity-80" />
-                    <p className={`text-5xl font-black ${textPrimary} mb-2`}>27</p>
-                    <p className={`${textSecondary} text-sm font-bold tracking-wide`}>
-                      {t.hero.vehicles}
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-5">
-                    <div
-                      className={`border ${borderAccent} p-5 rounded-lg ${isDark ? 'bg-[#0052ff]/5' : 'bg-[#0052ff]/[0.02]'}`}
-                    >
-                      <p className="text-[#0052ff] font-black text-2xl mb-1">105 m³</p>
-                      <p className={`${textMuted} text-xs uppercase tracking-widest`}>
-                        {t.hero.megaCapacity}
-                      </p>
-                    </div>
-                    <div
-                      className={`border ${borderAccent} p-5 rounded-lg ${isDark ? 'bg-[#0052ff]/5' : 'bg-[#0052ff]/[0.02]'}`}
-                    >
-                      <p className="text-[#0052ff] font-black text-2xl mb-1">92 m³</p>
-                      <p className={`${textMuted} text-xs uppercase tracking-widest`}>
-                        {t.hero.standard}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={`border-t ${borderColor} pt-6`}>
-                    <p className="text-[#0052ff] font-bold text-xs uppercase tracking-widest">
-                      {t.hero.license}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => scrollToSection('fleet')}
+                className={`border-2 ${isDark ? 'border-white/20 text-white hover:bg-white/5' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide`}
+              >
+                {t.hero.fleetDetails}
+              </button>
             </div>
           </div>
         </div>
