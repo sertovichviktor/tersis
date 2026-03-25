@@ -59,76 +59,76 @@ function TersisApp() {
 
   return (
     <div className={`min-h-screen ${bg} relative overflow-hidden transition-colors duration-300`}>
-      {/* ─── NAVIGATION ─── */}
+      {/* ─── NAVIGATION (Original Structure Restored) ─── */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-18 py-4">
             {/* Logo */}
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="TERSIS" className="h-10 w-10 object-contain" />
               <span className={`text-2xl font-black ${textPrimary} tracking-tight uppercase`}>TERSIS</span>
             </div>
 
-            {/* Nav + Controls on the Right */}
-            <div className="flex items-center gap-4 md:gap-8">
-              <div className="hidden md:flex items-center space-x-6">
-                {['services', 'fleet', 'about', 'coverage', 'contact'].map((section) => (
-                  <button key={section} onClick={() => scrollToSection(section)} className={`${textSecondary} hover:text-[#0052ff] transition text-xs font-bold uppercase tracking-widest`}>
-                    {t.nav[section as keyof typeof t.nav]}
-                  </button>
-                ))}
-              </div>
+            {/* Desktop Nav Items (Center) */}
+            <div className="hidden md:flex items-center space-x-6">
+              {['services', 'fleet', 'about', 'coverage', 'contact'].map((section) => (
+                <button key={section} onClick={() => scrollToSection(section)} className={`${textSecondary} hover:text-[#0052ff] transition text-sm font-semibold uppercase tracking-wide`}>
+                  {t.nav[section as keyof typeof t.nav]}
+                </button>
+              ))}
+            </div>
 
-              {/* Language and Theme Switchers (ALWAYS ON THE RIGHT) */}
-              <div className="flex items-center gap-2">
-                <button onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`px-2 py-1 rounded border ${borderColor} ${textSecondary} text-[10px] font-bold uppercase hover:text-[#0052ff] transition`}>
-                  {lang === 'en' ? 'LT' : 'EN'}
-                </button>
-                <button onClick={() => setIsDark(!isDark)} className={`p-1.5 rounded border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition`}>
-                  {isDark ? <Sun size={14} /> : <Moon size={14} />}
-                </button>
-                <button onClick={() => scrollToSection('contact')} className="hidden sm:block bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-xs uppercase tracking-widest rounded-md">
-                  {t.nav.getQuote}
-                </button>
-                <button className={`md:hidden ${textSecondary} ml-2`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                </button>
-              </div>
+            {/* Controls (Right) */}
+            <div className="hidden md:flex items-center gap-3">
+              <button onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition text-xs font-bold uppercase`}>
+                <Languages className="h-3.5 w-3.5" /> {lang === 'en' ? 'LT' : 'EN'}
+              </button>
+              <button onClick={() => setIsDark(!isDark)} className={`p-2 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition`}>
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
+              <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-sm uppercase tracking-wide rounded-md">{t.nav.getQuote}</button>
+            </div>
+
+            {/* Mobile buttons */}
+            <div className="md:hidden flex items-center gap-2">
+              <button onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`px-2 py-1 text-xs font-bold ${textSecondary}`}>{lang === 'en' ? 'LT' : 'EN'}</button>
+              <button onClick={() => setIsDark(!isDark)} className={`p-1.5 ${textSecondary}`}>{isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={textSecondary}>{isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
             </div>
           </div>
         </div>
 
-        {/* Mobile menu (Inside) */}
+        {/* Mobile menu (Includes Lang/Theme) */}
         {isMenuOpen && (
-          <div className={`md:hidden ${navBg} border-t ${borderColor} px-4 py-6 flex flex-col gap-4 shadow-2xl animate-fadeIn`}>
+          <div className={`md:hidden ${navBg} backdrop-blur-md border-t ${borderColor} px-4 py-6 flex flex-col gap-4`}>
             {['services', 'fleet', 'about', 'coverage', 'contact'].map((section) => (
-              <button key={section} onClick={() => scrollToSection(section)} className={`block w-full text-left ${textSecondary} text-sm font-bold uppercase tracking-widest`}>{t.nav[section as keyof typeof t.nav]}</button>
+              <button key={section} onClick={() => scrollToSection(section)} className={`block w-full text-left ${textSecondary} text-sm font-bold uppercase`}>{t.nav[section as keyof typeof t.nav]}</button>
             ))}
             <button onClick={() => scrollToSection('contact')} className="w-full bg-[#0052ff] text-white py-3 rounded-md font-bold uppercase text-xs">GET A QUOTE</button>
           </div>
         )}
       </nav>
 
-      {/* ─── HERO SECTION ─── */}
-      <section className="relative h-screen min-h-[750px] flex items-center overflow-hidden bg-[#050a14]">
-        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-60">
+      {/* ─── HERO SECTION (Video BG + Right Info) ─── */}
+      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center overflow-hidden">
+        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0">
           <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 bg-black/60 z-10" />
 
-        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 relative z-20">
+        <div className="max-w-7xl mx-auto w-full relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="animate-fadeInUp">
+            <div className="animate-fadeInUp text-white">
               <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md">
-                <p className="text-[#0052ff] text-xs font-black tracking-[0.2em] uppercase">
-                  {lang === 'en' ? 'Global Logistics Network' : 'Pasaulinis logistikos tinklas'}
+                <p className="text-[#0052ff] text-xs font-black tracking-widest uppercase">
+                   GLOBAL LOGISTICS NETWORK
                 </p>
               </div>
-              <h1 className={`text-5xl sm:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase`}>
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-6 leading-[1.05] tracking-tight uppercase">
                 {t.hero.title1}<br />
                 {t.hero.title2}<br />
-                <span className="text-[#0052ff]">{lang === 'en' ? 'Global' : 'Pasaulinė'}</span> {t.hero.title4}
+                <span className="text-[#0052ff]">{lang === 'en' ? 'Direct' : 'Tiesioginis'}</span><br />
+                {t.hero.title4}
               </h1>
               <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-lg font-medium">
                 {lang === 'en' 
@@ -137,57 +137,105 @@ function TersisApp() {
                 }
               </p>
               <div className="flex flex-wrap gap-4">
-                <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-sm font-black hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-widest shadow-xl">
-                  {t.hero.getQuote} <ArrowRight size={18} />
-                </button>
+                <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/30">{t.hero.getQuote} <ArrowRight className="h-4 w-4" /></button>
+                <button onClick={() => scrollToSection('fleet')} className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide">{t.hero.fleetDetails}</button>
               </div>
             </div>
 
-            {/* Right Side Info (Filling the void) */}
+            {/* Info Blocks on the Right (instead of the old square) */}
             <div className="hidden md:flex flex-col gap-6 items-end">
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl w-full max-w-[320px] transition hover:bg-white/10">
-                  <Truck className="text-[#0052ff] mb-4" size={40} />
-                  <p className="text-5xl font-black text-white mb-1">27+</p>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{lang === 'en' ? 'Asset-Based Vehicles' : 'Nuosavas transportas'}</p>
+               <div className={`${bgCard} border ${borderAccent} p-8 rounded-xl w-full max-w-[340px] backdrop-blur-md bg-opacity-60`}>
+                  <Truck className="h-10 w-10 text-[#0052ff] mb-4" />
+                  <p className={`text-5xl font-black ${textPrimary} mb-1 leading-none uppercase`}>27+</p>
+                  <p className={`${textSecondary} text-xs font-bold uppercase tracking-widest`}>{lang === 'en' ? 'Modern Vehicles' : 'Modernūs vilkikai'}</p>
                </div>
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl w-full max-w-[320px] transition hover:bg-white/10">
-                  <FileText className="text-[#0052ff] mb-4" size={40} />
-                  <p className="text-xl font-black text-white mb-1 tracking-tight">LIC-009666-EBKR</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}</p>
+               <div className={`${bgCard} border ${borderAccent} p-8 rounded-xl w-full max-w-[340px] backdrop-blur-md bg-opacity-60`}>
+                  <FileText className="h-10 w-10 text-[#0052ff] mb-4" />
+                  <p className={`text-xl font-black ${textPrimary} mb-1 uppercase tracking-tight`}>LIC-009666-EBKR</p>
+                  <p className={`${textSecondary} text-[10px] font-bold uppercase tracking-widest`}>{lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}</p>
                </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── FLEET ─── */}
+      {/* ─── FLEET (Original restored) ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.fleet.title}</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className={`border ${borderAccent} p-8 ${bgCard} rounded-xl`}>
-              <Truck className="text-[#0052ff] mb-6" size={32} />
-              <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase tracking-tight`}>{t.fleet.standardClass}</h3>
-              <div className="space-y-3 text-sm font-bold uppercase tracking-widest text-slate-500">
-                  <div className="flex justify-between border-b pb-2"><span>{t.fleet.length}</span> <span className={textPrimary}>13.6 m</span></div>
-                  <div className="flex justify-between"><span>{t.fleet.euroPallets}</span> <span className={textPrimary}>33</span></div>
+          <div className="text-center mb-16"><h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.fleet.title}</h2><p className={`text-lg ${textSecondary}`}>{t.fleet.subtitle}</p></div>
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className={`border ${borderAccent} p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300`}>
+              <div className="flex items-center gap-4 mb-8">
+                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}><Truck className="h-7 w-7 text-[#0052ff]" /></div>
+                <div><h3 className={`text-xl font-black ${textPrimary} tracking-tight`}>{t.fleet.standardClass}</h3><p className="text-[#0052ff] font-bold text-sm">92 m³ {t.fleet.capacity}</p></div>
+              </div>
+              <div className="space-y-4 mb-8 uppercase font-bold text-xs tracking-widest text-slate-500">
+                <div className="flex justify-between border-b pb-2"><span>{t.fleet.length}</span><span className={textPrimary}>13.6 m</span></div>
+                <div className="flex justify-between border-b pb-2"><span>{t.fleet.height}</span><span className={textPrimary}>2.7 m</span></div>
+                <div className="flex justify-between"><span>{t.fleet.euroPallets}</span><span className={textPrimary}>33</span></div>
               </div>
             </div>
-            <div className={`border ${borderAccent} p-8 ${bgCard} rounded-xl`}>
-              <Maximize2 className="text-[#0052ff] mb-6" size={32} />
-              <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase tracking-tight`}>{t.fleet.megaAdvantage}</h3>
-              <div className="space-y-3 text-sm font-bold uppercase tracking-widest text-slate-500">
-                  <div className="flex justify-between border-b pb-2"><span>{t.fleet.internalHeight}</span> <span className={textPrimary}>3.0 m</span></div>
-                  <div className="flex justify-between"><span>{t.fleet.volume}</span> <span className={textPrimary}>105 m³</span></div>
+            <div className={`border ${borderAccent} p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300`}>
+              <div className="flex items-center gap-4 mb-8">
+                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}><Maximize2 className="h-7 w-7 text-[#0052ff]" /></div>
+                <div><h3 className={`text-xl font-black ${textPrimary} tracking-tight`}>{t.fleet.megaAdvantage}</h3><p className="text-[#0052ff] font-bold text-sm">105 m³ {t.fleet.capacity}</p></div>
+              </div>
+              <div className="space-y-4 mb-8 uppercase font-bold text-xs tracking-widest text-slate-500">
+                <div className="flex justify-between border-b pb-2"><span>{t.fleet.internalHeight}</span><span className={textPrimary}>3.0 m</span></div>
+                <div className="flex justify-between border-b pb-2"><span>{t.fleet.volume}</span><span className={textPrimary}>105 m³</span></div>
+                <div className="flex justify-between"><span>ADVANTAGE</span><span className={textPrimary}>+14% CAPACITY</span></div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (ANIMATED) ─── */}
+      {/* ─── SERVICES (Original restored) ─── */}
+      <section id="services" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-16 tracking-tight uppercase`}>{t.services.title}</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+            {t.services.items.map((service, idx) => {
+              const Icon = serviceIcons[idx] || Truck
+              return (
+                <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/60 transition-all group`}>
+                  <Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
+                  <h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase tracking-wide`}>{service.title}</h3>
+                  <p className={`text-xs ${textMuted} font-semibold uppercase tracking-widest`}>{service.subtitle}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── ABOUT (Full restoration) ─── */}
+      <section id="about" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 animate-fadeInUp">
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.about.title}</h2>
+            <p className={`text-lg ${textSecondary}`}>{t.about.subtitle}</p>
+          </div>
+          <div className="max-w-3xl mx-auto mb-16 space-y-4 text-center">
+            <p className={`${textSecondary} text-base leading-relaxed`}>{t.about.text1}</p>
+            <p className={`${textSecondary} text-base leading-relaxed`}>{t.about.text2}</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {t.about.features.map((item, idx) => {
+              const Icon = aboutIcons[idx] || Shield
+              return (
+                <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl transition-all group`}>
+                  <Icon className="h-10 w-10 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
+                  <h3 className={`text-base font-black ${textPrimary} mb-1 tracking-tight`}>{item.title}</h3>
+                  <p className={`text-sm ${textMuted}`}>{item.subtitle}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── COVERAGE MAP (Animated Flow) ─── */}
       <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -195,41 +243,38 @@ function TersisApp() {
             <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>Consolidation Hub: Kaunas, Lithuania</p>
           </div>
 
-          <div className={`relative h-[450px] md:h-[650px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-[#050a14]' : 'bg-slate-100'} flex items-center justify-center shadow-2xl`}>
+          <div className={`relative h-[500px] md:h-[650px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-slate-900' : 'bg-slate-100'} flex items-center justify-center`}>
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat scale-150"></div>
             
             <div className="relative z-10 flex flex-col items-center">
-              <div className="w-16 h-16 bg-[#0052ff] rounded-full relative shadow-[0_0_60px_rgba(0,82,255,0.7)]">
+              <div className="w-14 h-14 bg-[#0052ff] rounded-full relative shadow-[0_0_60px_rgba(0,82,255,0.7)]">
                 <div className="absolute inset-0 rounded-full bg-[#0052ff] animate-ping opacity-50"></div>
                 <div className="absolute inset-2 bg-white rounded-full border-4 border-[#0052ff]"></div>
               </div>
-              <span className="mt-4 bg-[#0052ff] text-white px-8 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl italic">KAUNAS HUB</span>
+              <span className="mt-4 bg-[#0052ff] text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl italic">KAUNAS HUB</span>
             </div>
 
             <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#0052ff" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#0052ff" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#0052ff" stopOpacity="0" /><stop offset="50%" stopColor="#0052ff" stopOpacity="1" /><stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
                 </linearGradient>
                 <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#0052ff" /></marker>
               </defs>
-              {/* Lines to Kaunas */}
-              <path d="M 150,250 Q 350,150 490,280" stroke="url(#lineGrad)" strokeWidth="2" fill="none" strokeDasharray="6 10" markerEnd="url(#arrow)"><animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" /></path>
-              <path d="M 850,200 Q 650,150 510,280" stroke="url(#lineGrad)" strokeWidth="2" fill="none" strokeDasharray="6 10" markerEnd="url(#arrow)"><animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" /></path>
+              <path d="M 100,250 Q 300,150 490,280" stroke="url(#lineGrad)" strokeWidth="2" fill="none" strokeDasharray="6 10" markerEnd="url(#arrow)"><animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" /></path>
+              <path d="M 850,200 Q 700,150 510,280" stroke="url(#lineGrad)" strokeWidth="2" fill="none" strokeDasharray="6 10" markerEnd="url(#arrow)"><animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" /></path>
               <path d="M 500,550 Q 500,450 500,330" stroke="url(#lineGrad)" strokeWidth="2" fill="none" strokeDasharray="6 10" markerEnd="url(#arrow)"><animate attributeName="stroke-dashoffset" values="100;0" dur="2.5s" repeatCount="indefinite" /></path>
             </svg>
           </div>
         </div>
       </section>
 
-      {/* ─── CONTACT ─── */}
+      {/* ─── CONTACT (No Deadline) ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
           <h2 className="text-center text-4xl font-black mb-12 uppercase tracking-tight">Get a Quote</h2>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
-            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5 text-left">
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
               {[{key:'from'},{key:'to'},{key:'cargoType'},{key:'weight'},{key:'volume'},{key:'name'},{key:'email'}].map(({key}) => (
                 <div key={key}>
                   <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{(t.contact as any)[key]}</label>
@@ -248,7 +293,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
+      {/* ─── FOOTER (Address & Year 2026) ─── */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
@@ -257,12 +302,12 @@ function TersisApp() {
               <h4 className={`text-xl font-black ${textPrimary}`}>TERSIS</h4>
             </div>
             <p className={`${textSecondary} text-[10px] font-bold uppercase`}>Taikos pr. 141-305, Kaunas, LT-51132, Lithuania</p>
-            <p className={`${textMuted} text-[10px] mt-4 font-bold tracking-widest`}>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
+            <p className={`${textMuted} text-[10px] mt-4 font-bold tracking-widest uppercase`}>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
           </div>
-          <div className="flex gap-8">
-              <Mail className="text-[#0052ff]" size={20} />
-              <Phone className="text-[#0052ff]" size={20} />
-              <MapPin className="text-[#0052ff]" size={20} />
+          <div className="flex gap-10">
+              <Mail className="text-[#0052ff]" size={22} />
+              <Phone className="text-[#0052ff]" size={22} />
+              <MapPin className="text-[#0052ff]" size={22} />
           </div>
         </div>
       </footer>
