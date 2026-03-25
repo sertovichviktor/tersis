@@ -242,66 +242,62 @@ function TersisApp() {
       </nav>
 
       {/* ─── HERO SECTION ─── */}
-      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center">
-        {/*
-         {/* VIDEO BACKGROUND */}
+      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center overflow-hidden bg-[#050a14]">
+        {/* VIDEO BACKGROUND */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
         >
           <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
         
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        {/* Оверлей для темного фона, чтобы текст всегда был белым */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
 
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fadeInUp">
-              <div
-                className={`inline-block mb-6 px-4 py-2 ${
-                  isDark ? 'bg-[#0052ff]/10 border-[#0052ff]/30' : 'bg-[#0052ff]/5 border-[#0052ff]/20'
-                } border rounded-md`}
-              >
-                <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                  {t.hero.badge}
-                </p>
-              </div>
-              <h1
-                className={`text-5xl sm:text-6xl md:text-7xl font-black ${textPrimary} mb-6 leading-[1.05] tracking-tight`}
-              >
-                {t.hero.title1}
-                <br />
-                {t.hero.title2}
-                <br />
-                <span className="text-[#0052ff]">{t.hero.title3}</span>
-                <br />
-                {t.hero.title4}
-              </h1>
-              <p className={`text-lg ${textSecondary} mb-10 leading-relaxed max-w-lg`}>
-                {t.hero.subtitle}
+        <div className="max-w-7xl mx-auto w-full relative z-20">
+          {/* Убрали grid md:grid-cols-2, чтобы текст не был зажат слева и видео было открыто */}
+          <div className="max-w-3xl animate-fadeInUp">
+            <div
+              className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/10 border border-[#0052ff]/30 rounded-md"
+            >
+              <p className="text-[#0052ff] text-sm font-bold tracking-wider uppercase">
+                Worldwide Logistics Solutions
               </p>
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/20"
-                >
-                  {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => scrollToSection('fleet')}
-                  className={`border-2 ${isDark ? 'border-white/20 text-white hover:bg-white/5' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide`}
-                >
-                  {t.hero.fleetDetails}
-                </button>
-              </div>
             </div>
-            <{/* Hero stats card */}
-            <div className="hidden md:block relative h-[480px]">
-              {/* ... тут много кода внутри ... */}
+            <h1
+              className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight"
+            >
+              {t.hero.title1}
+              <br />
+              {t.hero.title2}
+              <br />
+              <span className="text-[#0052ff]">{t.hero.title3}</span>
+              <br />
+              {t.hero.title4}
+            </h1>
+            <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-2xl font-medium">
+              Operating 27+ modern Euro-6 vehicles. Specializing in high-capacity MEGA trailers (105 m³) and standard solutions <span className="text-[#0052ff] font-bold uppercase tracking-widest italic text-sm">worldwide</span>.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/20"
+              >
+                {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => scrollToSection('fleet')}
+                className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide"
+              >
+                {t.hero.fleetDetails}
+              </button>
             </div>
+          </div>
+        </div>
+      </section>
       {/* ─── FLEET SPECIFICATIONS ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
