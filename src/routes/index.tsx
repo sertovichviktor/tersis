@@ -298,8 +298,6 @@ function TersisApp() {
                 </button>
               </div>
             </div>
-
-            {/* Hero stats card */}
             <{/* Hero stats card */}
             <div className="hidden md:block relative h-[480px]">
               {/* ... тут много кода внутри ... */}
