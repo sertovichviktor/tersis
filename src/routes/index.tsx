@@ -244,26 +244,18 @@ function TersisApp() {
       {/* ─── HERO SECTION ─── */}
       <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center">
         {/*
-          VIDEO BACKGROUND INSTRUCTIONS:
-          1. Generate your video in Google Veo
-          2. Export/download it as an MP4 file
-          3. Place the file as public/hero-video.mp4
-          4. Uncomment the <video> block below
-
-          The video will play automatically, muted, in a loop as the hero background.
-        */}
-        {/*
+         {/* VIDEO BACKGROUND */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-0"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[#050a14]/80" />
-        */}
+        
+        <div className="absolute inset-0 bg-black/50 z-10" />
 
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -308,48 +300,10 @@ function TersisApp() {
             </div>
 
             {/* Hero stats card */}
+            <{/* Hero stats card */}
             <div className="hidden md:block relative h-[480px]">
-              <div
-                className={`absolute inset-0 flex flex-col justify-center items-center text-center ${bgCard} border ${borderAccent} rounded-xl overflow-hidden backdrop-blur-sm`}
-              >
-                <div className="space-y-8 p-8">
-                  <div>
-                    <Truck className="h-14 w-14 text-[#0052ff] mx-auto mb-4 opacity-80" />
-                    <p className={`text-5xl font-black ${textPrimary} mb-2`}>27</p>
-                    <p className={`${textSecondary} text-sm font-bold tracking-wide`}>
-                      {t.hero.vehicles}
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-5">
-                    <div
-                      className={`border ${borderAccent} p-5 rounded-lg ${isDark ? 'bg-[#0052ff]/5' : 'bg-[#0052ff]/[0.02]'}`}
-                    >
-                      <p className="text-[#0052ff] font-black text-2xl mb-1">105 m³</p>
-                      <p className={`${textMuted} text-xs uppercase tracking-widest`}>
-                        {t.hero.megaCapacity}
-                      </p>
-                    </div>
-                    <div
-                      className={`border ${borderAccent} p-5 rounded-lg ${isDark ? 'bg-[#0052ff]/5' : 'bg-[#0052ff]/[0.02]'}`}
-                    >
-                      <p className="text-[#0052ff] font-black text-2xl mb-1">92 m³</p>
-                      <p className={`${textMuted} text-xs uppercase tracking-widest`}>
-                        {t.hero.standard}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={`border-t ${borderColor} pt-6`}>
-                    <p className="text-[#0052ff] font-bold text-xs uppercase tracking-widest">
-                      {t.hero.license}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/* ... тут много кода внутри ... */}
             </div>
-          </div>
-        </div>
-      </section>
-
       {/* ─── FLEET SPECIFICATIONS ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
