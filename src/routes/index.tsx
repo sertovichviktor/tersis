@@ -434,7 +434,7 @@ function TersisApp() {
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.services.title}
             </h2>
-            {/* ПУНКТ 1: Новая синяя фраза */}
+            {/* ПУНКТ 1: Новая фраза, синяя, жирная, прямая */}
             <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.2em] uppercase">
               Integrated Transport & Logistics Solutions
             </p>
@@ -444,10 +444,11 @@ function TersisApp() {
             {t.services.items.map((service, idx) => {
               const Icon = serviceIcons[idx] || Truck
               
-              {/* ПУНКТ 2: Убираем LTL только во второй карточке (Groupage) */}
-              const displayTitle = (idx === 1 && service.title.includes('/')) 
-                ? service.title.split('/')[0].trim() 
-                : service.title;
+              {/* ПУНКТ 2: Убираем / LTL только если в заголовке есть Groupage или Grupinių */}
+              let displayTitle = service.title;
+              if (displayTitle.includes('Groupage') || displayTitle.includes('Grupinių')) {
+                displayTitle = displayTitle.split('/')[0].trim();
+              }
 
               return (
                 <div
@@ -467,7 +468,6 @@ function TersisApp() {
           </div>
         </div>
       </section>
-
       {/* ─── ABOUT TERSIS ─── */}
       <section id="about" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
