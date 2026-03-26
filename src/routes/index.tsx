@@ -146,20 +146,17 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-           {/* Logo - Увеличен + кнопка наверх */}
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-3 focus:outline-none"
-            >
+            {/* Logo */}
+            <div className="flex items-center gap-3">
               <img
                 src="/logo.png"
                 alt="TERSIS"
-                className="h-14 w-14 object-contain" 
+                className="h-10 w-10 object-contain"
               />
               <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
                 TERSIS
               </span>
-            </button>
+            </div>
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
@@ -668,17 +665,14 @@ function TersisApp() {
       <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-           {/* Company info */}
+            {/* Company info */}
             <div>
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-3 mb-6 focus:outline-none text-left"
-              >
-                <img src="/logo.png" alt="TERSIS" className="h-12 w-12 object-contain" />
+              <div className="flex items-center gap-3 mb-6">
+                <img src="/logo.png" alt="TERSIS" className="h-8 w-8 object-contain" />
                 <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
                   TERSIS
                 </h4>
-              </button>
+              </div>
               <div className={`space-y-4 ${textSecondary} text-sm`}>
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
@@ -726,7 +720,7 @@ function TersisApp() {
                   <li key={i}>
                     <button
                       onClick={() => scrollToSection('services')}
-                      className="hover:text-[#0052ff] transition text-left"
+                      className="hover:text-[#0052ff] transition"
                     >
                       {svc.title}
                     </button>
@@ -734,6 +728,7 @@ function TersisApp() {
                 ))}
               </ul>
             </div>
+
             {/* Legal */}
             <div>
               <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase tracking-widest`}>
