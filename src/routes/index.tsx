@@ -244,7 +244,7 @@ function TersisApp() {
 
       {/* ─── HERO SECTION ─── */}
       <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* VIDEO BACKGROUND ADDED */}
+        {/* VIDEO BACKGROUND */}
         <video
           autoPlay
           muted
@@ -254,47 +254,57 @@ function TersisApp() {
         >
           <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        {/* Dark overlay for contrast */}
-        <div className="absolute inset-0 bg-[#050a14]/60 z-10" />
+        {/* Фиксированный темный оверлей, чтобы текст был виден всегда */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
 
         <div className="max-w-7xl mx-auto w-full relative z-20">
-          <div className="animate-fadeInUp">
-            <div
-              className={`inline-block mb-6 px-4 py-2 ${
-                isDark ? 'bg-[#0052ff]/10 border-[#0052ff]/30' : 'bg-[#0052ff]/5 border-[#0052ff]/20'
-              } border rounded-md`}
-            >
-              <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                {t.hero.badge}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* ЛЕВАЯ ЧАСТЬ С ТЕКСТОМ */}
+            <div className="animate-fadeInUp">
+              <div className={`inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md`}>
+                <p className="text-[#0052ff] text-sm font-bold tracking-wider">
+                  EST. 2011 — 13+ YEARS
+                </p>
+              </div>
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase">
+                {t.hero.title1}<br />
+                {t.hero.title2}<br />
+                <span className="text-[#0052ff]">{t.hero.title3}</span><br />
+                {t.hero.title4}
+              </h1>
+              {/* НОВЫЙ ТЕКСТ (Светлее + перевод) */}
+              <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-lg font-medium">
+                {lang === 'en' 
+                  ? 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' 
+                  : 'Valdome 27+ modernių Euro 6 transporto priemonių parką, specializuojamės didelio tūrio MEGA puspriekabėmis (105 m³) ir teikiame patikimus standartinio transporto sprendimus visame pasaulyje.'
+                }
               </p>
+              <div className="flex flex-wrap gap-4">
+                <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg">
+                  {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
+                </button>
+                <button onClick={() => scrollToSection('fleet')} className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide">
+                  {t.hero.fleetDetails}
+                </button>
+              </div>
             </div>
-            <h1
-              className={`text-5xl sm:text-6xl md:text-7xl font-black ${textPrimary} mb-6 leading-[1.05] tracking-tight`}
-            >
-              {t.hero.title1}
-              <br />
-              {t.hero.title2}
-              <br />
-              <span className="text-[#0052ff]">{t.hero.title3}</span>
-              <br />
-              {t.hero.title4}
-            </h1>
-            <p className={`text-lg ${textSecondary} mb-10 leading-relaxed max-w-lg`}>
-              {t.hero.subtitle}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg shadow-[#0052ff]/20"
-              >
-                {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => scrollToSection('fleet')}
-                className={`border-2 ${isDark ? 'border-white/20 text-white hover:bg-white/5' : 'border-gray-300 text-gray-700 hover:bg-gray-100'} px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide`}
-              >
-                {t.hero.fleetDetails}
-              </button>
+
+            {/* ПРАВАЯ ЧАСТЬ (Инфо-блоки вместо пустоты) */}
+            <div className="hidden md:flex flex-col gap-6 items-end text-white">
+               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
+                  <Truck className="h-10 w-10 text-[#0052ff] mb-4" />
+                  <p className="text-5xl font-black mb-1">27+</p>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    {lang === 'en' ? 'Own Vehicles' : 'Nuosavas transportas'}
+                  </p>
+               </div>
+               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
+                  <FileText className="h-10 w-10 text-[#0052ff] mb-4" />
+                  <p className="text-xl font-black mb-1 uppercase tracking-tight">LIC-009666-EBKR</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    {lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}
+                  </p>
+               </div>
             </div>
           </div>
         </div>
