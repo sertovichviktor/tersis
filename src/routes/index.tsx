@@ -431,23 +431,32 @@ function TersisApp() {
       <section id="services" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight`}>
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.services.title}
             </h2>
-            <p className={`text-lg ${textSecondary}`}>{t.services.subtitle}</p>
+            {/* ПУНКТ 1: Новая синяя фраза */}
+            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.2em] uppercase">
+              Integrated Transport & Logistics Solutions
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
             {t.services.items.map((service, idx) => {
-              const Icon = serviceIcons[idx]
+              const Icon = serviceIcons[idx] || Truck
+              
+              {/* ПУНКТ 2: Убираем LTL только во второй карточке (Groupage) */}
+              const displayTitle = (idx === 1 && service.title.includes('/')) 
+                ? service.title.split('/')[0].trim() 
+                : service.title;
+
               return (
                 <div
                   key={idx}
-                  className={`border ${borderAccent} p-6 ${bgCard} rounded-xl ${hoverBorder} transition-all duration-300 group`}
+                  className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/60 transition-all duration-300 group`}
                 >
                   <Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
                   <h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase tracking-wide`}>
-                    {service.title}
+                    {displayTitle}
                   </h3>
                   <p className={`text-xs ${textMuted} font-semibold uppercase tracking-widest`}>
                     {service.subtitle}
