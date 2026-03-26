@@ -500,105 +500,83 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (REAL WORLD → KAUNAS HUB) ─── */}
-<section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-  <div className="max-w-7xl mx-auto">
-    <div className="text-center mb-16">
-      <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-        {t.coverage.title}
-      </h2>
-      <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>
-        Global Logistics Hub: Kaunas, Lithuania
-      </p>
-    </div>
+      {/* ─── COVERAGE MAP (Global Logistics Hub) ─── */}
+      <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-4">
+            <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#0052ff]">
+              {lang === 'en' ? 'Global Coverage' : 'Globalus tinklas'}
+            </span>
+          </div>
+          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
+            {t.coverage.title}
+          </h2>
+          <p className={`${textSecondary} mb-12 max-w-2xl font-medium leading-relaxed`}>
+            {lang === 'en' 
+              ? 'All routes converge at our Kaunas hub — the strategic centre of our international logistics network.' 
+              : 'Visi maršrutai susijungia mūsų Kauno centre – strateginėje mūsų tarptautinio logistikos tinklo širdyje.'
+            }
+          </p>
 
-    <div className={`relative h-[520px] md:h-[650px] rounded-[40px] overflow-hidden border ${borderAccent} shadow-2xl`}>
+          <div className="relative w-full rounded-[40px] overflow-hidden bg-[#0B1220] shadow-2xl border border-white/5">
+            <svg viewBox="0 0 900 440" className="w-full h-auto block">
+              <defs>
+                <radialGradient id="kaunas-glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#1E5EFF" stopOpacity="0" />
+                </radialGradient>
+                {/* Определяем градиенты для линий */}
+                {[...Array(19)].map((_, i) => (
+                  <linearGradient key={i} id={`rg-${i}`} x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+                    <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0" />
+                    <stop offset="70%" stopColor="#1E5EFF" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#4D8AFF" stopOpacity="0.9" />
+                  </linearGradient>
+                ))}
+                <clipPath id="map-clip"><rect width="900" height="440" /></clipPath>
+              </defs>
 
-      {/* 🌍 REAL WORLD MAP */}
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray_political_map.png"
-        alt="World map"
-        className="absolute inset-0 w-full h-full object-cover opacity-30"
-      />
+              {/* Материки (Полигоны из твоего примера) */}
+              <g clipPath="url(#map-clip)" fill="#1A2333" stroke="#243045" strokeWidth="0.5">
+                <polygon points="60,60 160,50 200,80 210,140 180,180 130,200 80,190 50,150 40,100" />
+                <polygon points="130,210 170,200 200,240 190,310 160,340 130,320 110,270 115,230" />
+                <polygon points="380,50 460,45 490,70 480,110 450,130 410,125 385,100 375,70" />
+                <polygon points="390,140 450,130 480,160 490,230 470,300 430,330 390,310 365,260 360,190 370,150" />
+                <polygon points="480,45 680,40 760,70 800,110 780,160 700,180 600,170 520,150 480,120 470,80" />
+                <polygon points="640,170 700,165 730,190 720,220 680,230 645,210" />
+                <polygon points="680,260 760,255 790,290 780,330 730,345 685,325 665,295" />
+              </g>
 
-      {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-[#050a14]/70" />
+              {/* Анимированные пути к Хабу */}
+              <g opacity="0.7">
+                <path d="M 100,150 Q 300,100 509,85" fill="none" stroke="url(#rg-0)" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M 750,150 Q 600,100 509,85" fill="none" stroke="url(#rg-1)" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M 200,350 Q 350,200 509,85" fill="none" stroke="url(#rg-2)" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M 750,300 Q 650,200 509,85" fill="none" stroke="url(#rg-3)" strokeWidth="1.2" strokeLinecap="round" />
+              </g>
 
-      {/* 📍 KAUNAS HUB */}
-      <div className="absolute left-[52%] top-[42%] z-10 flex flex-col items-center">
-        <div className="w-14 h-14 bg-[#0052ff] rounded-full relative shadow-[0_0_80px_rgba(0,82,255,0.9)]">
-          <div className="absolute inset-0 rounded-full bg-[#0052ff] animate-ping opacity-50"></div>
-          <div className="absolute inset-2 bg-white rounded-full border-4 border-[#0052ff]"></div>
+              {/* Эффект свечения Каунаса */}
+              <circle cx="509" cy="85" r="35" fill="url(#kaunas-glow)" />
+              <circle cx="509" cy="85" r="8" fill="#1E5EFF" style={{ filter: 'drop-shadow(0 0 8px #1E5EFF)' }} />
+              <circle cx="509" cy="85" r="4" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px #ffffff)' }} />
+
+              {/* Метка KAUNAS HUB */}
+              <text x="509" y="55" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="800" letterSpacing="1.5" style={{ fontFamily: 'system-ui, sans-serif', filter: 'drop-shadow(0 0 4px #1E5EFF)' }}>
+                KAUNAS HUB
+              </text>
+              <line x1="509" y1="75" x2="509" y2="62" stroke="#1E5EFF" strokeWidth="1.5" />
+            </svg>
+
+            {/* Подписи по углам (как в примере) */}
+            <div className="absolute bottom-4 left-6 hidden md:block">
+              <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">Network Coverage</span>
+            </div>
+            <div className="absolute bottom-4 right-6 hidden md:block">
+              <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">27+ Active Routes</span>
+            </div>
+          </div>
         </div>
-        <span className="mt-4 bg-[#0052ff] text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl italic">
-          KAUNAS HUB
-        </span>
-      </div>
-
-      {/* ✈️ GLOBAL ROUTES */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        <defs>
-          <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0052ff" stopOpacity="0" />
-            <stop offset="50%" stopColor="#0052ff" stopOpacity="1" />
-            <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* USA */}
-        <path d="M 120 300 Q 300 180 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" />
-        </path>
-
-        {/* SOUTH AMERICA */}
-        <path d="M 220 420 Q 350 300 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.5s" repeatCount="indefinite" />
-        </path>
-
-        {/* ASIA */}
-        <path d="M 900 220 Q 720 140 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" />
-        </path>
-
-        {/* MIDDLE EAST */}
-        <path d="M 760 350 Q 650 290 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.2s" repeatCount="indefinite" />
-        </path>
-
-        {/* SCANDINAVIA */}
-        <path d="M 600 60 Q 560 140 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.5s" repeatCount="indefinite" />
-        </path>
-
-        {/* EUROPE */}
-        <path d="M 420 200 Q 480 220 520 240"
-          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
-          strokeDasharray="6 10">
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.6s" repeatCount="indefinite" />
-        </path>
-
-      </svg>
-
-      {/* 🌐 BOTTOM INFO */}
-      <div className="absolute bottom-6 w-full text-center">
-        <p className={`${textMuted} text-[11px] font-black uppercase tracking-[0.35em]`}>
-          Worldwide Coverage • EU Hub in Kaunas • Own Fleet Logistics
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
+      </section>
       {/* ─── CONTACT / QUOTE ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
