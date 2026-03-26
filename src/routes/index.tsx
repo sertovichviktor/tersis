@@ -500,15 +500,15 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (With High-Visibility Text) ─── */}
+      {/* ─── COVERAGE MAP (High-Visibility Straight Text) ─── */}
       <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.coverage.title}
             </h2>
-            {/* ФРАЗА СДЕЛАНА ЖИРНЕЕ (font-black) И В ЦВЕТЕ БРЕНДА */}
-            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.3em] uppercase italic">
+            {/* ФРАЗА СТРОГО ПРЯМАЯ (без italic), ЖИРНАЯ И СИНЯЯ */}
+            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.3em] uppercase">
               Europe • Baltics • Global
             </p>
           </div>
