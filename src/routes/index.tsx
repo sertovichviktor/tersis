@@ -500,28 +500,29 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (Fixed Path) ─── */}
+      {/* ─── COVERAGE MAP (Cleaned with New Text) ─── */}
       <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.coverage.title}
             </h2>
-            <p className={`text-lg ${textSecondary} max-w-2xl mx-auto`}>
-              {t.coverage.subtitle}
+            {/* ПУНКТ 1: Новая фраза */}
+            <p className={`text-lg ${textSecondary} font-bold tracking-[0.2em] uppercase`}>
+              Europe • Baltics • Global
             </p>
           </div>
 
           <div className="relative h-[400px] md:h-[650px] rounded-[40px] overflow-hidden border border-[#0052ff]/30 shadow-2xl bg-black">
             
-            {/* ТВОЕ ИЗОБРАЖЕНИЕ (Путь исправлен на map-hub.jpg.png) */}
+            {/* ТВОЕ ИЗОБРАЖЕНИЕ */}
             <img 
               src="/map-hub.jpg.png" 
               alt="Tersis Global Hub" 
               className="absolute inset-0 w-full h-full object-cover opacity-90"
             />
 
-            {/* СЛОЙ ЖИВОЙ АНИМАЦИИ ПОВЕРХ КАРТИНКИ */}
+            {/* СЛОЙ ЖИВОЙ АНИМАЦИИ (Точка удалена - ПУНКТ 2) */}
             <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <radialGradient id="comet-grad">
@@ -530,14 +531,7 @@ function TersisApp() {
                 </radialGradient>
               </defs>
 
-              {/* ЦЕНТР В КАУНАСЕ */}
-              <g transform="translate(485, 205)">
-                <circle r="12" fill="#0052ff" className="animate-ping opacity-40" />
-                <circle r="6" fill="#0052ff" />
-                <circle r="2" fill="#fff" />
-              </g>
-
-              {/* БЕГУЩИЕ ОГОНЬКИ */}
+              {/* БЕГУЩИЕ ОГОНЬКИ ОСТАВЛЕНЫ */}
               <g fill="none" strokeWidth="2" strokeLinecap="round">
                 <path d="M 150,230 Q 300,100 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
                   <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3s" repeatCount="indefinite" />
@@ -554,7 +548,7 @@ function TersisApp() {
               </g>
             </svg>
 
-            {/* ПОДПИСИ ПО УГЛАМ */}
+            {/* ДЕКОРАТИВНЫЕ ПОДПИСИ */}
             <div className="absolute bottom-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden md:block">
               <p className="text-[10px] font-black text-[#0052ff] uppercase tracking-widest leading-none mb-1">Hub Status</p>
               <p className="text-white text-xs font-bold uppercase tracking-widest">Operational / 24-7</p>
@@ -568,7 +562,6 @@ function TersisApp() {
           </div>
         </div>
       </section>
-
       {/* ─── CONTACT / QUOTE ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
