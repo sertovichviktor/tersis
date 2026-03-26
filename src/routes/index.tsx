@@ -44,7 +44,7 @@ function TersisApp() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitted(true)
-    setTimeout(() => { setIsSubmitted(false) }, 3000)
+    setTimeout(() => setIsSubmitted(false), 3000)
   }
 
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
@@ -59,7 +59,7 @@ function TersisApp() {
 
   return (
     <div className={`min-h-screen ${bg} relative overflow-hidden transition-colors duration-300`}>
-      {/* ─── NAVIGATION (Fixed Structure) ─── */}
+      {/* ─── NAVIGATION ─── */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18 py-4">
@@ -111,9 +111,9 @@ function TersisApp() {
 
         <div className="max-w-7xl mx-auto w-full relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="animate-fadeInUp text-white">
               <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md">
-                <p className="text-[#0052ff] text-xs font-black tracking-widest uppercase">{t.hero.badge}</p>
+                <p className="text-[#0052ff] text-sm font-bold tracking-widest uppercase">{t.hero.badge}</p>
               </div>
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase">
                 {t.hero.title1}<br />
@@ -121,7 +121,6 @@ function TersisApp() {
                 <span className="text-[#0052ff]">{t.hero.title3}</span><br />
                 {t.hero.title4}
               </h1>
-              {/* ПУНКТ 1: Новый текст + цвет светлее + перевод */}
               <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-lg font-medium">
                 {lang === 'en' 
                   ? 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' 
@@ -134,16 +133,15 @@ function TersisApp() {
               </div>
             </div>
 
-            {/* ПУНКТ 2: Инфо-блоки справа (Вместо пустоты) */}
             <div className="hidden md:flex flex-col gap-6 items-end">
                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
                   <Truck className="h-10 w-10 text-[#0052ff] mb-4" />
-                  <p className="text-5xl font-black text-white mb-1 uppercase">27+</p>
+                  <p className="text-5xl font-black text-white mb-1 leading-none uppercase">27+</p>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{lang === 'en' ? 'Own Modern Fleet' : 'Nuosavas transportas'}</p>
                </div>
                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
                   <FileText className="h-10 w-10 text-[#0052ff] mb-4" />
-                  <p className="text-xl font-black text-white mb-1 uppercase tracking-tight leading-none">LIC-009666-EBKR</p>
+                  <p className="text-xl font-black text-white mb-1 uppercase tracking-tighter leading-none">LIC-009666-EBKR</p>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}</p>
                </div>
             </div>
@@ -151,7 +149,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── FLEET (Exactly as original) ─── */}
+      {/* ─── FLEET ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
@@ -190,26 +188,26 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── SERVICES (Original restored) ─── */}
+      {/* ─── SERVICES ─── */}
       <section id="services" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto text-center">
           <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-16 tracking-tight uppercase`}>{t.services.title}</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5 text-left">
             {t.services.items.map((svc, idx) => {
               const Icon = serviceIcons[idx] || Truck
-              return ( <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/60 transition-all group text-left`}><Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" /><h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase`}>{svc.title}</h3><p className={`text-xs ${textMuted} font-semibold uppercase`}>{svc.subtitle}</p></div> )
+              return ( <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/60 transition-all group`}><Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" /><h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase`}>{svc.title}</h3><p className={`text-xs ${textMuted} font-semibold uppercase`}>{svc.subtitle}</p></div> )
             })}
           </div>
         </div>
       </section>
 
-      {/* ─── ABOUT (Original restored) ─── */}
+      {/* ─── ABOUT ─── */}
       <section id="about" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 animate-fadeInUp">
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.about.title}</h2>
           </div>
-          <div className="max-w-3xl mx-auto mb-16 space-y-4 text-center text-gray-500 font-medium leading-relaxed">
+          <div className="max-w-3xl mx-auto mb-16 space-y-4 text-center text-gray-500 font-medium">
             <p>{t.about.text1}</p><p>{t.about.text2}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -223,9 +221,11 @@ function TersisApp() {
 
       {/* ─── COVERAGE MAP (Animated flow) ─── */}
       <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase italic`}>{t.coverage.title}</h2>
-          <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase mb-12`}>Consolidation Hub: Kaunas, Lithuania</p>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase italic`}>{t.coverage.title}</h2>
+            <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>Consolidation Hub: Kaunas, Lithuania</p>
+          </div>
           <div className={`relative h-[450px] md:h-[650px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-[#050a14]' : 'bg-slate-100'} flex items-center justify-center shadow-2xl`}>
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat scale-150"></div>
             <div className="relative z-10 flex flex-col items-center">
@@ -235,7 +235,6 @@ function TersisApp() {
               </div>
               <span className="mt-4 bg-[#0052ff] text-white px-8 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl">KAUNAS HUB</span>
             </div>
-            {/* SVG FLOW LINES */}
             <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
               <defs><linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#0052ff" stopOpacity="0" /><stop offset="50%" stopColor="#0052ff" stopOpacity="1" /><stop offset="100%" stopColor="#0052ff" stopOpacity="0" /></linearGradient>
               <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#0052ff" /></marker></defs>
@@ -247,10 +246,10 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── CONTACT (No Deadline) ─── */}
+      {/* ─── CONTACT ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
-          <h2 className={`text-center text-4xl font-black ${textPrimary} mb-12 uppercase tracking-tight`}>Get a Quote</h2>
+          <h2 className="text-center text-4xl font-black mb-12 uppercase tracking-tight text-white">Get a Quote</h2>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5 text-left">
               {[{key:'from'},{key:'to'},{key:'cargoType'},{key:'weight'},{key:'volume'},{key:'name'},{key:'email'}].map(({key}) => (
@@ -265,16 +264,35 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── FOOTER (Address + Year 2026) ─── */}
+      {/* ─── FOOTER (Full Restoration) ─── */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4`}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-left text-sm font-bold uppercase tracking-tight">
-            <div className="flex items-center gap-3 mb-2 justify-center md:justify-start"><img src="/logo.png" alt="TERSIS" className="h-8 w-8" /><h4 className={`text-xl font-black ${textPrimary}`}>TERSIS</h4></div>
-            <p className={textSecondary}>Taikos pr. 141-305, Kaunas, LT-51132, Lithuania</p>
-            <p className={`${textMuted} mt-4`}>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12 mb-12 text-sm">
+            <div>
+              <div className="flex items-center gap-3 mb-6"><img src="/logo.png" alt="TERSIS" className="h-8 w-8" /><h4 className={`text-xl font-black ${textPrimary}`}>TERSIS</h4></div>
+              <div className={`space-y-4 ${textSecondary}`}>
+                <div className="flex items-start gap-3"><MapPin className="h-5 w-5 text-[#0052ff] mt-0.5" /><div><p className={`font-bold ${textPrimary} uppercase text-xs mb-1`}>ADDRESS</p><p>Taikos pr. 141-305, Kaunas, LT-51132, Lithuania</p></div></div>
+                <div className="flex items-start gap-3"><Phone className="h-5 w-5 text-[#0052ff] mt-0.5" /><div><p className={`font-bold ${textPrimary} uppercase text-xs mb-1`}>PHONE</p><p>+370 37 321 321</p></div></div>
+                <div className="flex items-start gap-3"><Mail className="h-5 w-5 text-[#0052ff] mt-0.5" /><div><p className={`font-bold ${textPrimary} uppercase text-xs mb-1`}>EMAIL</p><p>info@tersis.lt</p></div></div>
+              </div>
+            </div>
+            <div>
+              <h5 className={`font-black ${textPrimary} mb-6 text-xs uppercase tracking-widest`}>SERVICES</h5>
+              <ul className={`space-y-2 ${textSecondary}`}>
+                {['MEGA Trailers', 'Standard Transport', 'Worldwide Logistics', 'Intermodal Solutions'].map((s)=>(<li key={s} className="hover:text-[#0052ff] cursor-pointer transition">{s}</li>))}
+              </ul>
+            </div>
+            <div>
+              <h5 className={`font-black ${textPrimary} mb-6 text-xs uppercase tracking-widest`}>LEGAL</h5>
+              <div className="space-y-3 font-bold">
+                <div className="flex items-center gap-2 text-[#0052ff]"><FileText size={16} /><span>LIC-009666-EBKR</span></div>
+                <div className="flex items-center gap-2 text-green-400"><Check size={16} /><span>CMR INSURED</span></div>
+                <div className="flex items-center gap-2 text-[#0052ff]"><Check size={16} /><span>EURO 6 COMPLIANT</span></div>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-10">
-              <Mail className="text-[#0052ff]" size={22} /><Phone className="text-[#0052ff]" size={22} /><MapPin className="text-[#0052ff]" size={22} />
+          <div className={`border-t ${borderColor} pt-8 text-center ${textMuted} text-[10px] uppercase tracking-widest`}>
+            <p>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
           </div>
         </div>
       </footer>
