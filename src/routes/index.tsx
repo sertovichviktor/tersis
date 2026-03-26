@@ -144,26 +144,19 @@ function TersisApp() {
             : 'bg-transparent'
         }`}
       >
-        {/* Logo - Увеличен + кнопка наверх */}
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-3 group focus:outline-none"
-            >
-              <div className={`p-1.5 rounded-xl transition-all duration-500 
-                ${isDark 
-                  ? 'bg-white/10 backdrop-blur-md border border-white/20 shadow-lg' 
-                  : 'bg-slate-900 shadow-xl'
-                } group-hover:scale-105`}>
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  className="h-12 w-12 md:h-14 md:w-14 object-contain" 
-                />
-              </div>
-              <span className={`text-2xl md:text-3xl font-black ${textPrimary} tracking-tighter uppercase`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-18">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="TERSIS"
+                className="h-10 w-10 object-contain"
+              />
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
                 TERSIS
               </span>
-            </button>
+            </div>
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
