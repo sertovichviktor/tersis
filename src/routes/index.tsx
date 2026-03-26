@@ -29,6 +29,18 @@ import { translations, type Lang } from '@/lib/i18n'
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
+  head: () => ({
+    meta: [
+      { title: 'TERSIS | Asset-Based Carrier & International Logistics Hub' },
+      { 
+        name: 'description', 
+        content: 'TERSIS is a reliable European logistics partner since 2011. Operating a fleet of 27+ modern Euro 6 vehicles with MEGA trailers. Worldwide transport solutions via Kaunas hub.' 
+      },
+      { name: 'keywords', content: 'logistics, transport Europe, MEGA trailers, Tersis, asset-based carrier, Kaunas hub' },
+      { property: 'og:title', content: 'TERSIS | International Logistics & Transport' },
+      { property: 'og:image', content: '/logo.png' },
+    ],
+  }),
 })
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
