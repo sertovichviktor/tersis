@@ -500,7 +500,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (Animated Hub) ─── */}
+      {/* ─── COVERAGE MAP (REAL WORLD → KAUNAS HUB) ─── */}
 <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
   <div className="max-w-7xl mx-auto">
     <div className="text-center mb-16">
@@ -508,18 +508,25 @@ function TersisApp() {
         {t.coverage.title}
       </h2>
       <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>
-        Consolidation Hub: Kaunas, Lithuania
+        Global Logistics Hub: Kaunas, Lithuania
       </p>
     </div>
 
-    <div className={`relative h-[450px] md:h-[600px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-slate-900' : 'bg-slate-100'} flex items-center justify-center shadow-2xl`}>
+    <div className={`relative h-[520px] md:h-[650px] rounded-[40px] overflow-hidden border ${borderAccent} shadow-2xl`}>
 
-      {/* BACKGROUND MAP TEXTURE */}
-      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat scale-150"></div>
+      {/* 🌍 REAL WORLD MAP */}
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution_gray_political_map.png"
+        alt="World map"
+        className="absolute inset-0 w-full h-full object-cover opacity-30"
+      />
 
-      {/* KAUNAS HUB */}
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="w-12 h-12 bg-[#0052ff] rounded-full relative shadow-[0_0_60px_rgba(0,82,255,0.7)]">
+      {/* DARK OVERLAY */}
+      <div className="absolute inset-0 bg-[#050a14]/70" />
+
+      {/* 📍 KAUNAS HUB */}
+      <div className="absolute left-[52%] top-[42%] z-10 flex flex-col items-center">
+        <div className="w-14 h-14 bg-[#0052ff] rounded-full relative shadow-[0_0_80px_rgba(0,82,255,0.9)]">
           <div className="absolute inset-0 rounded-full bg-[#0052ff] animate-ping opacity-50"></div>
           <div className="absolute inset-2 bg-white rounded-full border-4 border-[#0052ff]"></div>
         </div>
@@ -528,78 +535,67 @@ function TersisApp() {
         </span>
       </div>
 
-      {/* ANIMATED ROUTES */}
-      <svg
-        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-        viewBox="0 0 1000 600"
-        preserveAspectRatio="xMidYMid slice"
-      >
+      {/* ✈️ GLOBAL ROUTES */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none">
         <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#0052ff" stopOpacity="0" />
             <stop offset="50%" stopColor="#0052ff" stopOpacity="1" />
             <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
           </linearGradient>
-          <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="#0052ff" />
-          </marker>
         </defs>
 
         {/* USA */}
-        <path
-          d="M 150,250 Q 300,150 490,285"
-          stroke="url(#lineGradient)"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="6 10"
-          markerEnd="url(#arrow)"
-        >
+        <path d="M 120 300 Q 300 180 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
           <animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" />
         </path>
 
-        {/* UAE */}
-        <path
-          d="M 800,450 Q 650,350 510,315"
-          stroke="url(#lineGradient)"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="6 10"
-          markerEnd="url(#arrow)"
-        >
-          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.2s" repeatCount="indefinite" />
+        {/* SOUTH AMERICA */}
+        <path d="M 220 420 Q 350 300 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.5s" repeatCount="indefinite" />
         </path>
 
         {/* ASIA */}
-        <path
-          d="M 900,200 Q 700,150 515,285"
-          stroke="url(#lineGradient)"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="6 10"
-          markerEnd="url(#arrow)"
-        >
+        <path d="M 900 220 Q 720 140 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
           <animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" />
         </path>
 
-        {/* UK / SCANDINAVIA */}
-        <path
-          d="M 400,100 Q 450,150 495,270"
-          stroke="url(#lineGradient)"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="6 10"
-          markerEnd="url(#arrow)"
-        >
+        {/* MIDDLE EAST */}
+        <path d="M 760 350 Q 650 290 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.2s" repeatCount="indefinite" />
+        </path>
+
+        {/* SCANDINAVIA */}
+        <path d="M 600 60 Q 560 140 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
           <animate attributeName="stroke-dashoffset" values="100;0" dur="2.5s" repeatCount="indefinite" />
         </path>
+
+        {/* EUROPE */}
+        <path d="M 420 200 Q 480 220 520 240"
+          stroke="url(#routeGradient)" strokeWidth="2" fill="none"
+          strokeDasharray="6 10">
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.6s" repeatCount="indefinite" />
+        </path>
+
       </svg>
 
-      {/* BOTTOM TEXT */}
-      <div className="absolute bottom-8 text-center w-full">
-        <p className={`${textMuted} text-[10px] font-black uppercase tracking-[0.3em]`}>
-          Direct Assets & Global Consolidation
+      {/* 🌐 BOTTOM INFO */}
+      <div className="absolute bottom-6 w-full text-center">
+        <p className={`${textMuted} text-[11px] font-black uppercase tracking-[0.35em]`}>
+          Worldwide Coverage • EU Hub in Kaunas • Own Fleet Logistics
         </p>
       </div>
+
     </div>
   </div>
 </section>
