@@ -575,7 +575,7 @@ function TersisApp() {
                 { key: 'cargoType', type: 'text' },
                 { key: 'weight', type: 'text' },
                 { key: 'volume', type: 'text' },
-                { key: 'deadline', type: 'date' },
+                // Поле deadline удалено, чтобы убрать системные русские буквы из календаря
                 { key: 'name', type: 'text' },
                 { key: 'email', type: 'email' },
               ].map(({ key, type }) => (
@@ -649,7 +649,6 @@ function TersisApp() {
           </div>
         </div>
       </section>
-
       {/* ─── FOOTER ─── */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto">
