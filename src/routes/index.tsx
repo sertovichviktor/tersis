@@ -668,10 +668,11 @@ function TersisApp() {
       <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-            {/* Company info */}
-           <button 
+           {/* Company info */}
+            <div>
+              <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-3 mb-6 focus:outline-none"
+                className="flex items-center gap-3 mb-6 focus:outline-none text-left"
               >
                 <img src="/logo.png" alt="TERSIS" className="h-12 w-12 object-contain" />
                 <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
@@ -725,7 +726,7 @@ function TersisApp() {
                   <li key={i}>
                     <button
                       onClick={() => scrollToSection('services')}
-                      className="hover:text-[#0052ff] transition"
+                      className="hover:text-[#0052ff] transition text-left"
                     >
                       {svc.title}
                     </button>
@@ -733,7 +734,6 @@ function TersisApp() {
                 ))}
               </ul>
             </div>
-
             {/* Legal */}
             <div>
               <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase tracking-widest`}>
