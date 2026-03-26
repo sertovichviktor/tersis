@@ -310,11 +310,11 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── FLEET SPECIFICATIONS ─── */}
+      {/* ─── FLEET SPECIFICATIONS (Fixed Mobile Spacing) ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight`}>
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.fleet.title}
             </h2>
             <p className={`text-lg ${textSecondary}`}>{t.fleet.subtitle}</p>
@@ -322,89 +322,67 @@ function TersisApp() {
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Standard Class */}
-            <div
-              className={`border ${borderAccent} p-8 ${bgCard} rounded-xl ${hoverBorder} transition-all duration-300 animate-slideIn`}
-              style={{ animationDelay: '0.1s' }}
-            >
+            <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300`}>
               <div className="flex items-center gap-4 mb-8">
-                <div
-                  className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}
-                >
-                  <Truck className="h-7 w-7 text-[#0052ff]" />
+                <div className={`w-12 h-12 md:w-14 md:h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
+                  <Truck className="h-6 w-6 md:h-7 md:w-7 text-[#0052ff]" />
                 </div>
                 <div>
-                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight`}>
-                    {t.fleet.standardClass}
-                  </h3>
-                  <p className="text-[#0052ff] font-bold text-sm">92 m³ {t.fleet.capacity}</p>
+                  <h3 className={`text-lg md:text-xl font-black ${textPrimary} tracking-tight`}>{t.fleet.standardClass}</h3>
+                  <p className="text-[#0052ff] font-bold text-xs md:text-sm">92 m³ {t.fleet.capacity}</p>
                 </div>
               </div>
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4">
                 {[
                   [t.fleet.length, '13.6 m'],
                   [t.fleet.height, '2.7 m'],
                   [t.fleet.capacity, `33 ${t.fleet.euroPallets}`],
                   [t.fleet.idealFor, t.fleet.generalCargo],
                 ].map(([label, value], i) => (
-                  <div
-                    key={i}
-                    className={`flex justify-between ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}
-                  >
-                    <span className={`${textMuted} text-sm uppercase tracking-widest`}>
+                  <div key={i} className={`flex justify-between items-start gap-4 ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}>
+                    <span className={`${textMuted} text-[10px] md:text-sm uppercase tracking-widest font-bold flex-shrink-0 mt-1`}>
                       {label}
                     </span>
-                    <span className={`${textPrimary} font-bold`}>{value}</span>
+                    <span className={`${textPrimary} font-black text-xs md:text-base text-right`}>
+                      {value}
+                    </span>
                   </div>
                 ))}
-              </div>
-              <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs`}>{t.fleet.standardFooter}</p>
               </div>
             </div>
 
             {/* Mega Advantage */}
-            <div
-              className={`border ${borderAccent} p-8 ${bgCard} rounded-xl ${hoverBorder} transition-all duration-300 animate-slideIn`}
-              style={{ animationDelay: '0.2s' }}
-            >
+            <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300`}>
               <div className="flex items-center gap-4 mb-8">
-                <div
-                  className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}
-                >
-                  <Maximize2 className="h-7 w-7 text-[#0052ff]" />
+                <div className={`w-12 h-12 md:w-14 md:h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
+                  <Maximize2 className="h-6 w-6 md:h-7 md:w-7 text-[#0052ff]" />
                 </div>
                 <div>
-                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight`}>
-                    {t.fleet.megaAdvantage}
-                  </h3>
-                  <p className="text-[#0052ff] font-bold text-sm">105 m³ {t.fleet.capacity}</p>
+                  <h3 className={`text-lg md:text-xl font-black ${textPrimary} tracking-tight`}>{t.fleet.megaAdvantage}</h3>
+                  <p className="text-[#0052ff] font-bold text-xs md:text-sm">105 m³ {t.fleet.capacity}</p>
                 </div>
               </div>
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4">
                 {[
                   [t.fleet.internalHeight, '3.0 m'],
                   [t.fleet.volume, '105 m³'],
                   [t.fleet.specialization, t.fleet.lightweightCargo],
                   [t.fleet.advantage, '+14% ' + t.fleet.capacity],
                 ].map(([label, value], i) => (
-                  <div
-                    key={i}
-                    className={`flex justify-between ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}
-                  >
-                    <span className={`${textMuted} text-sm uppercase tracking-widest`}>
+                  <div key={i} className={`flex justify-between items-start gap-4 ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}>
+                    <span className={`${textMuted} text-[10px] md:text-sm uppercase tracking-widest font-bold flex-shrink-0 mt-1`}>
                       {label}
                     </span>
-                    <span className={`${textPrimary} font-bold`}>{value}</span>
+                    <span className={`${textPrimary} font-black text-xs md:text-base text-right`}>
+                      {value}
+                    </span>
                   </div>
                 ))}
-              </div>
-              <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs`}>{t.fleet.megaFooter}</p>
               </div>
             </div>
           </div>
 
-          {/* Fleet badges */}
+          {/* Badges */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: Shield, title: t.fleet.cmrInsured, sub: t.fleet.fullCoverage },
@@ -412,15 +390,10 @@ function TersisApp() {
               { icon: Truck, title: t.fleet.modernFleet, sub: '2018-2023' },
               { icon: Check, title: t.fleet.euro6, sub: t.fleet.compliant },
             ].map((item, idx) => (
-              <div
-                key={idx}
-                className={`border ${borderAccent} p-5 text-center ${bgCard} rounded-lg hover:bg-[#0052ff]/5 transition`}
-              >
+              <div key={idx} className={`border ${borderAccent} p-5 text-center ${bgCard} rounded-lg hover:bg-[#0052ff]/5 transition`}>
                 <item.icon className="h-7 w-7 text-[#0052ff] mx-auto mb-3" />
-                <p className={`font-black ${textPrimary} text-xs mb-1 uppercase tracking-wide`}>
-                  {item.title}
-                </p>
-                <p className={`text-xs ${textMuted}`}>{item.sub}</p>
+                <p className={`font-black ${textPrimary} text-[10px] mb-1 uppercase tracking-wide`}>{item.title}</p>
+                <p className={`text-[10px] ${textMuted}`}>{item.sub}</p>
               </div>
             ))}
           </div>
