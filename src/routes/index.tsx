@@ -501,85 +501,108 @@ function TersisApp() {
       </section>
 
       {/* ─── COVERAGE MAP (Animated Hub) ─── */}
-      <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-              {t.coverage.title}
-            </h2>
-            <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>
-              Consolidation Hub: Kaunas, Lithuania
-            </p>
-          </div>
+<section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+  <div className="max-w-7xl mx-auto">
+    <div className="text-center mb-16">
+      <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
+        {t.coverage.title}
+      </h2>
+      <p className={`text-lg ${textSecondary} font-bold tracking-widest uppercase`}>
+        Consolidation Hub: Kaunas, Lithuania
+      </p>
+    </div>
 
-          <div className={`relative h-[450px] md:h-[600px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-slate-900' : 'bg-slate-100'} flex items-center justify-center shadow-2xl`}>
-            
-            {/* ФОНОВАЯ КАРТА (Текстура) */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat scale-150"></div>
+    <div className={`relative h-[450px] md:h-[600px] rounded-[40px] overflow-hidden border ${borderAccent} ${isDark ? 'bg-slate-900' : 'bg-slate-100'} flex items-center justify-center shadow-2xl`}>
 
-            {/* ЦЕНТР - КАУНАС */}
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-12 h-12 bg-[#0052ff] rounded-full relative shadow-[0_0_60px_rgba(0,82,255,0.7)]">
-                <div className="absolute inset-0 rounded-full bg-[#0052ff] animate-ping opacity-50"></div>
-                <div className="absolute inset-2 bg-white rounded-full border-4 border-[#0052ff]"></div>
-              </div>
-              <span className="mt-4 bg-[#0052ff] text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl italic">
-                KAUNAS HUB
-              </span>
-            </div>
+      {/* BACKGROUND MAP TEXTURE */}
+      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat scale-150"></div>
 
-            {/* АНИМИРОВАННЫЕ ЛИНИИ (Стрелки со всего мира) */}
-            <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#0052ff" stopOpacity="0" />
-                  <stop offset="50%" stopColor="#0052ff" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
-                </linearGradient>
-                <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                  <path d="M0,0 L0,6 L6,3 z" fill="#0052ff" />
-                </marker>
-              </defs>
-
-              {/* USA -> Kaunas */}
-              <path d="M 150,250 Q 300,150 490,285"
-                stroke="url(#lineGradient)" strokeWidth="2" fill="none"
-                strokeDasharray="6 10" markerEnd="url(#arrow)">
-                <animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" />
-              </path>
-
-              {/* UAE -> Kaunas */}
-              <path d="M 800,450 Q 650,350 510,315"
-                stroke="url(#lineGradient)" strokeWidth="2" fill="none"
-                strokeDasharray="6 10" markerEnd="url(#arrow)">
-                <animate attributeName="stroke-dashoffset" values="100;0" dur="3.2s" repeatCount="indefinite" />
-              </path>
-
-              {/* Asia -> Kaunas */}
-              <path d="M 900,200 Q 700,150 515,285"
-                stroke="url(#lineGradient)" strokeWidth="2" fill="none"
-                strokeDasharray="6 10" markerEnd="url(#arrow)">
-                <animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" />
-              </path>
-
-              {/* UK/Norway -> Kaunas */}
-              <path d="M 400,100 Q 450,150 495,270"
-                stroke="url(#lineGradient)" strokeWidth="2" fill="none"
-                strokeDasharray="6 10" markerEnd="url(#arrow)">
-                <animate attributeName="stroke-dashoffset" values="100;0" dur="2.5s" repeatCount="indefinite" />
-              </path>
-            </svg>
-
-            {/* ПОДПИСЬ ВНИЗУ КАРТЫ */}
-            <div className="absolute bottom-8 text-center w-full">
-              <p className={`${textMuted} text-[10px] font-black uppercase tracking-[0.3em]`}>
-                Direct Assets & Global Consolidation
-              </p>
-            </div>
-          </div>
+      {/* KAUNAS HUB */}
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="w-12 h-12 bg-[#0052ff] rounded-full relative shadow-[0_0_60px_rgba(0,82,255,0.7)]">
+          <div className="absolute inset-0 rounded-full bg-[#0052ff] animate-ping opacity-50"></div>
+          <div className="absolute inset-2 bg-white rounded-full border-4 border-[#0052ff]"></div>
         </div>
-      </section>
+        <span className="mt-4 bg-[#0052ff] text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl italic">
+          KAUNAS HUB
+        </span>
+      </div>
 
+      {/* ANIMATED ROUTES */}
+      <svg
+        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
+        viewBox="0 0 1000 600"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#0052ff" stopOpacity="0" />
+            <stop offset="50%" stopColor="#0052ff" stopOpacity="1" />
+            <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
+          </linearGradient>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#0052ff" />
+          </marker>
+        </defs>
+
+        {/* USA */}
+        <path
+          d="M 150,250 Q 300,150 490,285"
+          stroke="url(#lineGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="6 10"
+          markerEnd="url(#arrow)"
+        >
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="3s" repeatCount="indefinite" />
+        </path>
+
+        {/* UAE */}
+        <path
+          d="M 800,450 Q 650,350 510,315"
+          stroke="url(#lineGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="6 10"
+          markerEnd="url(#arrow)"
+        >
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="3.2s" repeatCount="indefinite" />
+        </path>
+
+        {/* ASIA */}
+        <path
+          d="M 900,200 Q 700,150 515,285"
+          stroke="url(#lineGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="6 10"
+          markerEnd="url(#arrow)"
+        >
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.8s" repeatCount="indefinite" />
+        </path>
+
+        {/* UK / SCANDINAVIA */}
+        <path
+          d="M 400,100 Q 450,150 495,270"
+          stroke="url(#lineGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="6 10"
+          markerEnd="url(#arrow)"
+        >
+          <animate attributeName="stroke-dashoffset" values="100;0" dur="2.5s" repeatCount="indefinite" />
+        </path>
+      </svg>
+
+      {/* BOTTOM TEXT */}
+      <div className="absolute bottom-8 text-center w-full">
+        <p className={`${textMuted} text-[10px] font-black uppercase tracking-[0.3em]`}>
+          Direct Assets & Global Consolidation
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
       {/* ─── CONTACT / QUOTE ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
