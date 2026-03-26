@@ -263,7 +263,7 @@ function TersisApp() {
             <div className="animate-fadeInUp text-left">
               <div className={`inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md`}>
                 <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                  {lang === 'en' ? 'EST. 2011 — 13+ YEARS' : 'ĮKURTA 2011 — 13+ METŲ'}
+                  {lang === 'en' ? 'EST. 2011 • Trusted Experience' : 'ĮKURTA 2011 • Patikima patirtis'}
                 </p>
               </div>
               {/* text-white гарантирует видимость в светлой теме */}
