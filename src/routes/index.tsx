@@ -500,83 +500,127 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (Global Logistics Hub) ─── */}
-      <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#0052ff]">
-              {lang === 'en' ? 'Global Coverage' : 'Globalus tinklas'}
-            </span>
-          </div>
-          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-            {t.coverage.title}
-          </h2>
-          <p className={`${textSecondary} mb-12 max-w-2xl font-medium leading-relaxed`}>
-            {lang === 'en' 
-              ? 'All routes converge at our Kaunas hub — the strategic centre of our international logistics network.' 
-              : 'Visi maršrutai susijungia mūsų Kauno centre – strateginėje mūsų tarptautinio logistikos tinklo širdyje.'
-            }
-          </p>
+      {/* ─── COVERAGE MAP (FINAL PRO VERSION) ─── */}
+<section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+  <div className="max-w-7xl mx-auto">
+    <div className="mb-4">
+      <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#0052ff]">
+        {lang === 'en' ? 'Global Coverage' : 'Globalus tinklas'}
+      </span>
+    </div>
 
-          <div className="relative w-full rounded-[40px] overflow-hidden bg-[#0B1220] shadow-2xl border border-white/5">
-            <svg viewBox="0 0 900 440" className="w-full h-auto block">
-              <defs>
-                <radialGradient id="kaunas-glow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#1E5EFF" stopOpacity="0" />
-                </radialGradient>
-                {/* Определяем градиенты для линий */}
-                {[...Array(19)].map((_, i) => (
-                  <linearGradient key={i} id={`rg-${i}`} x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-                    <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0" />
-                    <stop offset="70%" stopColor="#1E5EFF" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#4D8AFF" stopOpacity="0.9" />
-                  </linearGradient>
-                ))}
-                <clipPath id="map-clip"><rect width="900" height="440" /></clipPath>
-              </defs>
+    <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
+      {t.coverage.title}
+    </h2>
 
-              {/* Материки (Полигоны из твоего примера) */}
-              <g clipPath="url(#map-clip)" fill="#1A2333" stroke="#243045" strokeWidth="0.5">
-                <polygon points="60,60 160,50 200,80 210,140 180,180 130,200 80,190 50,150 40,100" />
-                <polygon points="130,210 170,200 200,240 190,310 160,340 130,320 110,270 115,230" />
-                <polygon points="380,50 460,45 490,70 480,110 450,130 410,125 385,100 375,70" />
-                <polygon points="390,140 450,130 480,160 490,230 470,300 430,330 390,310 365,260 360,190 370,150" />
-                <polygon points="480,45 680,40 760,70 800,110 780,160 700,180 600,170 520,150 480,120 470,80" />
-                <polygon points="640,170 700,165 730,190 720,220 680,230 645,210" />
-                <polygon points="680,260 760,255 790,290 780,330 730,345 685,325 665,295" />
-              </g>
+    <p className={`${textSecondary} mb-12 max-w-2xl font-medium leading-relaxed`}>
+      {lang === 'en'
+        ? 'All routes converge at our Kaunas hub — the strategic centre of our international logistics network.'
+        : 'Visi maršrutai susijungia mūsų Kauno centre – strateginėje mūsų tarptautinio logistikos tinklo širdyje.'}
+    </p>
 
-              {/* Анимированные пути к Хабу */}
-              <g opacity="0.7">
-                <path d="M 100,150 Q 300,100 509,85" fill="none" stroke="url(#rg-0)" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M 750,150 Q 600,100 509,85" fill="none" stroke="url(#rg-1)" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M 200,350 Q 350,200 509,85" fill="none" stroke="url(#rg-2)" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M 750,300 Q 650,200 509,85" fill="none" stroke="url(#rg-3)" strokeWidth="1.2" strokeLinecap="round" />
-              </g>
+    <div className="relative w-full rounded-[40px] overflow-hidden bg-[#0B1220] shadow-2xl border border-white/5">
 
-              {/* Эффект свечения Каунаса */}
-              <circle cx="509" cy="85" r="35" fill="url(#kaunas-glow)" />
-              <circle cx="509" cy="85" r="8" fill="#1E5EFF" style={{ filter: 'drop-shadow(0 0 8px #1E5EFF)' }} />
-              <circle cx="509" cy="85" r="4" fill="#ffffff" style={{ filter: 'drop-shadow(0 0 6px #ffffff)' }} />
+      <svg viewBox="0 0 900 440" className="w-full h-auto block">
+        <defs>
+          {/* Glow */}
+          <radialGradient id="kaunas-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#1E5EFF" stopOpacity="0" />
+          </radialGradient>
 
-              {/* Метка KAUNAS HUB */}
-              <text x="509" y="55" textAnchor="middle" fill="#ffffff" fontSize="10" fontWeight="800" letterSpacing="1.5" style={{ fontFamily: 'system-ui, sans-serif', filter: 'drop-shadow(0 0 4px #1E5EFF)' }}>
-                KAUNAS HUB
-              </text>
-              <line x1="509" y1="75" x2="509" y2="62" stroke="#1E5EFF" strokeWidth="1.5" />
-            </svg>
+          {/* Map depth */}
+          <linearGradient id="mapFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1A2333" />
+            <stop offset="100%" stopColor="#0B1220" />
+          </linearGradient>
 
-            {/* Подписи по углам (как в примере) */}
-            <div className="absolute bottom-4 left-6 hidden md:block">
-              <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">Network Coverage</span>
-            </div>
-            <div className="absolute bottom-4 right-6 hidden md:block">
-              <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">27+ Active Routes</span>
-            </div>
-          </div>
-        </div>
-      </section>
+          {/* Route gradient */}
+          <linearGradient id="routeMain" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#1E5EFF" stopOpacity="0" />
+            <stop offset="60%" stopColor="#1E5EFF" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#4D8AFF" stopOpacity="1" />
+          </linearGradient>
+        </defs>
+
+        {/* CONTINENTS */}
+        <g fill="url(#mapFade)" stroke="#243045" strokeWidth="0.6">
+          <polygon points="60,60 160,50 200,80 210,140 180,180 130,200 80,190 50,150 40,100" />
+          <polygon points="130,210 170,200 200,240 190,310 160,340 130,320 110,270 115,230" />
+          <polygon points="380,50 460,45 490,70 480,110 450,130 410,125 385,100 375,70" />
+          <polygon points="390,140 450,130 480,160 490,230 470,300 430,330 390,310 365,260 360,190 370,150" />
+          <polygon points="480,45 680,40 760,70 800,110 780,160 700,180 600,170 520,150 480,120 470,80" />
+          <polygon points="640,170 700,165 730,190 720,220 680,230 645,210" />
+          <polygon points="680,260 760,255 790,290 780,330 730,345 685,325 665,295" />
+        </g>
+
+        {/* ROUTES */}
+        <g>
+          {[
+            "M 100,150 Q 300,100 509,85",
+            "M 750,150 Q 600,100 509,85",
+            "M 200,350 Q 350,200 509,85",
+            "M 750,300 Q 650,200 509,85",
+          ].map((d, i) => (
+            <path
+              key={i}
+              d={d}
+              fill="none"
+              stroke="url(#routeMain)"
+              strokeWidth="1.5"
+              strokeDasharray="4 8"
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                values="100;0"
+                dur={`${2.5 + i * 0.4}s`}
+                repeatCount="indefinite"
+              />
+            </path>
+          ))}
+        </g>
+
+        {/* KAUNAS */}
+        <circle cx="509" cy="85" r="45" fill="url(#kaunas-glow)" />
+
+        <circle cx="509" cy="85" r="10" fill="#1E5EFF">
+          <animate attributeName="r" values="10;13;10" dur="2s" repeatCount="indefinite" />
+        </circle>
+
+        <circle cx="509" cy="85" r="4" fill="#ffffff" />
+
+        {/* LABEL */}
+        <text
+          x="509"
+          y="50"
+          textAnchor="middle"
+          fill="#ffffff"
+          fontSize="11"
+          fontWeight="900"
+          letterSpacing="2"
+          style={{ filter: 'drop-shadow(0 0 6px #1E5EFF)' }}
+        >
+          KAUNAS HUB
+        </text>
+
+        <line x1="509" y1="75" x2="509" y2="60" stroke="#1E5EFF" strokeWidth="2" />
+      </svg>
+
+      {/* FOOT TEXT */}
+      <div className="absolute bottom-4 left-6 hidden md:block">
+        <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">
+          Network Coverage
+        </span>
+      </div>
+
+      <div className="absolute bottom-4 right-6 hidden md:block">
+        <span className="text-[10px] font-mono text-[#4D8AFF]/60 tracking-[0.2em] uppercase font-bold">
+          27+ Active Routes
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
       {/* ─── CONTACT / QUOTE ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
