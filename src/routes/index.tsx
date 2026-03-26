@@ -243,7 +243,7 @@ function TersisApp() {
       </nav>
 
       {/* ─── HERO SECTION ─── */}
-      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] md:h-screen flex items-center overflow-hidden bg-[#050a14]">
         {/* VIDEO BACKGROUND */}
         <video
           autoPlay
@@ -254,32 +254,32 @@ function TersisApp() {
         >
           <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        {/* Фиксированный темный оверлей, чтобы текст был виден всегда */}
+        {/* Оверлей для читаемости */}
         <div className="absolute inset-0 bg-black/60 z-10" />
 
         <div className="max-w-7xl mx-auto w-full relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* ЛЕВАЯ ЧАСТЬ С ТЕКСТОМ */}
-            <div className="animate-fadeInUp">
+            {/* ЛЕВАЯ ЧАСТЬ */}
+            <div className="animate-fadeInUp text-left">
               <div className={`inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md`}>
                 <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                  EST. 2011 — 13+ YEARS
+                  {lang === 'en' ? 'EST. 2011 — 13+ YEARS' : 'ĮKURTA 2011 — 13+ METŲ'}
                 </p>
               </div>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase">
+              {/* text-white гарантирует видимость в светлой теме */}
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase">
                 {t.hero.title1}<br />
                 {t.hero.title2}<br />
                 <span className="text-[#0052ff]">{t.hero.title3}</span><br />
                 {t.hero.title4}
               </h1>
-              {/* НОВЫЙ ТЕКСТ (Светлее + перевод) */}
               <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-lg font-medium">
                 {lang === 'en' 
                   ? 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' 
                   : 'Valdome 27+ modernių Euro 6 transporto priemonių parką, specializuojamės didelio tūrio MEGA puspriekabėmis (105 m³) ir teikiame patikimus standartinio transporto sprendimus visame pasaulyje.'
                 }
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 mb-12 md:mb-0">
                 <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg">
                   {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
                 </button>
@@ -289,18 +289,18 @@ function TersisApp() {
               </div>
             </div>
 
-            {/* ПРАВАЯ ЧАСТЬ (Инфо-блоки вместо пустоты) */}
-            <div className="hidden md:flex flex-col gap-6 items-end text-white">
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
-                  <Truck className="h-10 w-10 text-[#0052ff] mb-4" />
-                  <p className="text-5xl font-black mb-1">27+</p>
+            {/* ПРАВАЯ ЧАСТЬ (Блоки видны и на мобайле, и на десктопе) */}
+            <div className="flex flex-col gap-4 md:gap-6 items-start md:items-end">
+               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-xl w-full max-w-[340px]">
+                  <Truck className="h-8 w-8 md:h-10 md:w-10 text-[#0052ff] mb-4" />
+                  <p className="text-4xl md:text-5xl font-black text-white mb-1 leading-none uppercase">27+</p>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
                     {lang === 'en' ? 'Own Vehicles' : 'Nuosavas transportas'}
                   </p>
                </div>
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-xl w-full max-w-[340px]">
-                  <FileText className="h-10 w-10 text-[#0052ff] mb-4" />
-                  <p className="text-xl font-black mb-1 uppercase tracking-tight">LIC-009666-EBKR</p>
+               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-xl w-full max-w-[340px]">
+                  <FileText className="h-8 w-8 md:h-10 md:w-10 text-[#0052ff] mb-4" />
+                  <p className="text-lg md:text-xl font-black text-white mb-1 uppercase tracking-tight">LIC-009666-EBKR</p>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                     {lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}
                   </p>
