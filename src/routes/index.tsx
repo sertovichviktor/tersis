@@ -149,20 +149,14 @@ function TersisApp() {
            {/* Logo - Увеличен + кнопка наверх */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-3 group focus:outline-none"
+              className="flex items-center gap-3 focus:outline-none"
             >
-              <div className={`p-1.5 rounded-xl transition-all duration-500 
-                ${isDark 
-                  ? 'bg-white/10 backdrop-blur-md border border-white/20 shadow-lg' 
-                  : 'bg-[#0a1628] shadow-xl'
-                } group-hover:scale-105`}>
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  className="h-12 w-12 md:h-14 md:w-14 object-contain" 
-                />
-              </div>
-              <span className={`text-2xl md:text-3xl font-black ${textPrimary} tracking-tighter uppercase`}>
+              <img
+                src="/logo.png"
+                alt="TERSIS"
+                className="h-14 w-14 object-contain" 
+              />
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
                 TERSIS
               </span>
             </button>
@@ -675,19 +669,11 @@ function TersisApp() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Company info */}
-            {/* Company info */}
-            <div>
-              <button 
+           <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-3 mb-6 group focus:outline-none text-left"
+                className="flex items-center gap-3 mb-6 focus:outline-none"
               >
-                <div className={`p-1.5 rounded-lg transition-all duration-500 
-                  ${isDark 
-                    ? 'bg-white/10 border border-white/10' 
-                    : 'bg-[#0a1628] shadow-md'
-                  } group-hover:scale-105`}>
-                  <img src="/logo.png" alt="TERSIS" className="h-10 w-10 object-contain" />
-                </div>
+                <img src="/logo.png" alt="TERSIS" className="h-12 w-12 object-contain" />
                 <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
                   TERSIS
                 </h4>
