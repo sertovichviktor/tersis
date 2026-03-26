@@ -739,7 +739,7 @@ function TersisApp() {
             </div>
           </div>
           <div className={`border-t ${borderColor} pt-8 text-center ${textMuted} text-xs uppercase tracking-widest`}>
-            <p>{t.footer.copyright}</p>
+            <p>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
           </div>
         </div>
       </footer>
