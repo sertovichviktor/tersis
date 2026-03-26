@@ -555,95 +555,95 @@ function TersisApp() {
           </div>
         </div>
       </section>
-      {/* ─── CONTACT / QUOTE ─── */}
+      {/* ─── CONTACT / QUOTE (Balanced Layout) ─── */}
       <section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight`}>
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.contact.title}
             </h2>
             <p className={`text-lg ${textSecondary}`}>{t.contact.subtitle}</p>
           </div>
 
           <div
-            className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 animate-fadeInUp`}
+            className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl animate-fadeInUp`}
           >
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
+              {/* ПЕРВЫЕ 6 ПОЛЕЙ (ПО 2 В РЯД) */}
               {[
                 { key: 'from', type: 'text' },
                 { key: 'to', type: 'text' },
                 { key: 'cargoType', type: 'text' },
                 { key: 'weight', type: 'text' },
                 { key: 'volume', type: 'text' },
-                // Поле deadline удалено, чтобы убрать системные русские буквы из календаря
                 { key: 'name', type: 'text' },
-                { key: 'email', type: 'email' },
               ].map(({ key, type }) => (
                 <div key={key}>
-                  <label
-                    className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}
-                  >
+                  <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                     {t.contact[key as keyof typeof t.contact] as string}
                   </label>
                   <input
                     type={type}
                     required
-                    value={formData[key as keyof typeof formData]}
-                    onChange={(e) =>
-                      setFormData({ ...formData, [key]: e.target.value })
-                    }
-                    className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm`}
-                    placeholder={
-                      (t.contact.placeholders as Record<string, string>)[key] || ''
-                    }
+                    value={(formData as any)[key]}
+                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                    className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
+                    placeholder={(t.contact.placeholders as any)[key] || ''}
                   />
                 </div>
               ))}
+
+              {/* ПОЛЕ EMAIL (НА ВСЮ ШИРИНУ, ЧТОБЫ НЕ БЫЛО ПУСТОТЫ) */}
               <div className="md:col-span-2">
-                <label
-                  className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}
-                >
+                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
+                  {t.contact.email}
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
+                  placeholder={t.contact.placeholders.email}
+                />
+              </div>
+
+              {/* ПОЛЕ PHONE (НА ВСЮ ШИРИНУ) */}
+              <div className="md:col-span-2">
+                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                   {t.contact.phone}
                 </label>
                 <input
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm`}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
                   placeholder={t.contact.placeholders.phone}
                 />
               </div>
+
+              {/* ПОЛЕ MESSAGE (НА ВСЮ ШИРИНУ) */}
               <div className="md:col-span-2">
-                <label
-                  className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}
-                >
+                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                   {t.contact.message}
                 </label>
                 <textarea
                   value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={3}
-                  className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm`}
+                  className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`}
                   placeholder={t.contact.placeholders.message}
                 />
               </div>
+
               <div className="md:col-span-2">
                 <button
                   type="submit"
-                  className="w-full bg-[#0052ff] text-white px-8 py-4 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-wide rounded-lg shadow-lg shadow-[#0052ff]/20"
+                  className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg shadow-lg shadow-[#0052ff]/20"
                 >
-                  {isSubmitted ? t.contact.submitted : t.contact.submit}
+                  {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
                 </button>
-                {isSubmitted && (
-                  <div className="mt-4 bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 text-center text-sm rounded-lg">
-                    {t.contact.successMessage}
-                  </div>
-                )}
               </div>
             </form>
           </div>
