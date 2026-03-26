@@ -500,58 +500,76 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP ─── */}
+      {/* ─── COVERAGE MAP (Animated Image Overlay) ─── */}
       <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight`}>
+          <div className="text-center mb-16 animate-fadeInUp">
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
               {t.coverage.title}
             </h2>
-            <p className={`text-lg ${textSecondary}`}>{t.coverage.subtitle}</p>
+            <p className={`text-lg ${textSecondary} max-w-2xl mx-auto`}>
+              {t.coverage.subtitle}
+            </p>
           </div>
 
-          <div
-            className={`relative rounded-2xl overflow-hidden border ${borderAccent} ${bgCard}`}
-          >
-            <div className="relative">
-              <img
-                src="/map-bg.png"
-                alt="TERSIS coverage across Europe"
-                className={`w-full h-auto ${isDark ? 'invert brightness-90 opacity-70' : 'opacity-80'}`}
-              />
-              {/* Overlay gradient */}
-              <div
-                className={`absolute inset-0 ${
-                  isDark
-                    ? 'bg-gradient-to-t from-[#050a14] via-transparent to-[#050a14]/50'
-                    : 'bg-gradient-to-t from-gray-50 via-transparent to-gray-50/50'
-                }`}
-              />
-              {/* Map caption */}
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="flex flex-wrap gap-4 justify-center">
-                  {[
-                    { label: lang === 'en' ? 'Lithuania' : 'Lietuva', main: true },
-                    { label: lang === 'en' ? 'Baltics' : 'Baltijos šalys' },
-                    { label: lang === 'en' ? 'Western Europe' : 'Vakarų Europa' },
-                    { label: lang === 'en' ? 'Eastern Europe' : 'Rytų Europa' },
-                  ].map((region, i) => (
-                    <div
-                      key={i}
-                      className={`px-4 py-2 rounded-lg backdrop-blur-md ${
-                        region.main
-                          ? 'bg-[#0052ff]/90 text-white'
-                          : isDark
-                            ? 'bg-white/10 text-white'
-                            : 'bg-black/10 text-gray-900'
-                      } text-sm font-bold`}
-                    >
-                      {region.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <div className="relative h-[400px] md:h-[650px] rounded-[40px] overflow-hidden border border-[#0052ff]/30 shadow-2xl bg-black">
+            
+            {/* ТВОЕ ИЗОБРАЖЕНИЕ НА ФОНЕ */}
+            <img 
+              src="/map-hub.jpg" 
+              alt="Tersis Global Hub" 
+              className="absolute inset-0 w-full h-full object-cover opacity-90"
+            />
+
+            {/* СЛОЙ ЖИВОЙ АНИМАЦИИ ПОВЕРХ КАРТИНКИ */}
+            <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                {/* Эффект светящейся кометы */}
+                <radialGradient id="comet-grad">
+                  <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* ЦЕНТР В КАУНАСЕ (Пульсация точно в цель) */}
+              <g transform="translate(485, 205)">
+                <circle r="12" fill="#0052ff" className="animate-ping opacity-40" />
+                <circle r="6" fill="#0052ff" className="shadow-lg" />
+                <circle r="2" fill="#fff" />
+              </g>
+
+              {/* БЕГУЩИЕ ОГОНЬКИ (По траекториям линий на картинке) */}
+              <g fill="none" strokeWidth="2" strokeLinecap="round">
+                {/* Линия из США */}
+                <path d="M 150,230 Q 300,100 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
+                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3s" repeatCount="indefinite" />
+                </path>
+                {/* Линия из Бразилии */}
+                <path d="M 220,480 Q 350,300 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
+                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3.5s" repeatCount="indefinite" />
+                </path>
+                {/* Линия из Азии */}
+                <path d="M 850,380 Q 650,250 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
+                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="2.8s" repeatCount="indefinite" />
+                </path>
+                {/* Линия из Китая */}
+                <path d="M 820,130 Q 650,80 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
+                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3.2s" repeatCount="indefinite" />
+                </path>
+              </g>
+            </svg>
+
+            {/* ДЕКОРАТИВНЫЙ ТЕКСТ (Как на проф. картах) */}
+            <div className="absolute bottom-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden md:block">
+              <p className="text-[10px] font-black text-[#0052ff] uppercase tracking-widest leading-none mb-1">Hub Status</p>
+              <p className="text-white text-xs font-bold uppercase tracking-widest">Operational / 24-7</p>
             </div>
+            
+            <div className="absolute bottom-6 right-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden md:block text-right">
+              <p className="text-[10px] font-black text-[#0052ff] uppercase tracking-widest leading-none mb-1">Global Traffic</p>
+              <p className="text-white text-xs font-bold uppercase tracking-widest">Connected Worldwide</p>
+            </div>
+
           </div>
         </div>
       </section>
