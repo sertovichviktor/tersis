@@ -309,7 +309,7 @@ function TersisApp() {
           </div>
         </div>
       </section>
-{/* ─── FLEET SPECIFICATIONS (Restored Footers & Fixed Spacing) ─── */}
+{/* ─── FLEET SPECIFICATIONS (Restored Font Sizes & Fixed Spacing) ─── */}
       <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 animate-fadeInUp">
@@ -320,17 +320,18 @@ function TersisApp() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Standard Class */}
+            {/* Standard Class Card */}
             <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300 flex flex-col`}>
               <div className="flex items-center gap-4 mb-8">
-                <div className={`w-12 h-12 md:w-14 md:h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
-                  <Truck className="h-6 w-6 md:h-7 md:w-7 text-[#0052ff]" />
+                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
+                  <Truck className="h-7 w-7 text-[#0052ff]" />
                 </div>
                 <div>
-                  <h3 className={`text-lg md:text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.standardClass}</h3>
-                  <p className="text-[#0052ff] font-bold text-xs md:text-sm">92 m³ {t.fleet.capacity}</p>
+                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.standardClass}</h3>
+                  <p className="text-[#0052ff] font-bold text-sm">92 m³ {t.fleet.capacity}</p>
                 </div>
               </div>
+              
               <div className="space-y-4 mb-8 flex-grow">
                 {[
                   [t.fleet.length, '13.6 m'],
@@ -344,23 +345,24 @@ function TersisApp() {
                   </div>
                 ))}
               </div>
-              {/* ПОЯСНЕНИЕ ВНИЗУ КАРТОЧКИ (ВЕРНУЛ) */}
+
               <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs leading-relaxed`}>{t.fleet.standardFooter}</p>
+                <p className={`${textMuted} text-xs leading-relaxed italic`}>{t.fleet.standardFooter}</p>
               </div>
             </div>
 
-            {/* Mega Advantage */}
+            {/* Mega Advantage Card */}
             <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300 flex flex-col`}>
               <div className="flex items-center gap-4 mb-8">
-                <div className={`w-12 h-12 md:w-14 md:h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
-                  <Maximize2 className="h-6 w-6 md:h-7 md:w-7 text-[#0052ff]" />
+                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
+                  <Maximize2 className="h-7 w-7 text-[#0052ff]" />
                 </div>
                 <div>
-                  <h3 className={`text-lg md:text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.megaAdvantage}</h3>
-                  <p className="text-[#0052ff] font-bold text-xs md:text-sm">105 m³ {t.fleet.capacity}</p>
+                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.megaAdvantage}</h3>
+                  <p className="text-[#0052ff] font-bold text-sm">105 m³ {t.fleet.capacity}</p>
                 </div>
               </div>
+
               <div className="space-y-4 mb-8 flex-grow">
                 {[
                   [t.fleet.internalHeight, '3.0 m'],
@@ -374,14 +376,14 @@ function TersisApp() {
                   </div>
                 ))}
               </div>
-              {/* ПОЯСНЕНИЕ ВНИЗУ КАРТОЧКИ (ВЕРНУЛ) */}
+
               <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs leading-relaxed`}>{t.fleet.megaFooter}</p>
+                <p className={`${textMuted} text-xs leading-relaxed italic`}>{t.fleet.megaFooter}</p>
               </div>
             </div>
           </div>
 
-          {/* Badges */}
+          {/* ВЕРНУЛ ОРИГИНАЛЬНЫЙ РАЗМЕР ТЕКСТА text-xs ТУТ */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: Shield, title: t.fleet.cmrInsured, sub: t.fleet.fullCoverage },
@@ -391,8 +393,8 @@ function TersisApp() {
             ].map((item, idx) => (
               <div key={idx} className={`border ${borderAccent} p-5 text-center ${bgCard} rounded-lg hover:bg-[#0052ff]/5 transition`}>
                 <item.icon className="h-7 w-7 text-[#0052ff] mx-auto mb-3" />
-                <p className={`font-black ${textPrimary} text-[10px] mb-1 uppercase tracking-wide`}>{item.title}</p>
-                <p className={`text-[10px] ${textMuted}`}>{item.sub}</p>
+                <p className={`font-black ${textPrimary} text-xs mb-1 uppercase tracking-wide`}>{item.title}</p>
+                <p className={`text-xs ${textMuted}`}>{item.sub}</p>
               </div>
             ))}
           </div>
