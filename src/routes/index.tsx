@@ -147,7 +147,7 @@ function TersisApp() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
             
-          {/* Logo Section - Еще больше + ближе к тексту */}
+         {/* Logo Section - Еще больше + ближе к тексту */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center focus:outline-none group"
@@ -167,7 +167,6 @@ function TersisApp() {
                 TERSIS
               </span>
             </button>
-
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
               {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map(
