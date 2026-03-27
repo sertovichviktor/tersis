@@ -675,7 +675,7 @@ function TersisApp() {
       <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-            {/* Company info */}
+           {/* Company info */}
             <div>
               <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -711,14 +711,19 @@ function TersisApp() {
                   </div>
                 </div>
 
-                {/* Phone */}
+                {/* Phone (Кликабельный с правильным номером) */}
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
                     <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
                       {t.footer.phone}
                     </p>
-                    <p>+370 37 321 321</p>
+                    <a 
+                      href="tel:+37065955956" 
+                      className="hover:text-[#0052ff] transition-colors cursor-pointer block"
+                    >
+                      +370 65 955 956
+                    </a>
                   </div>
                 </div>
 
@@ -739,7 +744,6 @@ function TersisApp() {
                 </div>
               </div>
             </div>
-
             {/* Services links */}
             <div>
               <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase tracking-widest`}>
