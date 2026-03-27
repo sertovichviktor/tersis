@@ -677,13 +677,24 @@ function TersisApp() {
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Company info */}
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <img src="/logo.png" alt="TERSIS" className="h-8 w-8 object-contain" />
-                <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="flex items-center focus:outline-none mb-6 group text-left"
+              >
+                <div className="relative flex items-center justify-center h-10 w-10">
+                  <img
+                    src="/logo.png"
+                    alt="TERSIS"
+                    className="h-full w-full object-contain transform scale-[2.0] transition-transform duration-300" 
+                  />
+                </div>
+                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-4`}>
                   TERSIS
                 </h4>
-              </div>
+              </button>
+              
               <div className={`space-y-4 ${textSecondary} text-sm`}>
+                {/* Address */}
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
@@ -699,6 +710,8 @@ function TersisApp() {
                     </p>
                   </div>
                 </div>
+
+                {/* Phone */}
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
@@ -708,13 +721,20 @@ function TersisApp() {
                     <p>+370 37 321 321</p>
                   </div>
                 </div>
+
+                {/* Email with Mailto */}
                 <div className="flex items-start gap-3">
                   <Mail className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
                     <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
                       {t.footer.email}
                     </p>
-                    <p>info@tersis.lt</p>
+                    <a 
+                      href="mailto:info@tersis.lt" 
+                      className="hover:text-[#0052ff] transition-colors cursor-pointer block"
+                    >
+                      info@tersis.lt
+                    </a>
                   </div>
                 </div>
               </div>
