@@ -146,17 +146,27 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
-                alt="TERSIS"
-                className="h-10 w-10 object-contain"
-              />
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
+            {/* Logo Section - Фикс отступа + сохранение высоты бара */}
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center focus:outline-none group"
+            >
+              {/* Контейнер h-10 (40px) — это гарантирует, что высота шапки не изменится */}
+              <div className="relative flex items-center justify-center h-10 w-10">
+                <img
+                  src="/logo.png"
+                  alt="TERSIS"
+                  /* scale-[2.5] делает лого крупным, заполняя пустоту. 
+                     Убрали лишние сдвиги внутри, чтобы центровка была ровной */
+                  className="h-full w-full object-contain transform scale-[2.5] transition-transform duration-300" 
+                />
+              </div>
+              
+              {/* ml-5 дает ровно столько места, чтобы глобус был рядом, но не касался буквы T */}
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-5`}>
                 TERSIS
               </span>
-            </div>
+            </button>
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
