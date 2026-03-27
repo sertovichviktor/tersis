@@ -146,27 +146,18 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-            
-         {/* Logo Section - Еще больше + ближе к тексту */}
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center focus:outline-none group"
-            >
-              <div className="relative flex items-center justify-center h-10 w-10">
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  /* Увеличили масштаб до 2.6. 
-                     ml-2 сдвигает картинку ближе к правому краю (к тексту) */
-                  className="h-full w-full object-contain transform scale-[2.6] ml-2 transition-transform duration-300" 
-                />
-              </div>
-              
-              {/* ml-1 прижимает текст TERSIS почти вплотную к глобусу */}
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-1`}>
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="TERSIS"
+                className="h-10 w-10 object-contain"
+              />
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
                 TERSIS
               </span>
-            </button>
+            </div>
+
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
               {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map(
