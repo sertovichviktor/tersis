@@ -146,20 +146,21 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-         {/* Logo Section - Уменьшили размер под обрезанный файл */}
+         {/* Logo Section - Исправленный размер и скролл */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center focus:outline-none group"
+              className="flex items-center gap-3 focus:outline-none group"
             >
-              {/* h-9 (36px) — идеальный средний размер для обрезанного лого */}
-              <div className="relative flex items-center justify-center h-9 w-9">
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  /* Без скейла. Оставили только легкий эффект при наведении */
-                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-                />
-              </div>
+              <img
+                src="/logo.png"
+                alt="TERSIS"
+                /* h-10 (40px) - теперь идеальный размер для обрезанного логотипа */
+                className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110" 
+              />
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
+                TERSIS
+              </span>
+            </button>
               
               {/* ml-3 сохраняет зазор */}
               <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
@@ -679,22 +680,21 @@ function TersisApp() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
            {/* Company info */}
-           <button 
+            <div>
+              <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center focus:outline-none mb-6 group text-left"
+                className="flex items-center gap-3 mb-6 focus:outline-none text-left group"
               >
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110" 
+                <img 
+                  src="/logo.png" 
+                  alt="TERSIS" 
+                  className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
-                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-3`}>
+                <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
                   TERSIS
                 </h4>
               </button>
-              
               <div className={`space-y-4 ${textSecondary} text-sm`}>
-                {/* Address */}
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
@@ -710,36 +710,22 @@ function TersisApp() {
                     </p>
                   </div>
                 </div>
-
-                {/* Phone (Кликабельный с правильным номером) */}
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
                     <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
                       {t.footer.phone}
                     </p>
-                    <a 
-                      href="tel:+37065955956" 
-                      className="hover:text-[#0052ff] transition-colors cursor-pointer block"
-                    >
-                      +370 65 955 956
-                    </a>
+                    <a href="tel:+37065955956" className="hover:text-[#0052ff] transition-colors">+370 65 955 956</a>
                   </div>
                 </div>
-
-                {/* Email with Mailto */}
                 <div className="flex items-start gap-3">
                   <Mail className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
                     <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
                       {t.footer.email}
                     </p>
-                    <a 
-                      href="mailto:info@tersis.lt" 
-                      className="hover:text-[#0052ff] transition-colors cursor-pointer block"
-                    >
-                      info@tersis.lt
-                    </a>
+                    <a href="mailto:info@tersis.lt" className="hover:text-[#0052ff] transition-colors">info@tersis.lt</a>
                   </div>
                 </div>
               </div>
