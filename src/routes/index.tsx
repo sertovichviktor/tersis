@@ -692,7 +692,11 @@ function TersisApp() {
                   <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
                     <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.address}</p>
-                    <p>Taikos pr. 141-305, Kaunas, LT-51132, Lithuania</p>
+                    <p className="leading-relaxed">
+                      Taikos pr. 141-305<br />
+                      Kaunas, LT-51132<br />
+                      Lithuania
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
