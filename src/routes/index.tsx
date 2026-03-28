@@ -154,14 +154,12 @@ function TersisApp() {
               <img
                 src="/logo.png"
                 alt="TERSIS"
-                /* h-10 (40px) - теперь идеальный размер для обрезанного логотипа */
-                className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110" 
+                className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" 
               />
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight`}>
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-1`}>
                 TERSIS
               </span>
             </button>
-              
               {/* ml-3 сохраняет зазор */}
               <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
                 TERSIS
@@ -683,14 +681,10 @@ function TersisApp() {
             <div>
               <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-3 mb-6 focus:outline-none text-left group"
+                className="flex items-center focus:outline-none mb-6 group text-left"
               >
-                <img 
-                  src="/logo.png" 
-                  alt="TERSIS" 
-                  className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" 
-                />
-                <h4 className={`text-xl font-black ${textPrimary} tracking-tight`}>
+                <img src="/logo.png" alt="TERSIS" className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" />
+                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-3`}>
                   TERSIS
                 </h4>
               </button>
@@ -698,33 +692,21 @@ function TersisApp() {
                 <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
-                      {t.footer.address}
-                    </p>
-                    <p>
-                      Taikos pr. 141-305
-                      <br />
-                      Kaunas, LT-51132
-                      <br />
-                      Lithuania
-                    </p>
+                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.address}</p>
+                    <p>Taikos pr. 141-305, Kaunas, LT-51132, Lithuania</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
-                      {t.footer.phone}
-                    </p>
+                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.phone}</p>
                     <a href="tel:+37065955956" className="hover:text-[#0052ff] transition-colors">+370 65 955 956</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Mail className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>
-                      {t.footer.email}
-                    </p>
+                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.email}</p>
                     <a href="mailto:info@tersis.lt" className="hover:text-[#0052ff] transition-colors">info@tersis.lt</a>
                   </div>
                 </div>
