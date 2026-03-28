@@ -146,27 +146,20 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-         {/* Logo Section - Исправленный размер и скролл */}
+         {/* Logo Section */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-3 focus:outline-none group"
+              className="flex items-center focus:outline-none group"
             >
-              <img
-                src="/logo.png"
-                alt="TERSIS"
-                className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" 
-              />
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-1`}>
-                TERSIS
-              </span>
-            </button>
-              {/* ml-3 сохраняет зазор */}
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
-                TERSIS
-              </span>
-            </button>
-              {/* ml-3 сохраняет тот самый аккуратный зазор */}
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
+              <div className="relative flex items-center justify-center h-10 w-10">
+                <img
+                  src="/logo.png"
+                  alt="TERSIS"
+                  /* h-10 на обрезанном лого — это тот самый средний размер */
+                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
+                />
+              </div>
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-2`}>
                 TERSIS
               </span>
             </button>
@@ -677,13 +670,19 @@ function TersisApp() {
       <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-           {/* Company info */}
+                {/* Company info */}
             <div>
               <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="flex items-center focus:outline-none mb-6 group text-left"
               >
-                <img src="/logo.png" alt="TERSIS" className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-110" />
+                <div className="relative flex items-center justify-center h-10 w-10">
+                  <img 
+                    src="/logo.png" 
+                    alt="TERSIS" 
+                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
+                  />
+                </div>
                 <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-3`}>
                   TERSIS
                 </h4>
