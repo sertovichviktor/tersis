@@ -36,8 +36,10 @@ export const Route = createFileRoute('/')({
         name: 'description', 
         content: 'TERSIS is a reliable European logistics partner since 2011. Operating a fleet of 27+ modern Euro 6 vehicles with MEGA trailers. Worldwide transport solutions via Kaunas hub.' 
       },
-      { name: 'keywords', content: 'logistics, transport Europe, MEGA trailers, Tersis, asset-based carrier, Kaunas hub' },
-      { property: 'og:title', content: 'TERSIS | International Logistics & Transport' },
+      { name: 'keywords', content: 'logistics Lithuania, transport Europe, MEGA trailers, Tersis Kaunas, asset-based carrier' },
+      // Добавил эти 2 строчки, чтобы ссылки в мессенджерах выглядели дорого:
+      { property: 'og:title', content: 'TERSIS | Asset-Based Carrier & International Logistics' },
+      { property: 'og:description', content: 'Reliable transport solutions since 2011. Own fleet of 27+ vehicles. MEGA trailers specialist.' },
       { property: 'og:image', content: '/logo.png' },
     ],
   }),
