@@ -146,22 +146,26 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-         {/* Logo Section - Настроен под обрезанный файл без лишнего скейла */}
+         {/* Logo Section - Уменьшили размер под обрезанный файл */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center focus:outline-none group"
             >
-              {/* Контейнер h-12 (48px) — это и есть идеальная средняя высота для шапки h-18 */}
-              <div className="relative flex items-center justify-center h-12 w-12">
+              {/* h-9 (36px) — идеальный средний размер для обрезанного лого */}
+              <div className="relative flex items-center justify-center h-9 w-9">
                 <img
                   src="/logo.png"
                   alt="TERSIS"
-                  /* Скейл убрали, так как файл теперь обрезан. 
-                     Добавили легкое увеличение при наведении (scale-110) */
+                  /* Без скейла. Оставили только легкий эффект при наведении */
                   className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
               </div>
               
+              {/* ml-3 сохраняет зазор */}
+              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
+                TERSIS
+              </span>
+            </button>
               {/* ml-3 сохраняет тот самый аккуратный зазор */}
               <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
                 TERSIS
