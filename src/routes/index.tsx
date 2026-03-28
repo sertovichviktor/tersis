@@ -146,28 +146,27 @@ function TersisApp() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
-            {/* Logo Section - Золотая середина: заметно, но аккуратно */}
+         {/* Logo Section - Настроен под обрезанный файл без лишнего скейла */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="flex items-center focus:outline-none group"
             >
-              {/* Контейнер h-10 держит высоту шапки */}
-              <div className="relative flex items-center justify-center h-10 w-10">
+              {/* Контейнер h-12 (48px) — это и есть идеальная средняя высота для шапки h-18 */}
+              <div className="relative flex items-center justify-center h-12 w-12">
                 <img
                   src="/logo.png"
                   alt="TERSIS"
-                  /* scale-[2.0] — это и есть средний размер. 
-                     Если захочешь еще чуть меньше, ставь 1.8. Если чуть больше — 2.2 */
-                  className="h-full w-full object-contain transform scale-[2.0] transition-transform duration-300" 
+                  /* Скейл убрали, так как файл теперь обрезан. 
+                     Добавили легкое увеличение при наведении (scale-110) */
+                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
               </div>
               
-              {/* ml-3 дает аккуратный зазор между лого и текстом */}
+              {/* ml-3 сохраняет тот самый аккуратный зазор */}
               <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-3`}>
                 TERSIS
               </span>
             </button>
-
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-6">
               {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map(
@@ -676,19 +675,16 @@ function TersisApp() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
            {/* Company info */}
-            <div>
-              <button 
+           <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="flex items-center focus:outline-none mb-6 group text-left"
               >
-                <div className="relative flex items-center justify-center h-10 w-10">
-                  <img
-                    src="/logo.png"
-                    alt="TERSIS"
-                    className="h-full w-full object-contain transform scale-[2.0] transition-transform duration-300" 
-                  />
-                </div>
-                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-4`}>
+                <img
+                  src="/logo.png"
+                  alt="TERSIS"
+                  className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110" 
+                />
+                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-3`}>
                   TERSIS
                 </h4>
               </button>
