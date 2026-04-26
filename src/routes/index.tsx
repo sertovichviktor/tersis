@@ -91,7 +91,7 @@ function TersisApp() {
     [],
   )
 
-  cconst handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     try {
