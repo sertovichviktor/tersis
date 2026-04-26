@@ -91,24 +91,43 @@ function TersisApp() {
     [],
   )
 
-  const handleSubmit = (e: React.FormEvent) => {
+  cconst handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setFormData({
-        from: '',
-        to: '',
-        cargoType: '',
-        weight: '',
-        volume: '',
-        deadline: '',
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
+    
+    try {
+      // Отправляем данные на твой будущий файл send.php на Форнексе
+      const response = await fetch('/send.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       })
-      setIsSubmitted(false)
-    }, 3000)
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        setTimeout(() => {
+          setFormData({
+            from: '',
+            to: '',
+            cargoType: '',
+            weight: '',
+            volume: '',
+            deadline: '',
+            name: '',
+            email: '',
+            phone: '',
+            message: '',
+          })
+          setIsSubmitted(false)
+        }, 3000)
+      } else {
+        alert('Error! Please try again or contact us via WhatsApp.')
+      }
+    } catch (error) {
+      console.error('Submission error:', error)
+      alert('Connection error. Please check your internet.')
+    }
   }
 
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
