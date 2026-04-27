@@ -5,16 +5,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          
       - name: Install and Build
         run: |
-          cd client
           npm install
           npm run build
-      - name: Upload Build Folder
+          
+      - name: Create ZIP
+        run: |
+          # Vite собирает всё в папку dist в корне. Заходим в нее и пакуем.
+          cd dist
+          zip -r ../tersis_prod.zip .
+          
+      - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: website-dist
-          path: client/dist # Указываем путь к папке dist внутри папки client
+          name: tersis-dist-fixed
+          path: tersis_prod.zip
