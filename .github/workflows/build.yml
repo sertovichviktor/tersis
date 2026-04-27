@@ -5,24 +5,51 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          
       - name: Install and Build
         run: |
           npm install
           npm run build
           
+      - name: Generate Static Index
+        run: |
+          # Заходим ТОЛЬКО в папку клиента
+          cd dist/client
+          
+          # Находим реальные имена файлов
+          # Ищем JS файл, который начинается на index- или router-
+          JS_FILE=$(ls assets/index-*.js 2>/dev/null | head -n 1 || ls assets/router-*.js 2>/dev/null | head -n 1)
+          CSS_FILE=$(ls assets/main-*.css 2>/dev/null | head -n 1 || ls assets/index-*.css 2>/dev/null | head -n 1)
+          
+          # Создаем чистый index.html
+          cat <<EOF > index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>TERSIS | European Logistics</title>
+            <link rel="stylesheet" crossorigin href="/$CSS_FILE">
+          </head>
+          <body style="background: #030712; margin: 0;">
+            <div id="root"></div>
+            <script type="module" crossorigin src="/$JS_FILE"></script>
+          </body>
+          </html>
+          EOF
+          
       - name: Create ZIP
         run: |
-          # Vite собирает всё в папку dist в корне. Заходим в нее и пакуем.
-          cd dist
-          zip -r ../tersis_prod.zip .
+          # Упаковываем ТОЛЬКО содержимое dist/client
+          # Папка server сюда не попадет
+          cd dist/client
+          zip -r ../../tersis_for_fornex.zip .
           
       - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: tersis-dist-fixed
-          path: tersis_prod.zip
+          name: tersis-final-fornex
+          path: tersis_for_fornex.zip
