@@ -52,18 +52,8 @@ function TersisApp() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [lang, setLang] = useState<Lang>('en')
   const [isDark, setIsDark] = useState(true)
-  const [formData, setFormData] = useState({
-    from: '',
-    to: '',
-    cargoType: '',
-    weight: '',
-    volume: '',
-    deadline: '',
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  })
+  
+  // 1. Мы УДАЛИЛИ стейт formData, чтобы убрать лаги при печати
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const t = translations[lang]
@@ -90,45 +80,35 @@ function TersisApp() {
     [],
   )
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  // 2. ОБНОВЛЕННЫЙ handleSubmit (берет данные напрямую из формы)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     
+    const form = e.currentTarget;
+    const formDataObj = new FormData(form);
+    const data = Object.fromEntries(formDataObj.entries());
+
     try {
-      // Отправляем данные на твой будущий файл send.php на Форнексе
       const response = await fetch('/send.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
-      })
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
-        setIsSubmitted(true)
-        setTimeout(() => {
-          setFormData({
-            from: '',
-            to: '',
-            cargoType: '',
-            weight: '',
-            volume: '',
-            deadline: '',
-            name: '',
-            email: '',
-            phone: '',
-            message: '',
-          })
-          setIsSubmitted(false)
-        }, 3000)
+        setIsSubmitted(true);
+        form.reset(); // Очистка всех полей
+        setTimeout(() => setIsSubmitted(false), 3000);
       } else {
-        alert('Error! Please try again or contact us via WhatsApp.')
+        alert('Error! Please try again or contact us via WhatsApp.');
       }
     } catch (error) {
-      console.error('Submission error:', error)
-      alert('Connection error. Please check your internet.')
+      console.error('Submission error:', error);
+      alert('Connection error. Please check your internet.');
     }
   }
-
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
   const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
   const textPrimary = isDark ? 'text-white' : 'text-gray-900'
@@ -603,6 +583,7 @@ function TersisApp() {
     </div>
 
     <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl animate-fadeInUp`}>
+      {/* ПРИМЕЧАНИЕ: Мы убрали value и onChange, теперь форма "неуправляемая" и быстрая */}
       <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
         {/* ПЕРВЫЕ 6 ПОЛЕЙ (ПО 2 В РЯД) */}
         {[
@@ -622,15 +603,10 @@ function TersisApp() {
             </label>
             <input
               id={key}
-              name={key}
+              name={key} // name нужен для сбора данных в handleSubmit
               type={type}
               required
               autoComplete="off"
-              value={(formData as any)[key] || ''}
-              onChange={(e) => {
-                const val = e.target.value;
-                setFormData(prev => ({ ...prev, [key]: val }));
-              }}
               className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
               placeholder={(t.contact.placeholders as any)[key] || ''}
             />
@@ -647,12 +623,7 @@ function TersisApp() {
             name="email"
             type="email"
             required
-            autoComplete="off"
-            value={formData.email}
-            onChange={(e) => {
-              const val = e.target.value;
-              setFormData(prev => ({ ...prev, email: val }));
-            }}
+            autoComplete="email"
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
             placeholder={t.contact.placeholders.email}
           />
@@ -668,12 +639,7 @@ function TersisApp() {
             name="phone"
             type="tel"
             required
-            autoComplete="off"
-            value={formData.phone}
-            onChange={(e) => {
-              const val = e.target.value;
-              setFormData(prev => ({ ...prev, phone: val }));
-            }}
+            autoComplete="tel"
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
             placeholder={t.contact.placeholders.phone}
           />
@@ -687,11 +653,6 @@ function TersisApp() {
           <textarea
             id="message"
             name="message"
-            value={formData.message}
-            onChange={(e) => {
-              const val = e.target.value;
-              setFormData(prev => ({ ...prev, message: val }));
-            }}
             rows={3}
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`}
             placeholder={t.contact.placeholders.message}
