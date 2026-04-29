@@ -68,7 +68,17 @@ function TersisApp() {
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const t = translations[lang]
-
+// --- ДОБАВИТЬ СЮДА ---
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 500); 
+    }
+  }, []);
+  // ----------------------
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
