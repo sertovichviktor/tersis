@@ -623,7 +623,7 @@ function TersisApp() {
                     type={type}
                     required
                     value={(formData as any)[key]}
-                    onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                    onChange={(e) => {   const val = e.target.value;   setFormData(prev => ({ ...prev, [key]: val })); }}
                     className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
                     placeholder={(t.contact.placeholders as any)[key] || ''}
                   />
