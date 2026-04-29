@@ -639,7 +639,7 @@ function TersisApp() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) => {   const val = e.target.value;   setFormData(prev => ({ ...prev, email: val })); }}
                   className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
                   placeholder={t.contact.placeholders.email}
                 />
@@ -654,7 +654,7 @@ function TersisApp() {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) => {   const val = e.target.value;   setFormData(prev => ({ ...prev, phone: val })); }}
                   className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
                   placeholder={t.contact.placeholders.phone}
                 />
@@ -667,7 +667,7 @@ function TersisApp() {
                 </label>
                 <textarea
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) => {   const val = e.target.value;   setFormData(prev => ({ ...prev, message: val })); }}
                   rows={3}
                   className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`}
                   placeholder={t.contact.placeholders.message}
