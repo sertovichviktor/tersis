@@ -1,0 +1,23 @@
+RewriteEngine On
+RewriteBase /
+
+# 1. ПРИНУДИТЕЛЬНЫЙ HTTPS (Чтобы появился замочек и не писало "Не защищено")
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# 2. Если файл или папка существуют — отдаем их (Позволит работать send.php и визиткам)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3. Всё остальное отправляем в index.html (Для работы React)
+RewriteRule . index.html [L]
+
+# 4. ФИКС MIME-ТИПОВ (Чтобы скрипты не выдавали ошибку в консоли)
+AddType application/javascript .js
+AddType text/css .css
+
+# 5. РАЗРЕШЕНИЕ CSP (Чтобы форма не зависала и скрипты работали в РФ)
+<IfModule mod_headers.c>
+    Header set Content-Security-Policy "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; img-src * data:; media-src * data: blob:;"
+</IfModule>
