@@ -617,20 +617,25 @@ function TersisApp() {
             className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl animate-fadeInUp`}
           >
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
-              {/* ПЕРВЫЕ 6 ПОЛЕЙ (ПО 2 В РЯД) */}
-              {[
+              {/* ПЕРВЫЕ 6 ПОЛЕЙ (ПО 2 В РЯД НА ПК, ПО 1 НА МОБ) */}
+              {([
                 { key: 'from', type: 'text' },
                 { key: 'to', type: 'text' },
                 { key: 'cargoType', type: 'text' },
                 { key: 'weight', type: 'text' },
                 { key: 'volume', type: 'text' },
                 { key: 'name', type: 'text' },
-              ].map(({ key, type }) => (
+              ] as const).map(({ key, type }) => (
                 <div key={key}>
-                  <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
+                  <label 
+                    htmlFor={key} 
+                    className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}
+                  >
                     {t.contact[key as keyof typeof t.contact] as string}
                   </label>
                   <input
+                    id={key}
+                    name={key}
                     type={type}
                     required
                     value={(formData as any)[key]}
@@ -641,12 +646,14 @@ function TersisApp() {
                 </div>
               ))}
 
-              {/* ПОЛЕ EMAIL (НА ВСЮ ШИРИНУ, ЧТОБЫ НЕ БЫЛО ПУСТОТЫ) */}
+              {/* ПОЛЕ EMAIL (НА ВСЮ ШИРИНУ) */}
               <div className="md:col-span-2">
-                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
+                <label htmlFor="email" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                   {t.contact.email}
                 </label>
                 <input
+                  id="email"
+                  name="email"
                   type="email"
                   required
                   value={formData.email}
@@ -658,10 +665,12 @@ function TersisApp() {
 
               {/* ПОЛЕ PHONE (НА ВСЮ ШИРИНУ) */}
               <div className="md:col-span-2">
-                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
+                <label htmlFor="phone" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                   {t.contact.phone}
                 </label>
                 <input
+                  id="phone"
+                  name="phone"
                   type="tel"
                   required
                   value={formData.phone}
@@ -673,10 +682,12 @@ function TersisApp() {
 
               {/* ПОЛЕ MESSAGE (НА ВСЮ ШИРИНУ) */}
               <div className="md:col-span-2">
-                <label className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
+                <label htmlFor="message" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
                   {t.contact.message}
                 </label>
                 <textarea
+                  id="message"
+                  name="message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={3}
@@ -688,7 +699,7 @@ function TersisApp() {
               <div className="md:col-span-2">
                 <button
                   type="submit"
-                  className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg shadow-lg shadow-[#0052ff]/20"
+                  className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg shadow-lg shadow-[#0052ff]/20 active:scale-95 transition-all"
                 >
                   {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
                 </button>
