@@ -18,6 +18,7 @@ import {
   Handshake,
   Users,
   FileText,
+  Home, // ВЕРНУЛ ЭТУ ИКОНКУ (из-за неё был белый экран)
   Maximize2,
   Sun,
   Moon,
@@ -42,7 +43,7 @@ export const Route = createFileRoute('/')({
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ЗАВИСАЛО) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ЗАВИСАЛО ПРИ ВВОДЕ) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -63,7 +64,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      alert('Error! Check connection.')
+      alert('Error sending request.')
     }
   }
 
@@ -231,15 +232,86 @@ function TersisApp() {
         </div>
       </section>
 
+      {/* SERVICES */}
+      <section id="services" className={`py-24 px-4 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 animate-fadeInUp">
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.services.title}</h2>
+            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.2em] uppercase">Integrated Transport & Logistics Solutions</p>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+            {t.services.items.map((service, idx) => {
+              const Icon = serviceIcons[idx] || Truck
+              let displayTitle = service.title;
+              if (displayTitle.includes('Groupage') || displayTitle.includes('Grupinių')) { displayTitle = displayTitle.split('/')[0].trim(); }
+              return (
+                <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl group`}>
+                  <Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
+                  <h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase`}>{displayTitle}</h3>
+                  <p className={`text-xs ${textMuted} font-semibold uppercase`}>{service.subtitle}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className={`py-24 px-4 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12 animate-fadeInUp">
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>{t.about.title}</h2>
+            <p className={`text-lg ${textSecondary} font-bold`}>{lang === 'en' ? 'Your trusted European logistics partner since 2011' : 'Jūsų patikimas Europos logistikos partneris nuo 2011 m.'}</p>
+          </div>
+          <div className="max-w-4xl mx-auto mb-16 space-y-6 text-center text-lg leading-relaxed">
+            <p className={`${textSecondary}`}>{lang === 'en' ? 'TERSIS provides reliable, cost-effective transportation solutions across Europe and worldwide. We specialize in asset-based logistics, operating a modern fleet of 27 vehicles to ensure direct control and maximum efficiency.' : 'TERSIS teikia patikimus ir ekonomiškus transporto sprendimus Europoje bei visame pasaulyje. Mes specializuojamės nuosavo transporto logistikoje, valdydami 27 modernių automobilių parką, užtikrintį tiesioginę kontrolę ir maksimalų efektyvumą.'}</p>
+            <p className={`${textSecondary} font-medium`}>{lang === 'en' ? 'Our professional team ensures seamless cargo handling, competitive pricing, and transparent communication. We are fully licensed (LIC-009666-EBKR) and 100% CMR insured, providing safety at every stage of your shipment.' : 'Mūsų profesionali komanda užtikrina sklandų krovinių tvarkymą, konkurencingą kainodarą ir skaidrų bendravimą. Esame pilnai licencijuoti (LIC-009666-EBKR) ir 100% apdrausti CMR draudimu, užtikrindami saugumą kiekviename pervežimo etape.'}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[ 
+              { icon: Truck, title: lang === 'en' ? 'Own Fleet' : 'Savas parkas', sub: lang === 'en' ? 'Full Control, No Subcontractors' : 'Pilna kontrolė, jokių subrangovų' },
+              { icon: Globe, title: lang === 'en' ? 'Optimized Routes' : 'Optimizuoti maršrutai', sub: lang === 'en' ? 'Efficient Logistics Schemes' : 'Efektyvios logistikos schemos' },
+              { icon: Clock, title: lang === 'en' ? 'High Reliability' : 'Aukštas patikimumas', sub: lang === 'en' ? 'Strict Punctuality' : 'Griežtas punktualumas' },
+              { icon: Shield, title: lang === 'en' ? 'Cargo Safety' : 'Krovinių saugumas', sub: lang === 'en' ? 'Guaranteed Protection' : 'Garantuota apsauga' },
+              { icon: FileText, title: lang === 'en' ? 'Transparent Pricing' : 'Skaidri kainodara', sub: lang === 'en' ? 'No Hidden Fees' : 'Jokių paslėptų mokesčių' },
+              { icon: Handshake, title: lang === 'en' ? 'Sea & Air Partners' : 'Jūros ir oro partneriai', sub: lang === 'en' ? 'Long-term Partnerships' : 'Ilgalaikė partnerystė' },
+              { icon: Users, title: lang === 'en' ? 'Professional Team' : 'Profesionali komanda', sub: lang === 'en' ? '15+ Years Experience' : '15+ metų patirtis' },
+              { icon: Check, title: lang === 'en' ? '100% CMR Insured' : '100% CMR draudimas', sub: lang === 'en' ? 'Risk-Free Shipping' : 'Siuntimas be rizikos' }
+            ].map((item, idx) => {
+              const Icon = item.icon
+              return (
+                <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all group`}>
+                  <Icon className="h-10 w-10 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
+                  <h3 className={`text-lg font-black ${textPrimary} mb-1 tracking-tight uppercase`}>{item.title}</h3>
+                  <p className={`text-base ${textMuted}`}>{item.sub}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* COVERAGE */}
+      <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 uppercase`}>{t.coverage.title}</h2>
+          <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.3em] uppercase mb-16">Europe • Baltics • Global</p>
+          <div className="relative h-[400px] md:h-[650px] rounded-[30px] overflow-hidden border border-[#0052ff]/30 shadow-2xl bg-black">
+            <img src="/map-hub.jpg.png" alt="Tersis Global Hub" className="absolute inset-0 w-full h-full object-cover opacity-90" />
+            <div className="absolute bottom-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg hidden md:block border border-white/10 text-left"><p className="text-[10px] font-black text-[#0052ff] uppercase mb-1">Hub Status</p><p className="text-white text-xs font-bold uppercase">Operational / 24-7</p></div>
+            <div className="absolute bottom-6 right-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg hidden md:block border border-white/10 text-right"><p className="text-[10px] font-black text-[#0052ff] uppercase mb-1">Global Traffic</p><p className="text-white text-xs font-bold uppercase">Connected Worldwide</p></div>
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="contact" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 animate-fadeInUp">
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 uppercase`}>{t.contact.title}</h2>
-            <p className={textSecondary}>{t.contact.subtitle}</p>
+            <p className={`text-lg ${textSecondary}`}>{t.contact.subtitle}</p>
           </div>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
-            {/* ВЫЗОВ ИЗОЛИРОВАННОЙ ФОРМЫ */}
             <ContactForm t={t} inputBg={inputBg} borderAccent={borderAccent} textPrimary={textPrimary} textSecondary={textSecondary} />
           </div>
         </div>
