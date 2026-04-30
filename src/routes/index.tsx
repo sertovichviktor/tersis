@@ -261,20 +261,23 @@ function TersisApp() {
 
       {/* ─── HERO SECTION ─── */}
       <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] md:h-screen flex items-center overflow-hidden bg-[#050a14]">
-        {/* VIDEO BACKGROUND */}
+        {/* VIDEO BACKGROUND — Добавили pointer-events-none и preload */}
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
         >
           <source src="/hero-video.mp4.mp4" type="video/mp4" />
         </video>
-        {/* Оверлей для читаемости */}
-        <div className="absolute inset-0 bg-black/60 z-10" />
+        
+        {/* Оверлей для читаемости — Добавили pointer-events-none */}
+        <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto w-full relative z-20">
+          {/* Остальной код оставляем без изменений... */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* ЛЕВАЯ ЧАСТЬ */}
             <div className="animate-fadeInUp text-left">
