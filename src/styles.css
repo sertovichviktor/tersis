@@ -81,20 +81,41 @@ html.light ::-webkit-scrollbar-thumb {
   animation: slideIn 0.6s ease-out forwards;
 }
 
-/* Focus styles */
+/* --- ФИНАЛЬНЫЙ ПЕРФОРМАНС-ПАКЕТ --- */
+
+/* 1. Легкий фокус без перерисовок */
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 2px rgba(0, 82, 255, 0.2);
+  outline: 2px solid #0052ff;
+  outline-offset: 1px;
+  box-shadow: none !important;
 }
 
-/* Transition for theme switching */
-* {
-  transition-property: background-color, border-color, color;
-  transition-duration: 0ms;
+/* 2. Плавность только для кнопок и ссылок */
+button, a {
+  transition: all 0.15s ease;
 }
 
-html.dark *,
-html.light * {
-  transition-duration: 200ms;
+/* 3. Изоляция инпутов: только граница и GPU-слой */
+input, textarea {
+  transition: border-color 0.15s ease;
+  transform: translateZ(0); /* Выносим на отдельный слой видеокарты */
+  backface-visibility: hidden;
+}
+
+/* 4. Стабилизация тяжелых элементов */
+form {
+  transform: translateZ(0);
+}
+
+video {
+  will-change: auto; /* Не даем браузеру перегреваться */
+}
+
+/* 5. Исправляем блюр: делаем его стабильным */
+.backdrop-blur-md {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: auto;
 }
