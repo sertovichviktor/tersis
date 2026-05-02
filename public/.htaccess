@@ -1,23 +1,28 @@
 RewriteEngine On
 RewriteBase /
 
-# 1. ПРИНУДИТЕЛЬНЫЙ HTTPS (Чтобы появился замочек и не писало "Не защищено")
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# 1. ЖЁСТКИЙ редирект на основной домен + HTTPS
+RewriteCond %{HTTP_HOST} !^tersis\.lt$ [NC]
+RewriteCond %{HTTP_HOST} !^www\.tersis\.lt$ [NC]
+RewriteRule ^(.*)$ https://tersis.lt/$1 [L,R=301]
 
-# 2. Если файл или папка существуют — отдаем их (Позволит работать send.php и визиткам)
+# 2. Форс HTTPS даже для правильного домена
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://tersis.lt/$1 [L,R=301]
+
+# 3. Отдаём реальные файлы (PHP, картинки и т.д.)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 3. Всё остальное отправляем в index.html (Для работы React)
-RewriteRule . index.html [L]
+# 4. React SPA fallback
+RewriteRule . /index.html [L]
 
-# 4. ФИКС MIME-ТИПОВ (Чтобы скрипты не выдавали ошибку в консоли)
+# 5. MIME types
 AddType application/javascript .js
 AddType text/css .css
 
-# 5. РАЗРЕШЕНИЕ CSP (Чтобы форма не зависала и скрипты работали в РФ)
+# 6. CSP (НО НОРМАЛЬНЫЙ, НЕ ЛОМАНЫЙ)
 <IfModule mod_headers.c>
-    Header set Content-Security-Policy "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; img-src * data:; media-src * data: blob:;"
+Header set Content-Security-Policy "default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https: blob:;"
 </IfModule>
