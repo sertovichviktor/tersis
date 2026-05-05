@@ -575,8 +575,8 @@ function TersisApp() {
           </div>
         </div>
       </section>
-      {/* ─── CONTACT / QUOTE (High Performance Version) ─── */}
-<section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#050a14] relative z-30">
+      {/* ─── CONTACT / QUOTE (Final Pro Version) ─── */}
+<section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#050a14]">
   <div className="max-w-4xl mx-auto">
     <div className="text-center mb-12">
       <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight uppercase">
@@ -585,102 +585,48 @@ function TersisApp() {
       <p className="text-lg text-gray-400">{t.contact.subtitle}</p>
     </div>
 
-    {/* Используем жесткий фон #0F1A2B без блюра, чтобы убрать лаги */}
-    <div className="p-8 rounded-2xl shadow-2xl" style={{ background: '#0F1A2B', border: '1px solid #1A2C45' }}>
+    {/* Убрали всё, что дергает видеокарту (тени, блюр, трансформации) */}
+    <div className="p-8 rounded-2xl border border-[#1A2C45]" style={{ background: '#0F1A2B' }}>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label htmlFor="from" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.from} *
-            </label>
-            <input 
-              id="from" name="from" required autoComplete="off"
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.from} 
-            />
+            <label htmlFor="from" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.from} *</label>
+            <input id="from" name="from" required autoComplete="off" className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} placeholder={t.contact.placeholders.from} />
           </div>
           <div>
-            <label htmlFor="to" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.to} *
-            </label>
-            <input 
-              id="to" name="to" required autoComplete="off"
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.to} 
-            />
+            <label htmlFor="to" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.to} *</label>
+            <input id="to" name="to" required autoComplete="off" className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} placeholder={t.contact.placeholders.to} />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label htmlFor="cargoType" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.cargoType}
-            </label>
-            <input 
-              id="cargoType" name="cargoType"
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.cargoType} 
-            />
+            <label htmlFor="cargoType" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.cargoType}</label>
+            <input id="cargoType" name="cargoType" className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} />
           </div>
           <div>
-            <label htmlFor="weight" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.weight}
-            </label>
-            <input 
-              id="weight" name="weight" type="text"
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.weight} 
-            />
+            <label htmlFor="weight" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.weight}</label>
+            <input id="weight" name="weight" className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label htmlFor="name" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.name}
-            </label>
-            <input 
-              id="name" name="name" required
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.name} 
-            />
+            <label htmlFor="name" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.name}</label>
+            <input id="name" name="name" required className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} />
           </div>
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-              {t.contact.email} *
-            </label>
-            <input 
-              id="email" name="email" required type="email" autoComplete="email"
-              className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-              style={{ background: '#111C2E', color: '#fff' }} 
-              placeholder={t.contact.placeholders.email} 
-            />
+            <label htmlFor="email" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.email} *</label>
+            <input id="email" name="email" required type="email" autoComplete="email" className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors" style={{ background: '#111C2E' }} />
           </div>
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">
-            {t.contact.message}
-          </label>
-          <textarea 
-            id="message" name="message" rows={3}
-            className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-all" 
-            style={{ background: '#111C2E', color: '#fff', resize: 'none' }} 
-            placeholder={t.contact.placeholders.message}
-          />
+          <label htmlFor="message" className="block text-xs font-semibold mb-1.5 tracking-wider uppercase text-[#8899BB]">{t.contact.message}</label>
+          <textarea id="message" name="message" rows={3} className="w-full px-4 py-3 rounded-lg text-white text-sm outline-none border border-transparent focus:border-[#0052ff] transition-colors resize-none" style={{ background: '#111C2E' }} />
         </div>
 
-        <button 
-          type="submit" 
-          disabled={isSubmitted}
-          className="w-full py-5 rounded-lg font-black text-base tracking-widest uppercase transition-all hover:bg-[#003dd6] active:scale-[0.98] disabled:opacity-50" 
-          style={{ background: '#0052ff', color: '#fff' }}
-        >
+        <button type="submit" disabled={isSubmitted} className="w-full py-5 rounded-lg font-black text-base tracking-widest uppercase transition-colors hover:bg-[#003dd6] disabled:opacity-50 text-white bg-[#0052ff]">
           {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
         </button>
       </form>
