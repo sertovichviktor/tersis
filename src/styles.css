@@ -82,28 +82,30 @@ html.light ::-webkit-scrollbar-thumb {
 }
 
 /* --- ФИНАЛЬНЫЙ ПЕРФОРМАНС-ПАКЕТ --- */
-/* 1. Упрощаем фокус: только цвет границы, никаких теней и трансформаций */
-input:focus,
-textarea:focus {
-  outline: none !important;
-  border-color: #0052ff !important;
+/* --- ЯДЕРНЫЙ ФИКС ЛАГОВ --- */
+
+/* 1. Если любое поле в фокусе - ВЫРУБАЕМ ВИДЕО И КАРТУ (Браузер вздохнет) */
+body:has(input:focus, textarea:focus) video,
+body:has(input:focus, textarea:focus) #coverage,
+body:has(input:focus, textarea:focus) svg {
+  display: none !important;
+}
+
+/* 2. Отключаем ТЯЖЕЛЫЙ блюр везде, он не нужен такой ценой */
+.backdrop-blur-md, .backdrop-blur-sm, [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(10, 22, 40, 0.95) !important;
+}
+
+/* 3. Мгновенный фокус без анимаций */
+input:focus, textarea:focus {
+  outline: 2px solid #0052ff !important;
+  transition: none !important;
   box-shadow: none !important;
 }
 
-/* 2. Плавность — только для цвета. Это НЕ вешает сайт */
-button, a, input, textarea {
-  transition: border-color 0.15s ease, background-color 0.15s ease !important;
-}
-
-/* 3. УДАЛЯЕМ ВСЕ GPU-ХАКИ. Они вешают твой сайт! */
-input, textarea, form, section {
-  transform: none !important;
-  will-change: auto !important;
-  backface-visibility: visible !important;
-}
-
-/* 4. ИЗОЛЯЦИЯ: чтобы форма не знала про видео */
-#contact {
-  contain: paint;
-  background-color: #050a14;
+/* 4. Запрещаем всему сайту дергаться, когда ты печатаешь */
+body:has(input:focus) {
+  overflow: hidden; /* Запрет скролла при вводе, чтобы не пересчитывать слои */
 }
