@@ -117,3 +117,8 @@ video {
 .backdrop-blur-md {
   backdrop-filter: none !important;
 }
+/* 7. ФИНАЛЬНАЯ ИЗОЛЯЦИЯ (Добавь это!) */
+#contact {
+  contain: layout paint; /* Это та самая "стена" между формой и видео */
+  background-color: #050a14; /* Гарантируем сплошной фон */
+}
