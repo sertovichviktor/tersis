@@ -82,43 +82,28 @@ html.light ::-webkit-scrollbar-thumb {
 }
 
 /* --- ФИНАЛЬНЫЙ ПЕРФОРМАНС-ПАКЕТ --- */
-/* 1. Фокус */
+/* 1. Упрощаем фокус: только цвет границы, никаких теней и трансформаций */
 input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid #0052ff;
-  outline-offset: 1px;
-  box-shadow: none;
+textarea:focus {
+  outline: none !important;
+  border-color: #0052ff !important;
+  box-shadow: none !important;
 }
 
-/* 2. УБРАЛИ transition: all */
-button, a {
-  transition: background-color 0.15s ease, color 0.15s ease;
+/* 2. Плавность — только для цвета. Это НЕ вешает сайт */
+button, a, input, textarea {
+  transition: border-color 0.15s ease, background-color 0.15s ease !important;
 }
 
-/* 3. УБРАЛИ GPU-ЛОМАЮЩИЕ ОПТИМИЗАЦИИ */
-input, textarea {
-  transition: border-color 0.15s ease;
-  transform: none;              /* ✅ КРИТИЧНО */
-  backface-visibility: visible; /* ✅ КРИТИЧНО */
+/* 3. УДАЛЯЕМ ВСЕ GPU-ХАКИ. Они вешают твой сайт! */
+input, textarea, form, section {
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
 }
 
-/* 4. ФОРМУ НЕ ТРОГАЕМ GPU */
-form {
-  transform: none; /* ✅ КРИТИЧНО */
-}
-
-/* 5. VIDEO — МОЖНО оставить */
-video {
-  will-change: auto;
-}
-
-/* 6. BLUR — ВРЕМЕННО ВЫРУБАЕМ ДЛЯ ТЕСТА */
-.backdrop-blur-md {
-  backdrop-filter: none !important;
-}
-/* 7. ФИНАЛЬНАЯ ИЗОЛЯЦИЯ (Добавь это!) */
+/* 4. ИЗОЛЯЦИЯ: чтобы форма не знала про видео */
 #contact {
-  contain: layout paint; /* Это та самая "стена" между формой и видео */
-  background-color: #050a14; /* Гарантируем сплошной фон */
+  contain: paint;
+  background-color: #050a14;
 }
