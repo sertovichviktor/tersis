@@ -1,111 +1,28 @@
-@import "tailwindcss" source("../");
+@import "tailwindcss";
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-html.dark body {
-  background-color: #050a14;
-  color: rgb(243 244 246);
-}
-
-html.light body {
-  background-color: #f9fafb;
-  color: rgb(17 24 39);
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html.dark ::-webkit-scrollbar-thumb {
-  background: rgba(0, 82, 255, 0.3);
-  border-radius: 4px;
-}
-
-html.light ::-webkit-scrollbar-thumb {
-  background: rgba(0, 82, 255, 0.2);
-  border-radius: 4px;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 82, 255, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 20px 4px rgba(0, 82, 255, 0.1);
-  }
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-slideIn {
-  animation: slideIn 0.6s ease-out forwards;
-}
-
-/* --- ФИНАЛЬНЫЙ ПЕРФОРМАНС-ПАКЕТ --- */
-/* --- ЯДЕРНЫЙ ФИКС ЛАГОВ --- */
-
-/* 1. Если любое поле в фокусе - ВЫРУБАЕМ ВИДЕО И КАРТУ (Браузер вздохнет) */
-body:has(input:focus, textarea:focus) video,
-body:has(input:focus, textarea:focus) #coverage,
-body:has(input:focus, textarea:focus) svg {
-  display: none !important;
-}
-
-/* 2. Отключаем ТЯЖЕЛЫЙ блюр везде, он не нужен такой ценой */
-.backdrop-blur-md, .backdrop-blur-sm, [class*="backdrop-blur"] {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  background: rgba(10, 22, 40, 0.95) !important;
-}
-
-/* 3. Мгновенный фокус без анимаций */
+/* 1. Мгновенный фокус. Без теней, без анимаций, без тормозов */
 input:focus, textarea:focus {
   outline: 2px solid #0052ff !important;
-  transition: none !important;
+  outline-offset: 1px;
   box-shadow: none !important;
+  transition: none !important;
 }
 
-/* 4. Запрещаем всему сайту дергаться, когда ты печатаешь */
-body:has(input:focus) {
-  overflow: hidden; /* Запрет скролла при вводе, чтобы не пересчитывать слои */
+/* 2. Плавность только для кнопок (чтобы дизайн не был "дубовым") */
+button, a {
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+/* 3. Полностью отключаем анимации на инпутах. Клик должен быть сухим и быстрым */
+input, textarea {
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* 4. Убираем размытие (blur) — это главный пожиратель ресурсов на Fornex */
+.backdrop-blur-md {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(15, 26, 43, 0.98) !important;
 }
