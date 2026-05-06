@@ -4,30 +4,30 @@ body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
   background-color: #050a14;
+  overflow-x: hidden;
 }
 
-/* 1. Упрощаем инпуты до предела */
-input, textarea {
-  transition: none !important; /* Убираем вообще все переходы */
-  transform: none !important;
+/* 1. Мгновенный фокус БЕЗ единой анимации */
+input:focus, textarea:focus {
+  outline: 2px solid #0052ff !important;
+  outline-offset: 1px !important;
+  transition: none !important;
   box-shadow: none !important;
 }
 
-/* 2. Чистый фокус */
-input:focus, textarea:focus {
-  outline: 2px solid #0052ff !important;
-  border-color: transparent !important;
-}
-
-/* 3. Полностью отключаем блюр (размытие) - оно вешает GPU */
-.backdrop-blur-md, [class*="backdrop-filter"] {
+/* 2. Отключаем тяжелый блюр. Это вернет 50% ресурсов GPU */
+.backdrop-blur-md, [class*="backdrop-blur"] {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  background-color: rgba(10, 22, 40, 1) !important;
+  background-color: rgba(10, 22, 40, 0.98) !important;
 }
 
-/* 4. Изоляция секции для браузера */
+/* 3. ГЛАВНЫЙ ФИКС: Изолируем секцию контактов */
 #contact-section-container {
   contain: layout paint;
   isolation: isolate;
+  background-color: #050a14;
 }
+
+/* 4. Защита видео от ложных кликов */
+video { pointer-events: none !important; }
