@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: #050a14;
-}
-
-/* ГЛАВНЫЙ ФИКС: Убираем любые анимации при клике в форму */
+/* 1. Мгновенный фокус без анимаций (убирает фриз при клике) */
 input:focus, textarea:focus {
-  outline: 2px solid #0052ff !important;
-  transition: none !important;
+  outline: none !important;
+  border-color: #0052ff !important;
   box-shadow: none !important;
+  transition: none !important;
 }
 
-/* Изолируем инпуты, чтобы видеокарта не "видела" видео за ними */
-#contact-section input, 
-#contact-section textarea {
-  background-color: #0a1628 !important;
+/* 2. Плавность только для кнопок */
+button, a {
+  transition: background-color 0.15s ease, opacity 0.15s ease !important;
+}
+
+/* 3. Убираем "тяжелое стекло" (blur) — это главный враг производительности */
+.backdrop-blur-md {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(10, 22, 40, 0.98) !important;
+}
+
+/* 4. Изоляция формы на уровне браузера */
+#contact-section {
   contain: paint;
-}
-
-/* Делаем видео "прозрачным" для системных событий клика */
-video, .hero-overlay {
-  pointer-events: none !important;
+  background-color: #050a14;
 }
