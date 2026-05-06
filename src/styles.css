@@ -1,29 +1,32 @@
-/* style.css (patched) */
 @import "tailwindcss";
 
-/* 1. Disable transitions on focus (no animation on input focus) */
+/* 1. Instant focus (no transitions) */
 input:focus, textarea:focus {
   outline: none !important;
   border-color: #0052ff !important;
   box-shadow: none !important;
-  transition: none !important;
+  transition: none !important;   /* remove any CSS transitions on focus */
 }
 
-/* 2. Transitions only for buttons/links, not for inputs */
+/* 2. Button/links only use color fade, not layout changes */
 button, a {
   transition: background-color 0.15s ease, opacity 0.15s ease !important;
 }
 
-/* 3. Remove heavy blur (backdrop-filter) for performance */
+/* 3. Remove all backdrop-filter (expensive blur) */
 .backdrop-blur-md {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   background-color: rgba(10, 22, 40, 0.98) !important;
 }
 
-/* 4. Isolate the contact form so its reflows don't affect the rest */
+/* 4. Contain the form section fully (isolate layout and paint) */
 #contact-section {
-  contain: layout paint;
-  isolation: isolate;
+  contain: layout paint;    /* isolate layout of form so its focus does not reflow page */
   background-color: #050a14;
+}
+
+/* 5. Prevent the video overlay from capturing clicks/scrolls */
+video, .hero-overlay {
+  pointer-events: none !important;
 }
