@@ -6,5 +6,7 @@ import { router } from './router'
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
-  root.render(<RouterProvider router={router} />)
+  root.render(
+    <RouterProvider router={router} />
+  )
 }
