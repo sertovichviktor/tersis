@@ -1,28 +1,12 @@
 RewriteEngine On
 RewriteBase /
 
-# 1. ЖЁСТКИЙ редирект на основной домен + HTTPS
-RewriteCond %{HTTP_HOST} !^tersis\.lt$ [NC]
-RewriteCond %{HTTP_HOST} !^www\.tersis\.lt$ [NC]
-RewriteRule ^(.*)$ https://tersis.lt/$1 [L,R=301]
+# Если файла (.js, .css, .mp4, .png) НЕТ — дай 404, а не грузи index.html!
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|mp4|svg)$ [NC]
+RewriteRule ^ - [L,R=404]
 
-# 2. Форс HTTPS даже для правильного домена
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://tersis.lt/$1 [L,R=301]
-
-# 3. Отдаём реальные файлы (PHP, картинки и т.д.)
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-
-# 4. React SPA fallback
+# Для нормальных путей React
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
-
-# 5. MIME types
-AddType application/javascript .js
-AddType text/css .css
-
-# 6. CSP (НО НОРМАЛЬНЫЙ, НЕ ЛОМАНЫЙ)
-<IfModule mod_headers.c>
-Header set Content-Security-Policy "default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https: blob:;"
-</IfModule>
