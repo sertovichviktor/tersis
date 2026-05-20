@@ -1,20 +1,27 @@
 @import "tailwindcss";
 
-/* Фокус без тормозов */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #050a14;
+  color: white;
+}
+
+/* 1. МГНОВЕННЫЙ ФОКУС: Никаких анимаций при клике */
 input:focus, textarea:focus {
   outline: 2px solid #0052ff !important;
   box-shadow: none !important;
   transition: none !important;
 }
 
-/* Изоляция формы для GPU */
-#contact-section-container {
+/* 2. ИЗОЛЯЦИЯ: Делаем форму "невидимой" для видео-фона */
+#contact-form-isolated {
   contain: layout paint;
   isolation: isolate;
-  background-color: #050a14;
+  background-color: #050a14; /* Сплошной фон под формой */
 }
 
-/* Отключаем тяжелые эффекты */
+/* 3. УБИРАЕМ ТЯЖЕЛЫЙ БЛЮР (Он вешает Chrome) */
 .backdrop-blur-md {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
