@@ -1,53 +1,29 @@
 @import "tailwindcss";
 
-html,
-body,
-#root {
+body {
   margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: #050a14;
+  background-color: #050a14;
   color: white;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-input,
-textarea,
-button {
-  font: inherit;
-}
-
-input,
-textarea {
-  background: #0a1628;
-  border: 1px solid #1e5eff;
-  color: white;
-  padding: 14px;
-  border-radius: 10px;
-  outline: none;
-  width: 100%;
-  font-size: 16px;
-}
-
-input:focus,
-textarea:focus {
-  border-color: #3b82f6;
+input, textarea {
+  background: #0a1628 !important;
+  border: 1px solid #1e5eff !important;
+  color: white !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  /* Убираем любые переходы, чтобы не вешать GPU */
+  transition: none !important; 
 }
 
 button {
   background: #0052ff;
   color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
   border: none;
-  padding: 14px;
-  border-radius: 10px;
   cursor: pointer;
-  font-weight: 700;
-}
-
-button:hover {
-  opacity: 0.9;
 }
