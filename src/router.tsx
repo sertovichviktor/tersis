@@ -3,7 +3,7 @@ import { routeTree } from './routeTree.gen'
 
 export const router = createRouter({
   routeTree,
-  // ВЫКЛЮЧАЕМ ЭТИ ДВЕ ШТУКИ - ОНИ УБИВАЛИ САЙТ:
+  // ВЫКЛЮЧЕНО: чтобы роутер не лез в скролл и клики
   scrollRestoration: false, 
   defaultPreload: false,
 })
