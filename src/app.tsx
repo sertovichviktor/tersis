@@ -19,7 +19,7 @@ export default function App() {
 
       if (response.ok) {
         setStatus('SUCCESS: SENT');
-        (e.target as HTMLFormElement).reset();
+        e.currentTarget.reset();
       } else {
         setStatus('SERVER ERROR');
       }
@@ -34,16 +34,6 @@ export default function App() {
       <p style={{ color: '#0052ff' }}>STATUS: {status}</p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '400px', marginTop: '30px' }}>
-        <input name="from" placeholder="From (Country/City)" required style={s.input} />
-        <input name="email" type="email" placeholder="Email" required style={s.input} />
-        <textarea name="message" placeholder="Message" rows={5} style={s.input} />
-        <button type="submit" style={s.button}>SEND TEST</button>
-      </form>
-    </div>
-  )
-}
-
-const s = {
-  input: { padding: '15px', background: '#0a1628', border: '1px solid #1E5EFF', color: 'white', borderRadius: '8px', outline: 'none' },
-  button: { padding: '15px', background: '#0052ff', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }
-};
+        <input name="from" placeholder="From" required style={{ padding: '15px', background: '#0a1628', border: '1px solid #1E5EFF', color: 'white' }} />
+        <input name="email" type="email" placeholder="Email" required style={{ padding: '15px', background: '#0a1628', border: '1px solid #1E5EFF', color: 'white' }} />
+        <button type="submit" style={{ padding: '15px', background: '#0052ff', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>SEND TEST</but
