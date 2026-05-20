@@ -6,11 +6,14 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      // Это позволяет использовать @ для папки src
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
+    // Отключаем sourcemaps для ускорения и облегчения
     sourcemap: false,
-    minify: 'terser',
-  }
+    // Используем стандартный минификатор
+    minify: 'esbuild',
+  },
 })
