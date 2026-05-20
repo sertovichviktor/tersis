@@ -3,7 +3,7 @@ import { routeTree } from './routeTree.gen'
 
 export const router = createRouter({
   routeTree,
-  // ВЫКЛЮЧЕНО: чтобы роутер не лез в скролл и клики
+  // ВЫКЛЮЧАЕМ ПРИЧИНЫ ФРИЗА:
   scrollRestoration: false, 
   defaultPreload: false,
 })
