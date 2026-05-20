@@ -8,8 +8,7 @@ const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    // МЫ УБРАЛИ StrictMode — это уберет лишнюю нагрузку при кликах
+    <RouterProvider router={router} />
   )
 }
