@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function App() {
-  const [status, setStatus] = useState('SYSTEM READY')
+  const [status, setStatus] = useState('READY')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ export default function App() {
       });
 
       if (response.ok) {
-        setStatus('SUCCESS: SENT TO PHP');
+        setStatus('SUCCESS: SENT');
         (e.target as HTMLFormElement).reset();
       } else {
         setStatus('SERVER ERROR');
@@ -29,21 +29,21 @@ export default function App() {
   };
 
   return (
-    <div style={{ background: '#050a14', color: 'white', minHeight: '100vh', padding: '40px', fontFamily: 'sans-serif' }}>
-      <h1 style={{ color: '#0052ff', marginBottom: '10px' }}>TERSIS RESET TEST</h1>
-      <p style={{ background: '#0a1628', padding: '15px', border: '1px solid #1E5EFF', display: 'inline-block' }}>
-        STATUS: {status}
-      </p>
+    <div style={{ background: '#050a14', color: 'white', minHeight: '100vh', padding: '50px', fontFamily: 'sans-serif' }}>
+      <h1>TERSIS DEBUG FORM</h1>
+      <p style={{ color: '#0052ff' }}>STATUS: {status}</p>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '400px', marginTop: '40px' }}>
-        <input name="from" placeholder="FROM (Country/City)" required style={inputStyle} />
-        <input name="email" type="email" placeholder="EMAIL" required style={inputStyle} />
-        <textarea name="message" placeholder="MESSAGE" rows={5} style={inputStyle} />
-        <button type="submit" style={buttonStyle}>SEND TEST REQUEST</button>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '400px', marginTop: '30px' }}>
+        <input name="from" placeholder="From (Country/City)" required style={s.input} />
+        <input name="email" type="email" placeholder="Email" required style={s.input} />
+        <textarea name="message" placeholder="Message" rows={5} style={s.input} />
+        <button type="submit" style={s.button}>SEND TEST</button>
       </form>
     </div>
   )
 }
 
-const inputStyle = { padding: '15px', background: '#0a1628', border: '1px solid #1A2C45', color: 'white', borderRadius: '8px', outline: 'none' };
-const buttonStyle = { padding: '15px', background: '#0052ff', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' };
+const s = {
+  input: { padding: '15px', background: '#0a1628', border: '1px solid #1E5EFF', color: 'white', borderRadius: '8px', outline: 'none' },
+  button: { padding: '15px', background: '#0052ff', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }
+};
