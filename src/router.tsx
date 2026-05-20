@@ -3,7 +3,6 @@ import { routeTree } from './routeTree.gen'
 
 export const router = createRouter({
   routeTree,
-  // ВЫКЛЮЧАЕМ виновников зависания:
   scrollRestoration: false, 
   defaultPreload: false,
 })
