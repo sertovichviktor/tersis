@@ -3,9 +3,12 @@ import { routeTree } from './routeTree.gen'
 
 export const router = createRouter({
   routeTree,
-  // ЭТО ЗАСТАВИТ САЙТ ЗАПОМИНАТЬ ПОЗИЦИЮ СКРОЛЛА
+  // 1. Оставляем скролл, это полезно
   scrollRestoration: true, 
-  defaultPreload: 'intent',
+  
+  // 2. ГЛАВНЫЙ ФИКС: Выключаем предзагрузку к чертям
+  // Теперь роутер не будет ничего делать, пока ты реально не нажмешь на ссылку
+  defaultPreload: false, 
 })
 
 declare module '@tanstack/react-router' {
