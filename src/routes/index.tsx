@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/')({
-  component: () => <TestForm />,
+  component: TestForm,
 })
 
 function TestForm() {
@@ -10,7 +10,7 @@ function TestForm() {
 
   return (
     <div style={{ padding: '50px', background: '#050a14', color: '#fff', minHeight: '100vh' }}>
-      <h1>FORM BARE TEST</h1>
+      <h1>FORM TEST (ROUTER ACTIVE)</h1>
       <p>Status: {status}</p>
       
       <form 
@@ -20,6 +20,7 @@ function TestForm() {
         <input 
           name="test" 
           placeholder="Кликни сюда" 
+          autoComplete="off"
           style={{ padding: '15px', color: '#000' }} 
         />
         <button type="submit" style={{ padding: '15px', background: 'blue', border: 'none', color: '#fff' }}>
