@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import TersisApp from './routes/index' // Путь к твоей форме
-import './styles.css'
+import { RouterProvider } from '@tanstack/react-router'
+import { router } from './router'
+import './style.css'
 
 const rootElement = document.getElementById('root')!
-const root = ReactDOM.createRoot(rootElement)
-
-// Рисуем форму НАПРЯМУЮ, без прослойки роутера
-root.render(
-  <TersisApp />
-)
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(
+    <RouterProvider router={router} />
+  )
+}
