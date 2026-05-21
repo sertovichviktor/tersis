@@ -1,12 +1,13 @@
 RewriteEngine On
 RewriteBase /
 
-# Если файла (.js, .css, .mp4, .png) НЕТ — дай 404, а не грузи index.html!
+# ГЛАВНЫЙ ФИКС: Если это картинка, скрипт или видео и его НЕТ - выдай 404 ошибку!
+# Не вздумай отдавать index.html вместо них!
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|mp4|svg)$ [NC]
+RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|mp4|svg|xml|txt)$ [NC]
 RewriteRule ^ - [L,R=404]
 
-# Для нормальных путей React
+# Всё остальное (пути страниц) - для React
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
