@@ -1,13 +1,13 @@
 RewriteEngine On
 RewriteBase /
 
-# ГЛАВНЫЙ ФИКС: Если это картинка, скрипт или видео и его НЕТ - выдай 404 ошибку!
-# Не вздумай отдавать index.html вместо них!
+# 1. Если браузер ищет картинку/скрипт и его НЕТ - выдать ошибку 404! 
+# НЕ ОТДАВАТЬ index.html (это и вешает твой сайт!)
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|mp4|svg|xml|txt)$ [NC]
+RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|mp4|svg)$ [NC]
 RewriteRule ^ - [L,R=404]
 
-# Всё остальное (пути страниц) - для React
+# 2. Обычный роутинг для Реакта
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
