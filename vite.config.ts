@@ -4,8 +4,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist',
-    minify: 'esbuild',
-    sourcemap: false
+    sourcemap: false,
+    minify: 'esbuild'
   }
 })
