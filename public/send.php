@@ -6,29 +6,31 @@ header("Access-Control-Allow-Headers: Content-Type");
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
-if (!$data) {
-    echo json_encode(["status" => "error", "message" => "No data"]);
-    exit;
-}
+if ($data) {
+    $to = "info@tersis.lt";
+    $subject = "NEW QUOTE: " . ($data['from'] ?? '?') . " -> " . ($data['to'] ?? '?');
 
-$to = "info@tersis.lt"; // КУДА ПРИДЕТ ПИСЬМО
-$subject = "New Request: " . ($data['from'] ?? 'Website');
+    // Собираем текст письма так, чтобы ничего не пропало
+    $message = "New Request from Tersis.lt\n";
+    $message .= "---------------------------\n";
+    $message .= "FROM: " . ($data['from'] ?? '-') . "\n";
+    $message .= "TO: " . ($data['to'] ?? '-') . "\n";
+    $message .= "CARGO: " . ($data['cargoType'] ?? '-') . "\n";
+    $message .= "WEIGHT: " . ($data['weight'] ?? '-') . "\n";
+    $message .= "VOLUME: " . ($data['volume'] ?? '-') . "\n";
+    $message .= "NAME: " . ($data['name'] ?? '-') . "\n";
+    $message .= "EMAIL: " . ($data['email'] ?? '-') . "\n";
+    $message .= "PHONE: " . ($data['phone'] ?? '-') . "\n";
+    $message .= "MESSAGE: " . ($data['message'] ?? '-') . "\n";
 
-$message = "New Quote Request from Tersis.lt\n\n";
-$message .= "FROM: " . ($data['from'] ?? '-') . "\n";
-$message .= "TO: " . ($data['to'] ?? '-') . "\n";
-$message .= "CARGO: " . ($data['cargo'] ?? '-') . "\n";
-$message .= "WEIGHT: " . ($data['weight'] ?? '-') . "\n";
-$message .= "EMAIL: " . ($data['email'] ?? '-') . "\n\n";
-$message .= "MESSAGE: " . ($data['message'] ?? 'No additional notes');
+    $headers = "From: fornex@tersis.lt\r\n";
+    $headers .= "Reply-To: " . ($data['email'] ?? 'info@tersis.lt') . "\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-$headers = "From: fornex@tersis.lt\r\n"; // Отправитель (должен быть на твоем домене)
-$headers .= "Reply-To: " . $data['email'] . "\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-if (mail($to, $subject, $message, $headers)) {
-    echo json_encode(["status" => "ok"]);
-} else {
-    http_response_code(500);
-    echo json_encode(["status" => "error"]);
+    if (mail($to, $subject, $message, $headers)) {
+        echo json_encode(["status" => "ok"]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["status" => "error"]);
+    }
 }
