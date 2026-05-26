@@ -5,7 +5,7 @@ import {
   Zap, Globe, Lock, AlertTriangle, Handshake, Users, FileText, Home, 
   Maximize2, Sun, Moon, Languages
 } from 'lucide-react'
-import { translations, type Lang } from '../lib/i18n'
+import { translations, type Lang } from './lib/i18n'
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
