@@ -5,7 +5,7 @@ import {
   Zap, Globe, Lock, AlertTriangle, Handshake, Users, FileText, Home, 
   Maximize2, Sun, Moon, Languages
 } from 'lucide-react'
-import { translations, type Lang } from '../lib/i18n' // Относительный путь для билда
+import { translations, type Lang } from './lib/i18n' // Относительный путь для билда
 
 // --- ИЗОЛЯЦИЯ 1: ВИДЕО (Заглавная буква - защита от белого экрана) ---
 const HeroSection = memo(({ t, lang, scrollToSection }: any) => (
