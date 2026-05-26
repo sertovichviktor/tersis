@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TERSIS | European Logistics</title>
-    
-    <!-- Шрифт Inter для "дорогого" вида -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+@import "tailwindcss";
 
-    <!-- Подключаем Tailwind напрямую -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: { sans: ['Inter', 'sans-serif'] },
-            colors: {
-              brand: '#0052ff',
-              dark: '#050a14',
-              card: '#0a1628',
-              form: '#0F1A2B'
-            }
-          }
-        }
-      }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- Vite сам подставит билд сюда -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #050a14;
+}
+
+/* Мгновенный фокус без лагов */
+input:focus, textarea:focus {
+  outline: none !important;
+  border-color: #0052ff !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Изоляция формы для GPU */
+#contact .shadow-2xl {
+  contain: layout paint;
+}
