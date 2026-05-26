@@ -1,723 +1,231 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import React, { useState, useEffect, useCallback, memo, useRef } from 'react'
+import ReactDOM from 'react-dom/client'
 import {
-  Truck,
-  ArrowRight,
-  Check,
-  Shield,
-  Clock,
-  Menu,
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Zap,
-  Globe,
-  Lock,
-  AlertTriangle,
-  Handshake,
-  Users,
-  FileText,
-  Home,
-  Maximize2,
-  Sun,
-  Moon,
-  Languages,
+  Truck, ArrowRight, Check, Shield, Clock, Menu, X, Phone, Mail, MapPin, 
+  Zap, Globe, Lock, AlertTriangle, Handshake, Users, FileText, Maximize2, Sun, Moon, Languages
 } from 'lucide-react'
-import { translations, type Lang } from './lib/i18n'
 
-export const Route = createFileRoute('/')({
-  component: TersisApp,
-  head: () => ({
-    meta: [
-      { title: 'TERSIS | Asset-Based Carrier & International Logistics Hub' },
-      { 
-        name: 'description', 
-        content: 'TERSIS is a reliable European logistics partner since 2011. Operating a fleet of 27+ modern Euro 6 vehicles with MEGA trailers. Worldwide transport solutions via Kaunas hub.' 
-      },
-      { name: 'keywords', content: 'logistics Lithuania, transport Europe, MEGA trailers, Tersis Kaunas, asset-based carrier' },
-      // Добавил эти 2 строчки, чтобы ссылки в мессенджерах выглядели дорого:
-      { property: 'og:title', content: 'TERSIS | Asset-Based Carrier & International Logistics' },
-      { property: 'og:description', content: 'Reliable transport solutions since 2011. Own fleet of 27+ vehicles. MEGA trailers specialist.' },
-      { property: 'og:image', content: '/logo.png' },
-    ],
-  }),
-})
+// --- ДАННЫЕ (Восстановлено из версии №10) ---
+const translations = {
+  en: {
+    nav: { services: 'SERVICES', fleet: 'FLEET', about: 'ABOUT', coverage: 'COVERAGE', contact: 'CONTACT', getQuote: 'GET QUOTE' },
+    hero: { title1: 'OWN FLEET.', title2: 'DIRECT IMPACT.', title3: 'EUROPEAN', title4: 'LOGISTICS.', desc: 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' },
+    fleet: { title: 'FLEET SPECIFICATIONS', subtitle: 'Technical excellence for every shipment', std: 'STANDARD CLASS', mega: 'MEGA ADVANTAGE' },
+    services: { title: 'OUR SERVICES', subtitle: 'INTEGRATED TRANSPORT & LOGISTICS SOLUTIONS' },
+    contact: { title: 'REQUEST A QUOTE', subtitle: 'Get a professional offer within 24 hours' }
+  }
+}
 
-const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
-const aboutIcons = [Lock, Globe, Clock, Shield, FileText, Handshake, Users, Check]
+// --- ИЗОЛЯЦИЯ: ВИДЕО-ГЕРОЙ ---
+const MemoHero = memo(({ scrollTo }: any) => (
+  <section className="relative h-screen flex items-center px-6 overflow-hidden bg-[#050a14]">
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <video autoPlay muted loop playsInline preload="auto" className="w-full h-full object-cover opacity-60">
+        <source src="/hero-video.mp4.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none" />
+    <div className="max-w-7xl mx-auto w-full relative z-20 grid md:grid-cols-2 gap-12 items-center">
+      <div className="animate-fadeInUp">
+        <div className="inline-block mb-6 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded text-blue-500 text-[10px] font-bold tracking-widest uppercase">EST. 2011 • TRUSTED EXPERIENCE</div>
+        <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.85] uppercase mb-8 tracking-tighter">
+          OWN FLEET.<br/>DIRECT IMPACT.<br/><span className="text-blue-600">EUROPEAN</span><br/>LOGISTICS.
+        </h1>
+        <p className="text-gray-300 text-base md:text-lg mb-10 max-w-lg leading-relaxed">We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.</p>
+        <div className="flex gap-4">
+          <button onClick={() => scrollTo('contact')} className="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-blue-700 transition-all shadow-xl">GET QUOTE <ArrowRight size={16}/></button>
+          <button onClick={() => scrollTo('fleet')} className="border border-white/20 text-white px-8 py-4 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all">FLEET DETAILS</button>
+        </div>
+      </div>
+      <div className="hidden md:flex flex-col gap-6 items-end">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl w-64">
+          <Truck className="text-blue-500 mb-4" size={32}/><p className="text-4xl font-black text-white">27+</p><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Own Vehicles</p>
+        </div>
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl w-64">
+          <FileText className="text-blue-500 mb-4" size={32}/><p className="text-xl font-black text-white uppercase tracking-tighter">LIC-009666-EBKR</p><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">EU Transport License</p>
+        </div>
+      </div>
+    </div>
+  </section>
+))
 
-function TersisApp() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+// --- ИЗОЛЯЦИЯ: КАРТА ---
+const MemoMap = memo(() => (
+  <div className="relative h-[400px] md:h-[650px] rounded-[30px] md:rounded-[40px] overflow-hidden border border-[#0052ff]/30 shadow-2xl bg-black">
+    <img src="/map-hub.jpg.png" className="absolute inset-0 w-full h-full object-cover opacity-90 pointer-events-none" />
+    <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+      <path d="M 150,230 Q 300,100 485,205" stroke="rgba(0,82,255,0.5)" strokeWidth="2" fill="none" strokeDasharray="1, 50"><animate attributeName="stroke-dashoffset" from="300" to="0" dur="3s" repeatCount="indefinite" /></path>
+      <path d="M 850,380 Q 650,250 485,205" stroke="rgba(0,82,255,0.5)" strokeWidth="2" fill="none" strokeDasharray="1, 50"><animate attributeName="stroke-dashoffset" from="300" to="0" dur="3.5s" repeatCount="indefinite" /></path>
+    </svg>
+    <div className="absolute bottom-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 text-left hidden md:block"><p className="text-[10px] font-black text-[#0052ff] uppercase mb-1">Hub Status</p><p className="text-white text-xs font-bold uppercase tracking-widest">Operational / 24-7</p></div>
+    <div className="absolute bottom-6 right-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 text-right hidden md:block"><p className="text-[10px] font-black text-[#0052ff] uppercase mb-1">Global Traffic</p><p className="text-white text-xs font-bold uppercase tracking-widest">Connected Worldwide</p></div>
+  </div>
+))
+
+const App = () => {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [lang, setLang] = useState<Lang>('en')
-  const [isDark, setIsDark] = useState(true)
-  
-  // 1. УДАЛИЛИ стейт formData (это убирает лаги при печати)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  
-  // КЛЮЧЕВОЙ ФИКС: флаг, который отключает рендер скролла, когда ты в форме
-  const isFocusing = useRef(false) 
-
-  const t = translations[lang]
+  const isFocusing = useRef(false)
+  const t = translations.en
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (isFocusing.current) return; // Если мы в форме — не перерисовываем сайт!
-      setIsScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => { if (!isFocusing.current) setIsScrolled(window.scrollY > 50) }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // 2. ОБНОВЛЕННЫЙ handleSubmit (собирает данные из атрибутов name)
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formDataObj = new FormData(form);
-    const data = Object.fromEntries(formDataObj.entries());
-
     setIsSubmitted(true);
-
+    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
     try {
-      await fetch('/send.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      form.reset(); // Очистка формы
-      setTimeout(() => setIsSubmitted(false), 3000);
-    } catch (error) {
-      console.error('Error:', error);
-      setIsSubmitted(false);
-    }
+      await fetch('/send.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      (e.target as HTMLFormElement).reset();
+      setTimeout(() => setIsSubmitted(false), 4000);
+    } catch (e) { setIsSubmitted(false); }
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    setIsMenuOpen(false)
   }
-  const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
-  const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
-  const textPrimary = isDark ? 'text-white' : 'text-gray-900'
-  const textSecondary = isDark ? 'text-gray-400' : 'text-gray-600'
-  const textMuted = isDark ? 'text-gray-500' : 'text-gray-400'
-  const borderColor = isDark ? 'border-[#0052ff]/20' : 'border-gray-200'
-  const borderAccent = isDark ? 'border-[#0052ff]/30' : 'border-[#0052ff]/20'
-  const inputBg = isDark ? 'bg-[#0a1628]' : 'bg-white'
-  const navBg = isDark ? 'bg-[#050a14]/95' : 'bg-white/95'
-  const hoverBorder = isDark
-    ? 'hover:border-[#0052ff]/60'
-    : 'hover:border-[#0052ff]/50'
 
   return (
-    <div className={`min-h-screen ${bg} relative overflow-hidden transition-colors duration-300`}>
-      {/* Subtle grid overlay */}
-      {isDark && (
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage:
-              'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-      )}
-
-      {/* ─── NAVIGATION ─── */}
-      <nav
-        className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled
-            ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm`
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-18">
-         {/* Logo Section */}
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center focus:outline-none group"
-            >
-              <div className="relative flex items-center justify-center h-10 w-10">
-                <img
-                  src="/logo.png"
-                  alt="TERSIS"
-                  /* h-10 на обрезанном лого — это тот самый средний размер */
-                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-                />
-              </div>
-              <span className={`text-2xl font-black ${textPrimary} tracking-tight ml-2`}>
-                TERSIS
-              </span>
-            </button>
-            {/* Desktop nav */}
-            <div className="hidden md:flex items-center space-x-6">
-              {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map(
-                (section) => (
-                  <button
-                    key={section}
-                    onClick={() => scrollToSection(section)}
-                    className={`${textSecondary} hover:text-[#0052ff] transition text-sm font-semibold uppercase tracking-wide`}
-                  >
-                    {t.nav[section]}
-                  </button>
-                ),
-              )}
-            </div>
-
-            {/* Controls */}
-            <div className="hidden md:flex items-center gap-3">
-              <button
-                onClick={() => setLang(lang === 'en' ? 'lt' : 'en')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] hover:border-[#0052ff]/40 transition text-xs font-bold uppercase`}
-                title="Switch language"
-              >
-                <Languages className="h-3.5 w-3.5" />
-                {lang === 'en' ? 'LT' : 'EN'}
-              </button>
-              <button
-                onClick={() => setIsDark(!isDark)}
-                className={`p-2 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] hover:border-[#0052ff]/40 transition`}
-                title="Toggle theme"
-              >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-sm uppercase tracking-wide rounded-md"
-              >
-                {t.nav.getQuote}
-              </button>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center gap-2">
-              <button
-                onClick={() => setLang(lang === 'en' ? 'lt' : 'en')}
-                className={`px-2 py-1 text-xs font-bold ${textSecondary}`}
-              >
-                {lang === 'en' ? 'LT' : 'EN'}
-              </button>
-              <button
-                onClick={() => setIsDark(!isDark)}
-                className={`p-1.5 ${textSecondary}`}
-              >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={textSecondary}
-              >
-                {isMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
-            </div>
+    <div className="min-h-screen bg-[#050a14] text-white font-sans antialiased overflow-x-hidden">
+      
+      {/* NAVIGATION */}
+      <nav className={`fixed w-full z-50 transition-all ${isScrolled ? 'bg-[#050a14]/95 backdrop-blur-md border-b border-white/5 h-16' : 'h-20'} flex items-center`}>
+        <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+          <div className="flex items-center gap-2 cursor-pointer group" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <img src="https://tersis.lt/logo.png" className="h-10 transition-transform group-hover:scale-110" />
+            <span className="text-2xl font-black tracking-tighter uppercase">TERSIS</span>
           </div>
+          <div className="hidden md:flex gap-8 items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
+            {['services','fleet','about','contact'].map(s => <button key={s} onClick={() => scrollTo(s)} className="hover:text-white transition-colors">{(t.nav as any)[s]}</button>)}
+            <button className="bg-blue-600 text-white px-5 py-2 rounded font-black ml-4" onClick={() => scrollTo('contact')}>GET QUOTE</button>
+          </div>
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-white"><Menu/></button>
         </div>
-
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div
-            className={`md:hidden ${navBg} backdrop-blur-md border-t ${borderColor}`}
-          >
-            <div className="px-4 py-3 space-y-2">
-              {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map(
-                (section) => (
-                  <button
-                    key={section}
-                    onClick={() => scrollToSection(section)}
-                    className={`block w-full text-left ${textSecondary} hover:text-[#0052ff] py-2 text-sm font-semibold`}
-                  >
-                    {t.nav[section]}
-                  </button>
-                ),
-              )}
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="w-full bg-[#0052ff] text-white px-6 py-2.5 rounded-md hover:bg-[#003dd6] font-semibold text-sm mt-2"
-              >
-                {t.nav.getQuote}
-              </button>
-            </div>
-          </div>
-        )}
       </nav>
 
-      {/* ─── HERO SECTION ─── */}
-      <section className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative min-h-[90vh] md:h-screen flex items-center overflow-hidden bg-[#050a14]">
-        {/* VIDEO BACKGROUND — Добавили pointer-events-none и preload */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-        >
-          <source src="/hero-video.mp4.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Оверлей для читаемости — Добавили pointer-events-none */}
-        <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
+      {/* MOBILE MENU */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[100] bg-[#050a14] flex flex-col p-8 animate-fadeInUp">
+          <div className="flex justify-end mb-12"><button onClick={() => setIsMenuOpen(false)}><X size={32}/></button></div>
+          {['services','fleet','about','contact'].map(s => <button key={s} onClick={() => scrollTo(s)} className="text-4xl font-black uppercase mb-8 text-left">{(t.nav as any)[s]}</button>)}
+        </div>
+      )}
 
-        <div className="max-w-7xl mx-auto w-full relative z-20">
-          {/* Остальной код оставляем без изменений... */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* ЛЕВАЯ ЧАСТЬ */}
-            <div className="animate-fadeInUp text-left">
-              <div className={`inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md`}>
-                <p className="text-[#0052ff] text-sm font-bold tracking-wider">
-                  {lang === 'en' ? 'EST. 2011 • Trusted Experience' : 'ĮKURTA 2011 • Patikima patirtis'}
-                </p>
-              </div>
-              {/* text-white гарантирует видимость в светлой теме */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 leading-[1.05] tracking-tight uppercase">
-                {t.hero.title1}<br />
-                {t.hero.title2}<br />
-                <span className="text-[#0052ff]">{t.hero.title3}</span><br />
-                {t.hero.title4}
-              </h1>
-              <p className="text-lg text-gray-200 mb-10 leading-relaxed max-w-lg font-medium">
-                {lang === 'en' 
-                  ? 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' 
-                  : 'Valdome 27+ modernių Euro 6 transporto priemonių parką, specializuojamės didelio tūrio MEGA puspriekabėmis (105 m³) ir teikiame patikimus standartinio transporto sprendimus visame pasaulyje.'
-                }
-              </p>
-              <div className="flex flex-wrap gap-4 mb-12 md:mb-0">
-                <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md text-base font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide shadow-lg">
-                  {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
-                </button>
-                <button onClick={() => scrollToSection('fleet')} className="border-2 border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-md text-base font-bold transition uppercase tracking-wide">
-                  {t.hero.fleetDetails}
-                </button>
+      <MemoHero scrollToSection={scrollTo} />
+
+      {/* FLEET */}
+      <section id="fleet" className="py-24 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter">{t.fleet.title}</h2>
+          <p className="text-gray-500 font-bold uppercase tracking-widest mb-20">{t.fleet.subtitle}</p>
+          <div className="grid md:grid-cols-2 gap-10 text-left">
+            <div className="p-10 rounded-[40px] border border-white/5 bg-[#0a1628]">
+              <Truck className="text-blue-600 mb-8" size={40} /><h3 className="text-3xl font-black mb-4 uppercase">{t.fleet.std}</h3>
+              <div className="space-y-6 mb-10">
+                {[['LENGTH','13.6 m'],['HEIGHT','2.7 m'],['CAPACITY','33 Euro Pallets'],['IDEAL FOR','General Cargo']].map(([l,v])=>(<div key={l} className="flex justify-between border-b border-white/5 pb-4 text-[10px] font-black uppercase tracking-widest"><span className="text-gray-500">{l}</span><span className="text-white">{v}</span></div>))}
               </div>
             </div>
-
-            {/* ПРАВАЯ ЧАСТЬ (Блоки видны и на мобайле, и на десктопе) */}
-            <div className="flex flex-col gap-4 md:gap-6 items-start md:items-end">
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-xl w-full max-w-[340px]">
-                  <Truck className="h-8 w-8 md:h-10 md:w-10 text-[#0052ff] mb-4" />
-                  <p className="text-4xl md:text-5xl font-black text-white mb-1 leading-none uppercase">27+</p>
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    {lang === 'en' ? 'Own Vehicles' : 'Nuosavas transportas'}
-                  </p>
-               </div>
-               <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-xl w-full max-w-[340px]">
-                  <FileText className="h-8 w-8 md:h-10 md:w-10 text-[#0052ff] mb-4" />
-                  <p className="text-lg md:text-xl font-black text-white mb-1 uppercase tracking-tight">LIC-009666-EBKR</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                    {lang === 'en' ? 'EU Transport License' : 'ES transporto licencija'}
-                  </p>
-               </div>
+            <div className="p-10 rounded-[40px] border border-blue-600/30 bg-[#0a1628]">
+              <Maximize2 className="text-blue-600 mb-8" size={40} /><h3 className="text-3xl font-black mb-4 uppercase text-blue-600">{t.fleet.mega}</h3>
+              <div className="space-y-6 mb-10">
+                {[['INTERNAL HEIGHT','3.0 m'],['VOLUME','105 m³'],['SPECIALIZATION','Lightweight Cargo'],['ADVANTAGE','+14% Capacity']].map(([l,v])=>(<div key={l} className="flex justify-between border-b border-white/5 pb-4 text-[10px] font-black uppercase tracking-widest"><span className="text-gray-500">{l}</span><span className="text-white">{v}</span></div>))}
+              </div>
             </div>
           </div>
         </div>
       </section>
-{/* ─── FLEET SPECIFICATIONS (Restored Font Sizes & Fixed Spacing) ─── */}
-      <section id="fleet" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
+
+      {/* SERVICES */}
+      <section id="services" className="py-24 px-6 bg-[#0a1628] border-y border-white/5 text-center">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-              {t.fleet.title}
-            </h2>
-            <p className={`text-lg ${textSecondary}`}>{t.fleet.subtitle}</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Standard Class Card */}
-            <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300 flex flex-col`}>
-              <div className="flex items-center gap-4 mb-8">
-                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
-                  <Truck className="h-7 w-7 text-[#0052ff]" />
-                </div>
-                <div>
-                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.standardClass}</h3>
-                  <p className="text-[#0052ff] font-bold text-sm">92 m³ {t.fleet.capacity}</p>
-                </div>
-              </div>
-              
-              <div className="space-y-4 mb-8 flex-grow">
-                {[
-                  [t.fleet.length, '13.6 m'],
-                  [t.fleet.height, '2.7 m'],
-                  [t.fleet.capacity, `33 ${t.fleet.euroPallets}`],
-                  [t.fleet.idealFor, t.fleet.generalCargo],
-                ].map(([label, value], i) => (
-                  <div key={i} className={`flex justify-between items-start gap-4 ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}>
-                    <span className={`${textMuted} text-[10px] md:text-sm uppercase tracking-widest font-bold flex-shrink-0`}>{label}</span>
-                    <span className={`${textPrimary} font-black text-xs md:text-base text-right`}>{value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs leading-relaxed italic`}>{t.fleet.standardFooter}</p>
-              </div>
-            </div>
-
-            {/* Mega Advantage Card */}
-            <div className={`border ${borderAccent} p-6 md:p-8 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all duration-300 flex flex-col`}>
-              <div className="flex items-center gap-4 mb-8">
-                <div className={`w-14 h-14 ${isDark ? 'bg-[#0052ff]/10' : 'bg-[#0052ff]/5'} flex items-center justify-center border ${borderAccent} rounded-lg`}>
-                  <Maximize2 className="h-7 w-7 text-[#0052ff]" />
-                </div>
-                <div>
-                  <h3 className={`text-xl font-black ${textPrimary} tracking-tight uppercase`}>{t.fleet.megaAdvantage}</h3>
-                  <p className="text-[#0052ff] font-bold text-sm">105 m³ {t.fleet.capacity}</p>
-                </div>
-              </div>
-
-              <div className="space-y-4 mb-8 flex-grow">
-                {[
-                  [t.fleet.internalHeight, '3.0 m'],
-                  [t.fleet.volume, '105 m³'],
-                  [t.fleet.specialization, t.fleet.lightweightCargo],
-                  [t.fleet.advantage, '+14% ' + t.fleet.capacity],
-                ].map(([label, value], i) => (
-                  <div key={i} className={`flex justify-between items-start gap-4 ${i < 3 ? `border-b ${borderColor}` : ''} pb-3`}>
-                    <span className={`${textMuted} text-[10px] md:text-sm uppercase tracking-widest font-bold flex-shrink-0`}>{label}</span>
-                    <span className={`${textPrimary} font-black text-xs md:text-base text-right`}>{value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={`pt-4 border-t ${borderColor}`}>
-                <p className={`${textMuted} text-xs leading-relaxed italic`}>{t.fleet.megaFooter}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* ВЕРНУЛ ОРИГИНАЛЬНЫЙ РАЗМЕР ТЕКСТА text-xs ТУТ */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <h2 className="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter">{t.services.title}</h2>
+          <p className="text-blue-500 font-black uppercase tracking-[0.3em] text-sm mb-20">{t.services.subtitle}</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Shield, title: t.fleet.cmrInsured, sub: t.fleet.fullCoverage },
-              { icon: Clock, title: t.fleet.realTime, sub: t.fleet.tracking },
-              { icon: Truck, title: t.fleet.modernFleet, sub: '2018-2023' },
-              { icon: Check, title: t.fleet.euro6, sub: t.fleet.compliant },
-            ].map((item, idx) => (
-              <div key={idx} className={`border ${borderAccent} p-5 text-center ${bgCard} rounded-lg hover:bg-[#0052ff]/5 transition`}>
-                <item.icon className="h-7 w-7 text-[#0052ff] mx-auto mb-3" />
-                <p className={`font-black ${textPrimary} text-xs mb-1 uppercase tracking-wide`}>{item.title}</p>
-                <p className={`text-xs ${textMuted}`}>{item.sub}</p>
+              {icon: Truck, t: 'FTL / LTL TRANSPORT', s: 'FULL & PARTIAL LOADS'},
+              {icon: Globe, t: 'MULTIMODAL', s: 'SEA & AIR'},
+              {icon: AlertTriangle, t: 'OVERSIZED & ADR', s: 'SPECIAL CARGO'},
+              {icon: Zap, t: 'GROUPAGE', s: 'CONSOLIDATION'},
+              {icon: Clock, t: 'EXPRESS DELIVERY', s: 'URGENT FREIGHT'},
+              {icon: Home, t: 'WAREHOUSING', s: '3PL SOLUTIONS'},
+              {icon: FileText, t: 'CUSTOMS CLEARANCE', s: 'FULL CLEARANCE'},
+              {icon: Shield, t: 'CARGO INSURANCE', s: 'CMR COVERAGE'}
+            ].map((s, i) => (
+              <div key={i} className="p-8 rounded-[32px] border border-white/5 bg-[#050a14] hover:border-blue-600 transition-all group">
+                <s.icon className="text-blue-600 mb-6 mx-auto group-hover:scale-110 transition-transform" size={32} />
+                <h4 className="font-black text-[10px] uppercase tracking-widest text-white mb-2">{s.t}</h4>
+                <p className="text-gray-600 text-[9px] font-bold uppercase tracking-widest">{s.s}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-      {/* ─── SERVICES ─── */}
-      <section id="services" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-              {t.services.title}
-            </h2>
-            {/* ПУНКТ 1: Новая фраза, синяя, жирная, прямая */}
-            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.2em] uppercase">
-              Integrated Transport & Logistics Solutions
-            </p>
-          </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
-            {t.services.items.map((service, idx) => {
-              const Icon = serviceIcons[idx] || Truck
-              
-              {/* ПУНКТ 2: Убираем / LTL только если в заголовке есть Groupage или Grupinių */}
-              let displayTitle = service.title;
-              if (displayTitle.includes('Groupage') || displayTitle.includes('Grupinių')) {
-                displayTitle = displayTitle.split('/')[0].trim();
-              }
-
-              return (
-                <div
-                  key={idx}
-                  className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/60 transition-all duration-300 group`}
-                >
-                  <Icon className="h-9 w-9 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
-                  <h3 className={`text-sm font-black ${textPrimary} mb-1 uppercase tracking-wide`}>
-                    {displayTitle}
-                  </h3>
-                  <p className={`text-xs ${textMuted} font-semibold uppercase tracking-widest`}>
-                    {service.subtitle}
-                  </p>
-                </div>
-              )
-            })}
+      {/* ABOUT */}
+      <section id="about" className="py-24 px-6 bg-[#050a14] text-center">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-5xl md:text-7xl font-black mb-16 uppercase tracking-tighter">15+ Years Experience</h2>
+          <div className="text-gray-400 text-lg leading-relaxed space-y-8 mb-20">
+            <p>TERSIS provides reliable, cost-effective transportation solutions across Europe and worldwide. We specialize in asset-based logistics, operating a modern fleet of 27 vehicles.</p>
+            <p className="text-white font-bold uppercase text-sm border border-white/10 inline-block px-4 py-2 rounded tracking-widest">License: LIC-009666-EBKR</p>
           </div>
-        </div>
-      </section>
-      {/* ─── ABOUT TERSIS (Refined Texts & 15+ Years Experience) ─── */}
-      <section id="about" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-              {t.about.title}
-            </h2>
-            <p className={`text-lg ${textSecondary} font-bold`}>
-              {lang === 'en' 
-                ? 'Your trusted European logistics partner since 2011' 
-                : 'Jūsų patikimas Europos logistikos partneris nuo 2011 m.'}
-            </p>
-          </div>
-
-          {/* Основной текст - Чистый английский без повторов */}
-          <div className="max-w-4xl mx-auto mb-16 space-y-6 text-center">
-            <p className={`${textSecondary} text-lg leading-relaxed`}>
-              {lang === 'en' 
-                ? 'TERSIS provides reliable, cost-effective transportation solutions across Europe and worldwide. We specialize in asset-based logistics, operating a modern fleet of 27 vehicles to ensure direct control and maximum efficiency.' 
-                : 'TERSIS teikia patikimus ir ekonomiškus transporto sprendimus Europoje bei visame pasaulyje. Mes specializuojamės nuosavo transporto logistikoje, valdydami 27 modernių automobilių parką, užtikrinantį tiesioginę kontrolę ir maksimalų efektyvumą.'}
-            </p>
-            <p className={`${textSecondary} text-lg leading-relaxed font-medium`}>
-              {lang === 'en'
-                ? 'Our professional team ensures seamless cargo handling, competitive pricing, and transparent communication. We are fully licensed (LIC-009666-EBKR) and 100% CMR insured, providing safety at every stage of your shipment.'
-                : 'Mūsų profesionali komanda užtikrina sklandų krovinių tvarkymą, konkurencingą kainodarą ir skaidrų bendravimą. Esame pilnai licencijuoti (LIC-009666-EBKR) ir 100% apdrausti CMR draudimu, užtikrindami saugumą kiekviename pervežimo etape.'}
-            </p>
-          </div>
-
-          {/* Сетка преимуществ (Адаптивная: 1 колонка моб / 2 планшет / 4 десктоп) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { icon: Truck, title: lang === 'en' ? 'Own Fleet' : 'Savas parkas', sub: lang === 'en' ? 'Full Control, No Subcontractors' : 'Pilna kontrolė, jokių subrangovų' },
-              { icon: Globe, title: lang === 'en' ? 'Optimized Routes' : 'Optimizuoti maršrutai', sub: lang === 'en' ? 'Efficient Logistics Schemes' : 'Efektyvios logistikos schemos' },
-              { icon: Clock, title: lang === 'en' ? 'High Reliability' : 'Aukštas patikimumas', sub: lang === 'en' ? 'Strict Punctuality' : 'Griežtas punktualumas' },
-              { icon: Shield, title: lang === 'en' ? 'Cargo Safety' : 'Krovinių saugumas', sub: lang === 'en' ? 'Guaranteed Protection' : 'Garantuota apsauga' },
-              { icon: FileText, title: lang === 'en' ? 'Transparent Pricing' : 'Skaidri kainodara', sub: lang === 'en' ? 'No Hidden Fees' : 'Jokių pasлėptų mokesčių' },
-              { icon: Handshake, title: lang === 'en' ? 'Sea & Air Partners' : 'Jūros ir oro partneriai', sub: lang === 'en' ? 'Long-term Partnerships' : 'Ilgalaikė partnerystė' },
-              { icon: Users, title: lang === 'en' ? 'Professional Team' : 'Profesionali komanda', sub: lang === 'en' ? '15+ Years Experience' : '15+ metų patirtis' }, // ОБНОВЛЕНО НА 15+
-              { icon: Check, title: lang === 'en' ? '100% CMR Insured' : '100% CMR draudimas', sub: lang === 'en' ? 'Risk-Free Shipping' : 'Siuntimas be rizikos' },
-            ].map((item, idx) => {
-              const Icon = item.icon
-              return (
-                <div key={idx} className={`border ${borderAccent} p-6 ${bgCard} rounded-xl hover:border-[#0052ff]/50 transition-all group`}>
-                  <Icon className="h-10 w-10 text-[#0052ff] mb-4 group-hover:scale-110 transition" />
-                  <h3 className={`text-lg font-black ${textPrimary} mb-1 tracking-tight uppercase`}>{item.title}</h3>
-                  <p className={`text-base ${textMuted}`}>{item.sub}</p>
-                </div>
-              )
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+             {['Own Fleet','CMR Insured','EU Network','24/7 Support','Secure','Expert Team','Full Docs','Trusted'].map((l, i) => (
+               <div key={i} className="p-4 bg-[#0a1628] rounded-xl border border-white/5"><p className="font-black text-[10px] uppercase text-white">{l}</p></div>
+             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── COVERAGE MAP (High-Visibility Straight Text) ─── */}
-      <section id="coverage" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-              {t.coverage.title}
-            </h2>
-            {/* ФРАЗА СТРОГО ПРЯМАЯ (без italic), ЖИРНАЯ И СИНЯЯ */}
-            <p className="text-lg md:text-xl text-[#0052ff] font-black tracking-[0.3em] uppercase">
-              Europe • Baltics • Global
-            </p>
-          </div>
+      <section className="py-24 px-6"><MemoMap /></section>
 
-          <div className="relative h-[400px] md:h-[650px] rounded-[30px] md:rounded-[40px] overflow-hidden border border-[#0052ff]/30 shadow-2xl bg-black">
-            
-            <img 
-              src="/map-hub.jpg.png" 
-              alt="Tersis Global Hub" 
-              className="absolute inset-0 w-full h-full object-cover opacity-90"
-            />
-
-            <svg 
-              className="absolute inset-0 w-full h-full z-10 pointer-events-none" 
-              viewBox="0 0 1000 600" 
-              preserveAspectRatio="xMidYMid slice"
-            >
-              <defs>
-                <radialGradient id="comet-grad">
-                  <stop offset="0%" stopColor="#fff" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#0052ff" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-
-              <g fill="none" strokeWidth="2" strokeLinecap="round">
-                <path d="M 150,230 Q 300,100 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
-                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3s" repeatCount="indefinite" />
-                </path>
-                <path d="M 220,480 Q 350,300 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
-                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3.5s" repeatCount="indefinite" />
-                </path>
-                <path d="M 850,380 Q 650,250 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
-                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="2.8s" repeatCount="indefinite" />
-                </path>
-                <path d="M 820,130 Q 650,80 485,205" stroke="url(#comet-grad)" strokeDasharray="1, 50">
-                  <animate attributeName="stroke-dashoffset" from="300" to="0" dur="3.2s" repeatCount="indefinite" />
-                </path>
-              </g>
-            </svg>
-
-            <div className="absolute bottom-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden md:block">
-              <p className="text-[10px] font-black text-[#0052ff] uppercase tracking-widest leading-none mb-1">Hub Status</p>
-              <p className="text-white text-xs font-bold uppercase tracking-widest">Operational / 24-7</p>
-            </div>
-            
-            <div className="absolute bottom-6 right-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden md:block text-right">
-              <p className="text-[10px] font-black text-[#0052ff] uppercase tracking-widest leading-none mb-1">Global Traffic</p>
-              <p className="text-white text-xs font-bold uppercase tracking-widest">Connected Worldwide</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* ─── CONTACT / QUOTE (Balanced Layout) ─── */}
-<section id="contact" className={`py-24 px-4 sm:px-6 lg:px-8 border-t ${borderColor}`}>
-  <div className="max-w-4xl mx-auto">
-    <div className="text-center mb-12 animate-fadeInUp">
-      <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 tracking-tight uppercase`}>
-        {t.contact.title}
-      </h2>
-      <p className={`text-lg ${textSecondary}`}>{t.contact.subtitle}</p>
-    </div>
-
-    <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl animate-fadeInUp`}>
-      <form 
-        onSubmit={handleSubmit} 
-        className="grid md:grid-cols-2 gap-5"
-        onFocus={() => { isFocusing.current = true }} // ВКЛЮЧАЕМ защиту при клике
-        onBlur={() => { isFocusing.current = false }}  // ВЫКЛЮЧАЕМ после ухода из поля
-      >
-        {/* ПЕРВЫЕ 6 ПОЛЕЙ */}
-        {[
-          { key: 'from', type: 'text' },
-          { key: 'to', type: 'text' },
-          { key: 'cargoType', type: 'text' }, // name="cargoType" (важно для PHP)
-          { key: 'weight', type: 'text' },
-          { key: 'volume', type: 'text' },
-          { key: 'name', type: 'text' },
-        ].map(({ key, type }) => (
-          <div key={key}>
-            <label htmlFor={key} className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
-              {(t.contact as any)[key] || key}
-            </label>
-            <input
-              id={key}
-              name={key} // PHP будет искать данные по этому имени
-              type={type}
-              required
-              autoComplete="off"
-              className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-              placeholder={(t.contact.placeholders as any)[key] || ''}
-            />
-          </div>
-        ))}
-
-        <div className="md:col-span-2">
-          <label htmlFor="email" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.email}</label>
-          <input id="email" name="email" type="email" required className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`} placeholder={t.contact.placeholders.email} />
-        </div>
-
-        <div className="md:col-span-2">
-          <label htmlFor="phone" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.phone}</label>
-          <input id="phone" name="phone" type="tel" required className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`} placeholder={t.contact.placeholders.phone} />
-        </div>
-
-        <div className="md:col-span-2">
-          <label htmlFor="message" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.message}</label>
-          <textarea id="message" name="message" rows={3} className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`} placeholder={t.contact.placeholders.message} />
-        </div>
-
-        <div className="md:col-span-2">
-          <button type="submit" className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg shadow-lg shadow-[#0052ff]/20">
-            {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-      {/* ─── FOOTER ─── */}
-      <footer className={`${bg} border-t ${borderColor} py-16 px-4 sm:px-6 lg:px-8`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-                {/* Company info */}
-            <div>
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center focus:outline-none mb-6 group text-left"
-              >
-                <div className="relative flex items-center justify-center h-10 w-10">
-                  <img 
-                    src="/logo.png" 
-                    alt="TERSIS" 
-                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
-                  />
-                </div>
-                <h4 className={`text-xl font-black ${textPrimary} tracking-tight ml-3`}>
-                  TERSIS
-                </h4>
+      {/* --- CONTACT FORM (1:1 ВОССТАНОВЛЕНА ИЗ СКРИНШОТА) --- */}
+      <section id="contact" className="py-32 px-4 bg-[#050a14]" onFocus={() => { isFocusing.current = true }} onBlur={() => { isFocusing.current = false }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="p-8 md:p-16 rounded-[40px] shadow-2xl border border-[#1A2C45]" style={{ background: '#0F1A2B' }}>
+            <form onSubmit={handleSubmit} className="space-y-8" autoComplete="off">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white">
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">FROM (COUNTRY/CITY)</label><input name="from" required placeholder="Kaunas, Lithuania" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">TO (COUNTRY/CITY)</label><input name="to" required placeholder="Berlin, Germany" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white">
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">CARGO TYPE</label><input name="cargoType" placeholder="Electronics, Pallets..." className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">WEIGHT (KG)</label><input name="weight" placeholder="5000" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white">
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">VOLUME (M³)</label><input name="volume" placeholder="10" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+                <div><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">NAME</label><input name="name" required placeholder="John Doe" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+              </div>
+              <div className="text-white"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">EMAIL</label><input name="email" type="email" required placeholder="john@company.com" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+              <div className="text-white"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">PHONE</label><input name="phone" required placeholder="+370 123 45678" className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors" /></div>
+              <div className="text-white"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest mb-3">MESSAGE (OPTIONAL)</label><textarea name="message" rows={4} placeholder="Additional details..." className="w-full px-6 py-4 bg-[#0a1628] rounded-xl border border-white/5 outline-none focus:border-blue-600 transition-colors resize-none" /></div>
+              <button type="submit" disabled={isSubmitted} className="w-full py-6 bg-[#0052ff] hover:bg-[#003dd6] text-white font-black rounded-2xl text-xs tracking-[0.3em] uppercase transition-all shadow-xl shadow-blue-600/20 disabled:opacity-50">
+                {isSubmitted ? 'SENT SUCCESS' : 'REQUEST QUOTE IN 24H'}
               </button>
-              <div className={`space-y-4 ${textSecondary} text-sm`}>
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.address}</p>
-                    <p className="leading-relaxed">
-                      Taikos pr. 141-305<br />
-                      Kaunas, LT-51132<br />
-                      Lithuania
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.phone}</p>
-                    <a href="tel:+37065955956" className="hover:text-[#0052ff] transition-colors">+370 65 955 956</a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Mail className="h-5 w-5 text-[#0052ff] mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className={`font-bold ${textPrimary} uppercase text-xs tracking-widest mb-1`}>{t.footer.email}</p>
-                    <a href="mailto:info@tersis.lt" className="hover:text-[#0052ff] transition-colors">info@tersis.lt</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Services links */}
-            <div>
-              <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase tracking-widest`}>
-                {t.footer.servicesTitle}
-              </h5>
-              <ul className={`space-y-2 ${textSecondary} text-sm`}>
-                {t.services.items.slice(0, 6).map((svc, i) => (
-                  <li key={i}>
-                    <button
-                      onClick={() => scrollToSection('services')}
-                      className="hover:text-[#0052ff] transition"
-                    >
-                      {svc.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase tracking-widest`}>
-                {t.footer.legalTitle}
-              </h5>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-2 text-[#0052ff] font-black">
-                  <FileText className="h-4 w-4" />
-                  <span>LIC-009666-EBKR</span>
-                </div>
-                <div className="flex items-center gap-2 text-green-400 font-bold">
-                  <Check className="h-4 w-4" />
-                  <span>{t.footer.cmrInsured}</span>
-                </div>
-                <div className="flex items-center gap-2 text-[#0052ff] font-bold">
-                  <Check className="h-4 w-4" />
-                  <span>{t.footer.euroCompliant}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={`border-t ${borderColor} pt-8 text-center ${textMuted} text-xs uppercase tracking-widest`}>
-            <p>© 2026 TERSIS. European asset-based carrier | All rights reserved.</p>
+            </form>
           </div>
         </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="py-24 bg-[#050a14] border-t border-white/5 text-center px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16 text-left mb-16">
+          <div><div className="flex items-center gap-2 mb-6"><img src="https://tersis.lt/logo.png" className="h-8"/><span className="text-xl font-bold uppercase tracking-tighter">TERSIS</span></div><p className="text-gray-500 text-sm">Asset-based carrier & logistics provider since 2011.</p></div>
+          <div><h4 className="text-white font-black text-xs uppercase tracking-widest mb-6">Office HQ</h4><p className="text-gray-500 text-sm">Taikos pr. 141-305, Kaunas, Lithuania<br/>info@tersis.lt | +370 65 955 956</p></div>
+          <div><h4 className="text-white font-black text-xs uppercase tracking-widest mb-6">Legal</h4><p className="text-gray-600 text-xs font-bold uppercase">License: LIC-009666-EBKR<br/>100% CMR Insured</p></div>
+        </div>
+        <p className="text-gray-700 text-[10px] font-bold uppercase tracking-[0.3em] pt-8 border-t border-white/5">© 2026 TERSIS. ALL RIGHTS RESERVED.</p>
       </footer>
     </div>
   )
 }
+
+const rootElement = document.getElementById('root')!
+ReactDOM.createRoot(rootElement).render(<App />)
