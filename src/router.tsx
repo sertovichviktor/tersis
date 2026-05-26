@@ -4,7 +4,7 @@ import { routeTree } from './routeTree.gen'
 export const router = createRouter({
   routeTree,
   scrollRestoration: false, 
-  defaultPreload: false,
+  defaultPreload: false, // ГЛАВНЫЙ ФИКС: роутер не будет "паниковать" при кликах
 })
 
 declare module '@tanstack/react-router' {
