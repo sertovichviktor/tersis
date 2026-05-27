@@ -6,10 +6,10 @@ import {
   Maximize2, Sun, Moon, Languages
 } from 'lucide-react'
 
-// --- 1. ПЕРЕВОДЫ (Вшиты, чтобы не было белого экрана из-за путей) ---
+// --- ПОЛНЫЕ ПЕРЕВОДЫ (ВШИТЫ ВНУТРЬ, ЧТОБЫ НЕ БЫЛО БЕЛОГО ЭКРАНА) ---
 const translations: any = {
   en: {
-    nav: { services: 'SERVICES', fleet: 'FLEET', about: 'ABOUT', coverage: 'COVERAGE', contact: 'CONTACT' },
+    nav: { services: 'SERVICES', fleet: 'FLEET', about: 'ABOUT', coverage: 'COVERAGE', contact: 'CONTACT', getQuote: 'GET QUOTE' },
     hero: { title1: 'OWN FLEET.', title2: 'DIRECT IMPACT.', title3: 'EUROPEAN', title4: 'LOGISTICS.', desc: 'We operate a fleet of 27+ modern Euro 6 vehicles, specializing in high-capacity MEGA trailers (105 m³) and delivering reliable standard transport solutions worldwide.' },
     fleet: { 
       title: 'FLEET SPECIFICATIONS', 
@@ -42,14 +42,15 @@ const translations: any = {
       from: 'FROM (COUNTRY/CITY)', to: 'TO (COUNTRY/CITY)', 
       cargo: 'CARGO TYPE', weight: 'WEIGHT (KG)', volume: 'VOLUME (M³)', 
       name: 'NAME', email: 'EMAIL', phone: 'PHONE', message: 'MESSAGE (OPTIONAL)',
-      submitted: 'SENT SUCCESSFULLY'
+      submitted: 'SENT SUCCESSFULLY',
+      placeholders: { from: 'Kaunas, Lithuania', to: 'Berlin, Germany', cargoType: 'Electronics...', weight: '5000', volume: '10', name: 'John Doe', email: 'john@company.com', phone: '+370...', message: 'Details...' }
     }
   }
 };
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- 2. ИЗОЛЯЦИЯ ТЯЖЕЛЫХ БЛОКОВ (memo) ---
+// --- ИЗОЛЯЦИЯ: ГЕРОЙ ---
 const HeroBlock = memo(({ t, scrollTo }: any) => (
   <section className="relative h-screen flex items-center px-6 overflow-hidden bg-[#050a14]">
     <div className="absolute inset-0 z-0 pointer-events-none">
@@ -60,14 +61,13 @@ const HeroBlock = memo(({ t, scrollTo }: any) => (
     <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
     <div className="max-w-7xl mx-auto w-full relative z-20 grid md:grid-cols-2 gap-12 items-center text-left">
       <div className="animate-fadeInUp">
-        <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/10 border border-[#0052ff]/20 rounded text-blue-500 text-[10px] font-bold tracking-widest uppercase">EST. 2011 • TRUSTED EXPERIENCE</div>
+        <div className="inline-block mb-6 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded text-blue-500 text-[10px] font-bold tracking-widest uppercase">EST. 2011 • TRUSTED EXPERIENCE</div>
         <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.85] uppercase mb-8 tracking-tighter">
           {t.hero.title1}<br/>{t.hero.title2}<br/><span className="text-blue-600">{t.hero.title3}</span><br/>{t.hero.title4}
         </h1>
         <p className="text-gray-300 text-lg mb-10 max-w-lg leading-relaxed">{t.hero.desc}</p>
         <div className="flex gap-4">
-          <button onClick={() => scrollTo('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded font-bold text-xs uppercase tracking-widest hover:bg-[#003dd6] transition-all shadow-xl">GET QUOTE <ArrowRight size={16} className="inline ml-1"/></button>
-          <button onClick={() => scrollTo('fleet')} className="border border-white/20 text-white px-8 py-4 rounded font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all">FLEET DETAILS</button>
+          <button onClick={() => scrollTo('contact-section-isolated')} className="bg-blue-600 text-white px-8 py-4 rounded font-bold text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl">GET QUOTE <ArrowRight size={16} className="inline ml-1"/></button>
         </div>
       </div>
       <div className="hidden md:flex flex-col gap-6 items-end">
@@ -75,7 +75,7 @@ const HeroBlock = memo(({ t, scrollTo }: any) => (
           <Truck className="text-blue-600 mb-4 mx-auto" size={32}/><p className="text-5xl font-black text-white mb-1 uppercase">27+</p><p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Own Vehicles</p>
         </div>
         <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl w-72 text-center shadow-2xl">
-          <FileText className="text-blue-600 mb-4 mx-auto" size={32}/><p className="text-xl font-black text-white uppercase tracking-tight">LIC-009666-EBKR</p><p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">EU License</p>
+          <FileText className="text-blue-600 mb-4 mx-auto" size={32}/><p className="text-xl font-black text-white uppercase tracking-tight">LIC-009666-EBKR</p>
         </div>
       </div>
     </div>
@@ -98,19 +98,15 @@ const CoverageBlock = memo(() => (
   </div>
 ));
 
-// --- 3. ГЛАВНЫЙ КОМПОНЕНТ ---
 export const Route = createFileRoute('/')({
   component: TersisApp,
 })
 
 function TersisApp() {
-  const [lang] = useState<Lang>('en')
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const isFocusing = useRef(false) // Блокиратор фриза
-
-  const t = translations.en;
+  const isFocusing = useRef(false)
+  const t = translations.en
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,7 +131,6 @@ function TersisApp() {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
   }
 
   return (
@@ -149,27 +144,18 @@ function TersisApp() {
             <span className="text-2xl font-black tracking-tighter uppercase ml-2">TERSIS</span>
           </div>
           <div className="hidden md:flex gap-8 items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
-            {['services', 'fleet', 'about', 'contact'].map(s => <button key={s} onClick={() => scrollTo(s)} className="hover:text-white transition-colors">{s}</button>)}
-            <button onClick={() => scrollTo('contact')} className="bg-[#0052ff] text-white px-5 py-2 rounded font-black hover:bg-[#003dd6]">GET QUOTE</button>
+            {['services', 'fleet', 'about', 'contact'].map(s => <button key={s} onClick={() => scrollTo(s === 'contact' ? 'contact-section-isolated' : s)} className="hover:text-white transition-colors">{s}</button>)}
+            <button onClick={() => scrollTo('contact-section-isolated')} className="bg-blue-600 text-white px-5 py-2 rounded font-black hover:bg-blue-700">GET QUOTE</button>
           </div>
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-white"><Menu size={28}/></button>
         </div>
       </nav>
 
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-[100] bg-[#050a14] flex flex-col p-8 animate-fadeInUp">
-          <div className="flex justify-end mb-12"><button onClick={() => setIsMenuOpen(false)} className="text-white"><X size={32}/></button></div>
-          {['services','fleet','about','contact'].map(s => <button key={s} onClick={() => scrollTo(s)} className="text-4xl font-black uppercase mb-8 text-left text-white">{s}</button>)}
-        </div>
-      )}
+      <HeroBlock t={t} scrollTo={scrollTo} />
 
-      <HeroBlock t={t} lang={lang} scrollTo={scrollTo} />
-
-      {/* FLEET SECTION */}
+      {/* FLEET */}
       <section id="fleet" className="py-24 px-6 bg-[#050a14] border-t border-white/5 text-center">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tight">{t.fleet.title}</h2>
-          <p className="text-gray-500 font-bold uppercase tracking-widest mb-20">{t.fleet.subtitle}</p>
+          <h2 className="text-4xl md:text-5xl font-black mb-16 uppercase tracking-tight">{t.fleet.title}</h2>
           <div className="grid md:grid-cols-2 gap-10 text-left text-white">
             <div className="p-10 rounded-3xl border border-white/5 bg-[#0a1628]">
               <Truck className="text-blue-600 mb-6" size={40} /><h3 className="text-3xl font-black mb-4 uppercase">{t.fleet.std}</h3>
@@ -177,7 +163,6 @@ function TersisApp() {
                 <div className="flex justify-between border-b border-white/5 pb-2"><span>{t.fleet.length}</span><span className="text-white">13.6 M</span></div>
                 <div className="flex justify-between border-b border-white/5 pb-2"><span>{t.fleet.height}</span><span className="text-white">2.7 M</span></div>
                 <div className="flex justify-between border-b border-white/5 pb-2"><span>{t.fleet.cap}</span><span className="text-white">33 PALLETS</span></div>
-                <div className="flex justify-between border-b border-white/5 pb-2"><span>{t.fleet.ideal}</span><span className="text-white">GENERAL CARGO</span></div>
               </div>
               <p className="text-gray-500 italic text-xs mt-6">{t.fleet.standardFooter}</p>
             </div>
@@ -197,7 +182,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* SERVICES SECTION */}
+      {/* SERVICES */}
       <section id="services" className="py-24 px-6 bg-[#0a1628] border-y border-white/5 text-center">
         <h2 className="text-4xl md:text-7xl font-black mb-4 uppercase text-white tracking-tighter">{t.services.title}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -229,8 +214,8 @@ function TersisApp() {
 
       <section className="py-24 px-6 bg-[#050a14] border-t border-white/5 text-center uppercase"><h2 className="mb-10 text-4xl font-black text-white">Coverage</h2><CoverageBlock /></section>
 
-      {/* --- CONTACT FORM (ВОССТАНОВЛЕНА 1:1 ПО СКРИНШОТУ - 9 ПОЛЕЙ) --- */}
-      <section id="contact" className="py-32 px-6 bg-[#050a14]" 
+      {/* CONTACT FORM (9 ПОЛЕЙ) */}
+      <section id="contact-section-isolated" className="py-32 px-6 bg-[#050a14]" 
                onFocus={() => { isFocusing.current = true }} 
                onBlur={() => { isFocusing.current = false }}>
         <div className="max-w-4xl mx-auto text-center">
@@ -250,6 +235,8 @@ function TersisApp() {
                 <div className="space-y-2"><label className="text-[11px] font-black text-gray-500 uppercase tracking-widest">{t.contact.name}</label><input name="name" required placeholder="John Doe" className="w-full px-6 py-4 bg-[#0a1628] border border-white/5 rounded-xl text-sm outline-none focus:border-blue-600" /></div>
               </div>
               <div className="text-white space-y-2 text-left"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest">{t.contact.email}</label><input name="email" type="email" required placeholder="john@company.com" className="w-full px-6 py-4 bg-[#0a1628] border border-white/5 rounded-xl text-sm outline-none focus:border-blue-600" /></div>
+              <div className="text-white space-y-2 text-left"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest">{t.contact.phone}</label><input name="phone" required placeholder="+370 123 45678" className="w-full px-6 py-4 bg-[#0a1628] border border-white/5 rounded-xl text-sm outline-none focus:border-blue-600" /></div>
+              <div className="text-white space-y-2 text-left"><label className="block text-[11px] font-black text-gray-500 uppercase tracking-widest">{t.contact.message}</label><textarea name="message" rows={4} placeholder="Additional details..." className="w-full px-6 py-4 bg-[#0a1628] border border-white/5 rounded-xl text-sm outline-none focus:border-blue-600 resize-none" /></div>
               <button type="submit" disabled={isSubmitted} className="w-full py-6 bg-blue-600 text-white font-black rounded-2xl uppercase tracking-widest transition-all shadow-xl shadow-blue-600/20">
                 {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
               </button>
@@ -265,9 +252,8 @@ function TersisApp() {
             <p>Asset-based carrier & logistics provider since 2011. Reliable European transport solutions.</p>
           </div>
           <div><h4 className="text-white font-black text-xs uppercase tracking-widest mb-6">HQ</h4><p>Taikos pr. 141-305, Kaunas, Lithuania<br/>info@tersis.lt | +370 65 955 956</p></div>
-          <div><h4 className="text-white font-black text-xs uppercase tracking-widest mb-6">Legal</h4><p>License: LIC-009666-EBKR<br/>© 2026 TERSIS</p></div>
+          <div><h4 className="text-white font-black text-xs uppercase tracking-widest mb-6">Legal</h4><p>License: LIC-009666-EBKR<br/>© 2026 TERSIS. All rights reserved.</p></div>
         </div>
-        <p className="mt-8 border-t border-white/5 pt-8 text-center">© 2026 TERSIS. ALL RIGHTS RESERVED.</p>
       </footer>
     </div>
   )
