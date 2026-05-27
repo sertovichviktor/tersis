@@ -6,7 +6,7 @@ body {
   background-color: #050a14;
 }
 
-/* 1. Мгновенный фокус БЕЗ анимаций (убирает фриз при клике) */
+/* 1. Мгновенный фокус БЕЗ анимаций */
 input:focus, textarea:focus {
   outline: none !important;
   border-color: #0052ff !important;
