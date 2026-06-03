@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import ReactDOM from 'react-dom/client' // ВОТ ЭТА СТРОКА ОЧЕНЬ ВАЖНА
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Truck,
@@ -781,11 +782,11 @@ function TersisApp() {
     ); // Закрываем return
 } // ЭТА СКОБКА ЗАКРЫВАЕТ ФУНКЦИЮ TersisApp (обязательно!)
 
-// САМАЯ ВАЖНАЯ ЧАСТЬ: ЗАПУСК ПРИЛОЖЕНИЯ (БЕЗ ЭТОГО БЕЛЫЙ ЭКРАН)
+// КОД ЗАПУСКА САЙТА
 const rootElement = document.getElementById('root');
 if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
+  // Мы используем ReactDOM, который импортировали выше
+  ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <TersisApp />
     </React.StrictMode>
