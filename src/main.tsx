@@ -22,9 +22,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <-- Добавлено: без этого был белый экран
+  Home, // <-- ЭТОГО ИМПОРТА НЕ ХВАТАЛО (ПРИЧИНА БЕЛОГО ЭКРАНА)
 } from 'lucide-react'
-import { translations, type Lang } from './lib/i18n' // <-- Исправлено для билда
+import { translations, type Lang } from './lib/i18n' // <-- ИСПРАВЛЕНО ДЛЯ ACTIONS (ВМЕСТО @)
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
@@ -43,7 +43,7 @@ export const Route = createFileRoute('/')({
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ИСПРАВЛЯЕТ ФРИЗ) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ БЫЛО ФРИЗОВ) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -130,7 +130,7 @@ function TersisApp() {
   const [lang, setLang] = useState<Lang>('en')
   const [isDark, setIsDark] = useState(true)
 
-  const t = translations?.[lang] || translations['en']
+  const t = translations[lang]
 
   useEffect(() => {
     const hash = window.location.hash
@@ -199,6 +199,7 @@ function TersisApp() {
         </div>
       </nav>
 
+      {/* HERO */}
       <section className="pt-28 pb-20 px-4 relative min-h-[90vh] md:h-screen flex items-center overflow-hidden bg-[#050a14]">
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"><source src="/hero-video.mp4.mp4" type="video/mp4" /></video>
         <div className="absolute inset-0 bg-black/50 z-10" />
@@ -213,23 +214,7 @@ function TersisApp() {
         </div>
       </section>
 
-      <section id="services" className={`py-24 px-4`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.services.items.map((svc: any, i: number) => {
-              const Icon = serviceIcons[i] || Truck
-              return (
-                <div key={i} className={`p-8 border ${borderColor} ${bgCard} hover:border-[#0052ff]/50 transition-all duration-500 group rounded-xl`}>
-                  <Icon className="h-10 w-10 text-[#0052ff] mb-6 group-hover:scale-110 transition-transform" />
-                  <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase`}>{svc.title}</h3>
-                  <p className={`${textSecondary} text-sm leading-relaxed`}>{svc.desc}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
+      {/* FLEET */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} text-center mb-16 uppercase`}>{t.fleet.title}</h2>
@@ -240,7 +225,7 @@ function TersisApp() {
             ].map((f, i) => (
               <div key={i} className={`border ${borderAccent} p-8 ${bgCard} rounded-xl flex flex-col`}>
                 <div className="flex items-center gap-4 mb-8"><f.icon className="h-8 w-8 text-[#0052ff]" /><div><h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3><p className="text-[#0052ff] font-bold">{f.cap} {t.fleet.capacity}</p></div></div>
-                <div className="space-y-4 mb-8 flex-grow">{f.items.map(([l, v]: any, idx: number) => (<div key={idx} className="flex justify-between border-b border-white/5 pb-2"><span className={textMuted}>{l}</span><span className={`${textPrimary} font-black`}>{v}</span></div>))}</div>
+                <div className="space-y-4 mb-8 flex-grow">{f.items.map(([l, v], idx) => (<div key={idx} className="flex justify-between border-b border-white/5 pb-2"><span className={textMuted}>{l}</span><span className={`${textPrimary} font-black`}>{v}</span></div>))}</div>
                 <p className={`${textMuted} text-xs italic`}>{f.footer}</p>
               </div>
             ))}
@@ -248,19 +233,7 @@ function TersisApp() {
         </div>
       </section>
 
-      <section id="about" className={`py-24 px-4 border-t ${borderColor} ${bgCard}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            {t.about.stats.map((stat: any, i: number) => (
-              <div key={i} className="text-center">
-                <div className="text-4xl font-black text-[#0052ff] mb-2">{stat.val}</div>
-                <div className={`text-xs font-bold ${textSecondary} uppercase tracking-widest`}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/* CONTACT */}
       <section id="contact" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 animate-fadeInUp">
@@ -273,6 +246,7 @@ function TersisApp() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4`}>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
           <div>
