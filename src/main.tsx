@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, memo } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import React, { useState, useEffect, useCallback, memo } from 'react'
+import ReactDOM from 'react-dom/client'
 import {
   Truck,
   ArrowRight,
@@ -22,15 +22,14 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <-- Добавил недостающий импорт, из-за него мог быть вылет
+  Home, // Обязательный импорт
 } from 'lucide-react'
+
+// Исправляем путь для билда
 import { translations, type Lang } from './lib/i18n'
+import './styles.css'
 
-export const Route = createFileRoute('/')({
-  component: TersisApp,
-})
-
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ЗАВИСАЛО) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ФРИЗИЛО) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -42,7 +41,6 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
     e.preventDefault()
     setLoading(true)
     try {
-      // Замени на свой реальный URL для отправки
       const response = await fetch('/send.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,8 +52,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      console.error('Submission error:', error)
-      alert('Error! Check connection.')
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -78,7 +75,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
       ] as const).map(({ key, type }) => (
         <div key={key}>
           <label htmlFor={key} className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
-            {t.contact[key]}
+            {(t.contact as any)[key]}
           </label>
           <input
             id={key} name={key} type={type} required
@@ -109,12 +106,8 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
           placeholder={t.contact.placeholders.message} />
       </div>
       <div className="md:col-span-2">
-        <button 
-          type="submit" 
-          disabled={loading}
-          className={`w-full ${isSubmitted ? 'bg-green-600' : 'bg-[#0052ff]'} text-white py-5 text-base font-black hover:opacity-90 transition uppercase tracking-widest rounded-lg active:scale-95 disabled:opacity-50`}
-        >
-          {loading ? 'SENDING...' : isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
+        <button type="submit" disabled={loading} className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg active:scale-95">
+          {loading ? '...' : isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
         </button>
       </div>
     </form>
@@ -146,7 +139,6 @@ function TersisApp() {
     setIsMenuOpen(false)
   }, [])
 
-  // Стили (константы для дизайна)
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
   const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
   const textPrimary = isDark ? 'text-white' : 'text-gray-900'
@@ -159,7 +151,6 @@ function TersisApp() {
 
   return (
     <div className={`min-h-screen ${bg} relative overflow-hidden transition-colors duration-300`}>
-      {/* Сетка на фоне */}
       {isDark && (
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)', backgroundSize: '60px 60px' }} />
       )}
@@ -189,34 +180,22 @@ function TersisApp() {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <section className="pt-28 pb-20 px-4 relative min-h-[90vh] md:h-screen flex items-center overflow-hidden bg-[#050a14]">
-        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-40">
-          <source src="/hero-video.mp4.mp4" type="video/mp4" />
-        </video>
+        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-40"><source src="/hero-video.mp4.mp4" type="video/mp4" /></video>
         <div className="absolute inset-0 bg-black/50 z-10" />
         <div className="max-w-7xl mx-auto w-full relative z-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md">
-                <p className="text-[#0052ff] text-sm font-bold uppercase">{lang === 'en' ? 'EST. 2011 • Trusted Experience' : 'ĮKURTA 2011 • Patikima patirtis'}</p>
-              </div>
-              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-none uppercase">
-                {t.hero.title1}<br />{t.hero.title2}<br />
-                <span className="text-[#0052ff]">{t.hero.title3}</span><br />
-                {t.hero.title4}
-              </h1>
-              <div className="flex flex-wrap gap-4">
-                <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide">
-                  {t.hero.getQuote} <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
+            <div className="animate-fadeInUp">
+              <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md"><p className="text-[#0052ff] text-sm font-bold uppercase">{lang === 'en' ? 'EST. 2011 • Trusted Experience' : 'ĮKURTA 2011 • Patikima patirtis'}</p></div>
+              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-none uppercase">{t.hero.title1}<br />{t.hero.title2}<br /><span className="text-[#0052ff]">{t.hero.title3}</span><br />{t.hero.title4}</h1>
+              <div className="flex flex-wrap gap-4"><button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide"> {t.hero.getQuote} <ArrowRight className="h-4 w-4" /></button></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FLEET SECTION */}
+      {/* FLEET - ВОССТАНОВЛЕНО ПОЛНОСТЬЮ */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} text-center mb-16 uppercase`}>{t.fleet.title}</h2>
@@ -226,21 +205,8 @@ function TersisApp() {
               { title: t.fleet.megaAdvantage, cap: '105 m³', icon: Maximize2, footer: t.fleet.megaFooter, items: [ [t.fleet.internalHeight, '3.0 m'], [t.fleet.volume, '105 m³'], [t.fleet.advantage, '+14%'] ] }
             ].map((f, i) => (
               <div key={i} className={`border ${borderAccent} p-8 ${bgCard} rounded-xl flex flex-col`}>
-                <div className="flex items-center gap-4 mb-8">
-                  <f.icon className="h-8 w-8 text-[#0052ff]" />
-                  <div>
-                    <h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3>
-                    <p className="text-[#0052ff] font-bold">{f.cap} {t.fleet.capacity}</p>
-                  </div>
-                </div>
-                <div className="space-y-4 mb-8 flex-grow">
-                  {f.items.map(([l, v], idx) => (
-                    <div key={idx} className="flex justify-between border-b border-white/5 pb-2">
-                      <span className={textMuted}>{l}</span>
-                      <span className={`${textPrimary} font-black`}>{v}</span>
-                    </div>
-                  ))}
-                </div>
+                <div className="flex items-center gap-4 mb-8"><f.icon className="h-8 w-8 text-[#0052ff]" /><div><h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3><p className="text-[#0052ff] font-bold">{f.cap} {t.fleet.capacity}</p></div></div>
+                <div className="space-y-4 mb-8 flex-grow">{f.items.map(([l, v], idx) => (<div key={idx} className="flex justify-between border-b border-white/5 pb-2"><span className={textMuted}>{l}</span><span className={`${textPrimary} font-black`}>{v}</span></div>))}</div>
                 <p className={`${textMuted} text-xs italic`}>{f.footer}</p>
               </div>
             ))}
@@ -248,34 +214,24 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
+      {/* CONTACT */}
       <section id="contact" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 animate-fadeInUp">
             <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 uppercase`}>{t.contact.title}</h2>
             <p className={textSecondary}>{t.contact.subtitle}</p>
           </div>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
-            {/* ФОРМА ТЕПЕРЬ НЕ ЗАВИСИТ ОТ РЕРЕНДЕРА ВСЕГО САЙТА */}
-            <ContactForm 
-              t={t} 
-              inputBg={inputBg} 
-              borderAccent={borderAccent} 
-              textPrimary={textPrimary} 
-              textSecondary={textSecondary} 
-            />
+            <ContactForm t={t} inputBg={inputBg} borderAccent={borderAccent} textPrimary={textPrimary} textSecondary={textSecondary} />
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER - ВОССТАНОВЛЕНО ПОЛНОСТЬЮ */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4`}>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
           <div>
-            <div className="flex items-center mb-6">
-              <div className="h-10 w-10"><img src="https://tersis.lt/logo.png" alt="TERSIS" className="h-full w-full object-contain" /></div>
-              <h4 className={`text-xl font-black ${textPrimary} ml-3`}>TERSIS</h4>
-            </div>
+            <div className="flex items-center mb-6"><div className="h-10 w-10"><img src="https://tersis.lt/logo.png" alt="TERSIS" className="h-full w-full object-contain" /></div><h4 className={`text-xl font-black ${textPrimary} ml-3`}>TERSIS</h4></div>
             <div className={`space-y-4 ${textSecondary} text-sm`}>
               <div className="flex items-start gap-3"><MapPin className="h-5 w-5 text-[#0052ff]" /><span>Taikos pr. 141-305, Kaunas</span></div>
               <div className="flex items-start gap-3"><Phone className="h-5 w-5 text-[#0052ff]" /><a href="tel:+37065955956" className="hover:text-[#0052ff] transition">+370 65 955 956</a></div>
@@ -285,19 +241,20 @@ function TersisApp() {
           <div>
             <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.servicesTitle}</h5>
             <ul className="space-y-2">
-              {t.services?.items?.slice(0, 6).map((svc: any, i: number) => (
+              {t.services.items.slice(0, 6).map((svc: any, i: number) => (
                 <li key={i}><button onClick={() => scrollToSection('services')} className={`${textSecondary} hover:text-[#0052ff] transition text-sm`}>{svc.title}</button></li>
               ))}
             </ul>
           </div>
-          <div>
-            <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.legalTitle}</h5>
-            <div className="text-[#0052ff] font-black">LIC-009666-EBKR</div>
-          </div>
+          <div><h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.legalTitle}</h5><div className="text-[#0052ff] font-black">LIC-009666-EBKR</div></div>
         </div>
       </footer>
     </div>
   )
 }
 
-export default TersisApp
+// Запуск приложения (то, чего не хватало для белого экрана)
+const root = document.getElementById('root')
+if (root) {
+  ReactDOM.createRoot(root).render(<TersisApp />)
+}
