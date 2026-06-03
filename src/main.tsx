@@ -22,11 +22,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <-- Добавлено (было пропущено, вызывало ошибку)
+  Home, // Добавлен обязательный импорт
 } from 'lucide-react'
-
-// Исправлено: путь через ./ чтобы билд в Actions проходил
-import { translations, type Lang } from './lib/i18n'
+import { translations, type Lang } from './lib/i18n' // Исправлено на ./ для билда
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
@@ -43,10 +41,9 @@ export const Route = createFileRoute('/')({
   }),
 })
 
-// Константа из твоего кода
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (БЕЗ ФРИЗОВ) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ИСПРАВЛЯЕТ ФРИЗ САЙТА) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -67,7 +64,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      console.error('Submit error:', error)
+      alert('Error! Check connection.')
     }
   }
 
@@ -96,7 +93,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
             onChange={handleChange}
             autoComplete="off"
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-            placeholder={(t.contact.placeholders as any)[key] || ''}
+            placeholder={(t.contact.placeholders as any)[key]}
           />
         </div>
       ))}
@@ -136,16 +133,6 @@ function TersisApp() {
   const t = translations[lang]
 
   useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      setTimeout(() => {
-        const element = document.querySelector(hash)
-        if (element) element.scrollIntoView({ behavior: 'smooth' })
-      }, 500)
-    }
-  }, [])
-
-  useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -162,7 +149,6 @@ function TersisApp() {
     setIsMenuOpen(false)
   }, [])
 
-  // Стили из твоего оригинала
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
   const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
   const textPrimary = isDark ? 'text-white' : 'text-gray-900'
@@ -179,10 +165,10 @@ function TersisApp() {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)', backgroundSize: '60px 60px' }} />
       )}
 
-      {/* NAVBAR */}
+      {/* NAV */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-18">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center group">
               <div className="relative h-10 w-10"><img src="https://tersis.lt/logo.png" alt="TERSIS" className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" /></div>
               <span className={`text-2xl font-black ${textPrimary} ml-2`}>TERSIS</span>
@@ -219,6 +205,24 @@ function TersisApp() {
         </div>
       </section>
 
+      {/* SERVICES */}
+      <section id="services" className={`py-24 px-4`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {t.services.items.map((svc, i) => {
+              const Icon = serviceIcons[i] || Truck
+              return (
+                <div key={i} className={`p-8 border ${borderColor} ${bgCard} hover:border-[#0052ff]/50 transition-all duration-500 group rounded-xl`}>
+                  <Icon className="h-10 w-10 text-[#0052ff] mb-6 group-hover:scale-110 transition-transform" />
+                  <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase`}>{svc.title}</h3>
+                  <p className={`${textSecondary} text-sm leading-relaxed`}>{svc.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* FLEET */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
@@ -232,6 +236,20 @@ function TersisApp() {
                 <div className="flex items-center gap-4 mb-8"><f.icon className="h-8 w-8 text-[#0052ff]" /><div><h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3><p className="text-[#0052ff] font-bold">{f.cap} {t.fleet.capacity}</p></div></div>
                 <div className="space-y-4 mb-8 flex-grow">{f.items.map(([l, v], idx) => (<div key={idx} className="flex justify-between border-b border-white/5 pb-2"><span className={textMuted}>{l}</span><span className={`${textPrimary} font-black`}>{v}</span></div>))}</div>
                 <p className={`${textMuted} text-xs italic`}>{f.footer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT / STATS */}
+      <section id="about" className={`py-24 px-4 border-t ${borderColor} ${bgCard}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            {t.about.stats.map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-4xl font-black text-[#0052ff] mb-2">{stat.val}</div>
+                <div className={`text-xs font-bold ${textSecondary} uppercase tracking-widest`}>{stat.label}</div>
               </div>
             ))}
           </div>
@@ -265,7 +283,7 @@ function TersisApp() {
           <div>
             <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.servicesTitle}</h5>
             <ul className="space-y-2">
-              {t.services?.items?.slice(0, 6).map((svc: any, i: number) => (
+              {t.services.items.slice(0, 6).map((svc: any, i: number) => (
                 <li key={i}><button onClick={() => scrollToSection('services')} className={`${textSecondary} hover:text-[#0052ff] transition text-sm`}>{svc.title}</button></li>
               ))}
             </ul>
