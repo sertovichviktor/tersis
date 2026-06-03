@@ -22,9 +22,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <-- ЭТОГО ИМПОРТА НЕ ХВАТАЛО (ПРИЧИНА БЕЛОГО ЭКРАНА)
+  Home, // <-- ЭТО БЫЛО ПРИЧИНОЙ БЕЛОГО ЭКРАНА
 } from 'lucide-react'
-import { translations, type Lang } from './lib/i18n' // <-- ИСПРАВЛЕНО ДЛЯ ACTIONS (ВМЕСТО @)
+import { translations, type Lang } from './lib/i18n' // Исправлено для билда
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
@@ -43,7 +43,7 @@ export const Route = createFileRoute('/')({
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ БЫЛО ФРИЗОВ) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ИСПРАВЛЯЕТ ФРИЗ САЙТА) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -64,7 +64,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      console.error(error)
+      console.error('Submit error:', error)
     }
   }
 
@@ -131,16 +131,6 @@ function TersisApp() {
   const [isDark, setIsDark] = useState(true)
 
   const t = translations[lang]
-
-  useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      setTimeout(() => {
-        const element = document.querySelector(hash)
-        if (element) element.scrollIntoView({ behavior: 'smooth' })
-      }, 500)
-    }
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -241,6 +231,7 @@ function TersisApp() {
             <p className={textSecondary}>{t.contact.subtitle}</p>
           </div>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
+            {/* ФОРМА ТЕПЕРЬ НЕ ЗАВИСИТ ОТ ПЕРЕРИСОВКИ ВСЕГО САЙТА */}
             <ContactForm t={t} inputBg={inputBg} borderAccent={borderAccent} textPrimary={textPrimary} textSecondary={textSecondary} />
           </div>
         </div>
