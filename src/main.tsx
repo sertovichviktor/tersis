@@ -22,9 +22,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <--- Добавил, чтобы не было белого экрана
+  Home, // <-- ОБЯЗАТЕЛЬНО: добавил недостающий импорт
 } from 'lucide-react'
-import { translations, type Lang } from './lib/i18n' // <--- Исправил путь для GitHub Actions
+import { translations, type Lang } from './lib/i18n' // <-- Исправил путь для билда
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
@@ -43,7 +43,7 @@ export const Route = createFileRoute('/')({
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ЗАВИСАЛО) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ИСПРАВЛЯЕТ ФРИЗ) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -64,7 +64,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      alert('Error! Check connection.')
+      console.error(error)
     }
   }
 
@@ -72,6 +72,8 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
+
+  if (!t?.contact) return null
 
   return (
     <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
@@ -93,7 +95,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
             onChange={handleChange}
             autoComplete="off"
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-            placeholder={(t.contact.placeholders as any)[key]}
+            placeholder={t.contact.placeholders?.[key] || ''}
           />
         </div>
       ))}
@@ -101,19 +103,19 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         <label htmlFor="email" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.email}</label>
         <input id="email" name="email" type="email" required value={formData.email} onChange={handleChange}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-          placeholder={t.contact.placeholders.email} />
+          placeholder={t.contact.placeholders?.email} />
       </div>
       <div className="md:col-span-2">
         <label htmlFor="phone" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.phone}</label>
         <input id="phone" name="phone" type="tel" required value={formData.phone} onChange={handleChange}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-          placeholder={t.contact.placeholders.phone} />
+          placeholder={t.contact.placeholders?.phone} />
       </div>
       <div className="md:col-span-2">
         <label htmlFor="message" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.message}</label>
         <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={3}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`}
-          placeholder={t.contact.placeholders.message} />
+          placeholder={t.contact.placeholders?.message} />
       </div>
       <div className="md:col-span-2">
         <button type="submit" className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg active:scale-95">
@@ -133,16 +135,6 @@ function TersisApp() {
   const t = translations[lang]
 
   useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      setTimeout(() => {
-        const element = document.querySelector(hash)
-        if (element) element.scrollIntoView({ behavior: 'smooth' })
-      }, 500)
-    }
-  }, [])
-
-  useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -158,6 +150,9 @@ function TersisApp() {
     element?.scrollIntoView({ behavior: 'smooth' })
     setIsMenuOpen(false)
   }, [])
+
+  // Если переводы еще не подгрузились, не рисуем ничего (защита от белого экрана)
+  if (!t) return null
 
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
   const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
@@ -175,6 +170,7 @@ function TersisApp() {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)', backgroundSize: '60px 60px' }} />
       )}
 
+      {/* NAV */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
@@ -214,6 +210,24 @@ function TersisApp() {
         </div>
       </section>
 
+      {/* SERVICES */}
+      <section id="services" className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {t.services.items.map((svc: any, i: number) => {
+              const Icon = serviceIcons[i] || Truck
+              return (
+                <div key={i} className={`p-8 border ${borderColor} ${bgCard} hover:border-[#0052ff]/50 transition-all duration-500 group rounded-xl`}>
+                  <Icon className="h-10 w-10 text-[#0052ff] mb-6 group-hover:scale-110 transition-transform" />
+                  <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase`}>{svc.title}</h3>
+                  <p className={`${textSecondary} text-sm leading-relaxed`}>{svc.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* FLEET */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
@@ -233,6 +247,20 @@ function TersisApp() {
         </div>
       </section>
 
+      {/* ABOUT / STATS */}
+      <section id="about" className={`py-24 px-4 border-t ${borderColor} ${bgCard}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            {t.about.stats.map((stat: any, i: number) => (
+              <div key={i} className="text-center">
+                <div className="text-4xl font-black text-[#0052ff] mb-2">{stat.val}</div>
+                <div className={`text-xs font-bold ${textSecondary} uppercase tracking-widest`}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="contact" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
@@ -241,7 +269,6 @@ function TersisApp() {
             <p className={textSecondary}>{t.contact.subtitle}</p>
           </div>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
-            {/* ВЫЗОВ ИЗОЛИРОВАННОЙ ФОРМЫ */}
             <ContactForm t={t} inputBg={inputBg} borderAccent={borderAccent} textPrimary={textPrimary} textSecondary={textSecondary} />
           </div>
         </div>
