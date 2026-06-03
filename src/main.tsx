@@ -22,11 +22,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // <--- КРИТИЧНО: добавил импорт, чтобы не было белого экрана
+  Home, // <--- Добавил, чтобы не было белого экрана
 } from 'lucide-react'
-
-// Импорт переводов через относительный путь для Actions
-import { translations, type Lang } from './lib/i18n'
+import { translations, type Lang } from './lib/i18n' // <--- Исправил путь для GitHub Actions
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
@@ -45,7 +43,7 @@ export const Route = createFileRoute('/')({
 
 const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (БЕЗ ФРИЗОВ) ---
+// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ЗАВИСАЛО) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
@@ -87,7 +85,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
       ] as const).map(({ key, type }) => (
         <div key={key}>
           <label htmlFor={key} className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>
-            {t.contact?.[key] || key}
+            {t.contact[key]}
           </label>
           <input
             id={key} name={key} type={type} required
@@ -95,31 +93,31 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
             onChange={handleChange}
             autoComplete="off"
             className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-            placeholder={t.contact?.placeholders?.[key] || ''}
+            placeholder={(t.contact.placeholders as any)[key]}
           />
         </div>
       ))}
       <div className="md:col-span-2">
-        <label htmlFor="email" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact?.email}</label>
+        <label htmlFor="email" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.email}</label>
         <input id="email" name="email" type="email" required value={formData.email} onChange={handleChange}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-          placeholder={t.contact?.placeholders?.email} />
+          placeholder={t.contact.placeholders.email} />
       </div>
       <div className="md:col-span-2">
-        <label htmlFor="phone" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact?.phone}</label>
+        <label htmlFor="phone" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.phone}</label>
         <input id="phone" name="phone" type="tel" required value={formData.phone} onChange={handleChange}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition rounded-lg text-sm font-bold`}
-          placeholder={t.contact?.placeholders?.phone} />
+          placeholder={t.contact.placeholders.phone} />
       </div>
       <div className="md:col-span-2">
-        <label htmlFor="message" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact?.message}</label>
+        <label htmlFor="message" className={`block text-xs font-bold ${textSecondary} mb-2 uppercase tracking-widest`}>{t.contact.message}</label>
         <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={3}
           className={`w-full px-4 py-3 ${inputBg} border ${borderAccent} ${textPrimary} focus:border-[#0052ff] outline-none transition resize-none rounded-lg text-sm font-bold`}
-          placeholder={t.contact?.placeholders?.message} />
+          placeholder={t.contact.placeholders.message} />
       </div>
       <div className="md:col-span-2">
         <button type="submit" className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg active:scale-95">
-          {isSubmitted ? (t.contact?.submitted || 'SENT') : 'REQUEST QUOTE IN 24H'}
+          {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
         </button>
       </div>
     </form>
@@ -133,6 +131,16 @@ function TersisApp() {
   const [isDark, setIsDark] = useState(true)
 
   const t = translations[lang]
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash)
+        if (element) element.scrollIntoView({ behavior: 'smooth' })
+      }, 500)
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -167,7 +175,6 @@ function TersisApp() {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)', backgroundSize: '60px 60px' }} />
       )}
 
-      {/* NAV */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-18">
@@ -177,13 +184,13 @@ function TersisApp() {
             </button>
             <div className="hidden md:flex items-center space-x-6">
               {(['services', 'fleet', 'about', 'coverage', 'contact'] as const).map((s) => (
-                <button key={s} onClick={() => scrollToSection(s)} className={`${textSecondary} hover:text-[#0052ff] transition text-sm font-semibold uppercase`}>{t.nav?.[s]}</button>
+                <button key={s} onClick={() => scrollToSection(s)} className={`${textSecondary} hover:text-[#0052ff] transition text-sm font-semibold uppercase`}>{t.nav[s]}</button>
               ))}
             </div>
             <div className="hidden md:flex items-center gap-3">
               <button onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition text-xs font-bold uppercase`}><Languages className="h-3.5 w-3.5" /> {lang === 'en' ? 'LT' : 'EN'}</button>
               <button onClick={() => setIsDark(!isDark)} className={`p-2 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition`}>{isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
-              <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-sm uppercase rounded-md">{t.nav?.getQuote}</button>
+              <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-sm uppercase rounded-md">{t.nav.getQuote}</button>
             </div>
             <div className="md:hidden flex items-center gap-2">
               <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={textSecondary}>{isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
@@ -200,27 +207,9 @@ function TersisApp() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fadeInUp">
               <div className="inline-block mb-6 px-4 py-2 bg-[#0052ff]/20 border border-[#0052ff]/40 rounded-md"><p className="text-[#0052ff] text-sm font-bold uppercase">{lang === 'en' ? 'EST. 2011 • Trusted Experience' : 'ĮKURTA 2011 • Patikima patirtis'}</p></div>
-              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-none uppercase">{t.hero?.title1}<br />{t.hero?.title2}<br /><span className="text-[#0052ff]">{t.hero?.title3}</span><br />{t.hero?.title4}</h1>
-              <div className="flex flex-wrap gap-4"><button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide"> {t.hero?.getQuote} <ArrowRight className="h-4 w-4" /></button></div>
+              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-none uppercase">{t.hero.title1}<br />{t.hero.title2}<br /><span className="text-[#0052ff]">{t.hero.title3}</span><br />{t.hero.title4}</h1>
+              <div className="flex flex-wrap gap-4"><button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-8 py-4 rounded-md font-bold hover:bg-[#003dd6] transition flex items-center gap-2 uppercase tracking-wide"> {t.hero.getQuote} <ArrowRight className="h-4 w-4" /></button></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className={`py-24 px-4`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.services?.items?.map((svc: any, i: number) => {
-              const Icon = serviceIcons[i] || Truck
-              return (
-                <div key={i} className={`p-8 border ${borderColor} ${bgCard} hover:border-[#0052ff]/50 transition-all duration-500 group rounded-xl`}>
-                  <Icon className="h-10 w-10 text-[#0052ff] mb-6 group-hover:scale-110 transition-transform" />
-                  <h3 className={`text-xl font-black ${textPrimary} mb-4 uppercase`}>{svc.title}</h3>
-                  <p className={`${textSecondary} text-sm leading-relaxed`}>{svc.desc}</p>
-                </div>
-              )
-            })}
           </div>
         </div>
       </section>
@@ -228,30 +217,16 @@ function TersisApp() {
       {/* FLEET */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
-          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} text-center mb-16 uppercase`}>{t.fleet?.title}</h2>
+          <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} text-center mb-16 uppercase`}>{t.fleet.title}</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[ 
-              { title: t.fleet?.standardClass, cap: '92 m³', icon: Truck, footer: t.fleet?.standardFooter, items: [ [t.fleet?.length, '13.6 m'], [t.fleet?.height, '2.7 m'], [t.fleet?.capacity, '33 Euro'] ] },
-              { title: t.fleet?.megaAdvantage, cap: '105 m³', icon: Maximize2, footer: t.fleet?.megaFooter, items: [ [t.fleet?.internalHeight, '3.0 m'], [t.fleet?.volume, '105 m³'], [t.fleet?.advantage, '+14%'] ] }
+              { title: t.fleet.standardClass, cap: '92 m³', icon: Truck, footer: t.fleet.standardFooter, items: [ [t.fleet.length, '13.6 m'], [t.fleet.height, '2.7 m'], [t.fleet.capacity, '33 Euro'] ] },
+              { title: t.fleet.megaAdvantage, cap: '105 m³', icon: Maximize2, footer: t.fleet.megaFooter, items: [ [t.fleet.internalHeight, '3.0 m'], [t.fleet.volume, '105 m³'], [t.fleet.advantage, '+14%'] ] }
             ].map((f, i) => (
               <div key={i} className={`border ${borderAccent} p-8 ${bgCard} rounded-xl flex flex-col`}>
-                <div className="flex items-center gap-4 mb-8"><f.icon className="h-8 w-8 text-[#0052ff]" /><div><h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3><p className="text-[#0052ff] font-bold">{f.cap} {t.fleet?.capacity}</p></div></div>
+                <div className="flex items-center gap-4 mb-8"><f.icon className="h-8 w-8 text-[#0052ff]" /><div><h3 className={`text-xl font-black ${textPrimary} uppercase`}>{f.title}</h3><p className="text-[#0052ff] font-bold">{f.cap} {t.fleet.capacity}</p></div></div>
                 <div className="space-y-4 mb-8 flex-grow">{f.items.map(([l, v], idx) => (<div key={idx} className="flex justify-between border-b border-white/5 pb-2"><span className={textMuted}>{l}</span><span className={`${textPrimary} font-black`}>{v}</span></div>))}</div>
                 <p className={`${textMuted} text-xs italic`}>{f.footer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ABOUT / STATS */}
-      <section id="about" className={`py-24 px-4 border-t ${borderColor} ${bgCard}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            {t.about?.stats?.map((stat: any, i: number) => (
-              <div key={i} className="text-center">
-                <div className="text-4xl font-black text-[#0052ff] mb-2">{stat.val}</div>
-                <div className={`text-xs font-bold ${textSecondary} uppercase tracking-widest`}>{stat.label}</div>
               </div>
             ))}
           </div>
@@ -262,10 +237,11 @@ function TersisApp() {
       <section id="contact" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 animate-fadeInUp">
-            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 uppercase`}>{t.contact?.title}</h2>
-            <p className={textSecondary}>{t.contact?.subtitle}</p>
+            <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} mb-4 uppercase`}>{t.contact.title}</h2>
+            <p className={textSecondary}>{t.contact.subtitle}</p>
           </div>
           <div className={`${bgCard} border ${borderAccent} rounded-2xl p-8 md:p-10 shadow-2xl`}>
+            {/* ВЫЗОВ ИЗОЛИРОВАННОЙ ФОРМЫ */}
             <ContactForm t={t} inputBg={inputBg} borderAccent={borderAccent} textPrimary={textPrimary} textSecondary={textSecondary} />
           </div>
         </div>
@@ -283,14 +259,14 @@ function TersisApp() {
             </div>
           </div>
           <div>
-            <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer?.servicesTitle}</h5>
+            <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.servicesTitle}</h5>
             <ul className="space-y-2">
-              {t.services?.items?.slice(0, 6).map((svc: any, i: number) => (
+              {t.services.items.slice(0, 6).map((svc: any, i: number) => (
                 <li key={i}><button onClick={() => scrollToSection('services')} className={`${textSecondary} hover:text-[#0052ff] transition text-sm`}>{svc.title}</button></li>
               ))}
             </ul>
           </div>
-          <div><h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer?.legalTitle}</h5><div className="text-[#0052ff] font-black">LIC-009666-EBKR</div></div>
+          <div><h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.legalTitle}</h5><div className="text-[#0052ff] font-black">LIC-009666-EBKR</div></div>
         </div>
       </footer>
     </div>
