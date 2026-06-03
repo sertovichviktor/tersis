@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, memo } from 'react'
-import ReactDOM from 'react-dom/client'
+import { useState, useEffect, useCallback, memo } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
 import {
   Truck,
   ArrowRight,
@@ -22,24 +22,39 @@ import {
   Sun,
   Moon,
   Languages,
-  Home, // Обязательный импорт
+  Home, // <-- Добавлено (было пропущено, вызывало ошибку)
 } from 'lucide-react'
 
-// Исправляем путь для билда
+// Исправлено: путь через ./ чтобы билд в Actions проходил
 import { translations, type Lang } from './lib/i18n'
-import './styles.css'
 
-// --- ИЗОЛИРОВАННАЯ ФОРМА (ЧТОБЫ НЕ ФРИЗИЛО) ---
+export const Route = createFileRoute('/')({
+  component: TersisApp,
+  head: () => ({
+    meta: [
+      { title: 'TERSIS | Asset-Based Carrier & International Logistics Hub' },
+      { 
+        name: 'description', 
+        content: 'TERSIS is a reliable European logistics partner since 2011. Operating a fleet of 27+ modern Euro 6 vehicles with MEGA trailers.' 
+      },
+      { property: 'og:title', content: 'TERSIS | Asset-Based Carrier' },
+      { property: 'og:image', content: 'https://tersis.lt/logo.png' },
+    ],
+  }),
+})
+
+// Константа из твоего кода
+const serviceIcons = [Truck, Globe, AlertTriangle, Zap, Clock, Home, FileText, Shield]
+
+// --- ИЗОЛИРОВАННАЯ ФОРМА (БЕЗ ФРИЗОВ) ---
 const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary }: any) => {
   const [formData, setFormData] = useState({
     from: '', to: '', cargoType: '', weight: '', volume: '', deadline: '', name: '', email: '', phone: '', message: '',
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     try {
       const response = await fetch('/send.php', {
         method: 'POST',
@@ -52,9 +67,7 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
         setTimeout(() => setIsSubmitted(false), 4000)
       }
     } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
+      console.error('Submit error:', error)
     }
   }
 
@@ -106,8 +119,8 @@ const ContactForm = memo(({ t, inputBg, borderAccent, textPrimary, textSecondary
           placeholder={t.contact.placeholders.message} />
       </div>
       <div className="md:col-span-2">
-        <button type="submit" disabled={loading} className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg active:scale-95">
-          {loading ? '...' : isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
+        <button type="submit" className="w-full bg-[#0052ff] text-white py-5 text-base font-black hover:bg-[#003dd6] transition uppercase tracking-widest rounded-lg active:scale-95">
+          {isSubmitted ? t.contact.submitted : 'REQUEST QUOTE IN 24H'}
         </button>
       </div>
     </form>
@@ -121,6 +134,16 @@ function TersisApp() {
   const [isDark, setIsDark] = useState(true)
 
   const t = translations[lang]
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash)
+        if (element) element.scrollIntoView({ behavior: 'smooth' })
+      }, 500)
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -139,6 +162,7 @@ function TersisApp() {
     setIsMenuOpen(false)
   }, [])
 
+  // Стили из твоего оригинала
   const bg = isDark ? 'bg-[#050a14]' : 'bg-gray-50'
   const bgCard = isDark ? 'bg-[#0a1628]' : 'bg-white'
   const textPrimary = isDark ? 'text-white' : 'text-gray-900'
@@ -155,7 +179,7 @@ function TersisApp() {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 82, 255, 0.08) 25%, rgba(0, 82, 255, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 82, 255, 0.08) 75%, rgba(0, 82, 255, 0.08) 76%, transparent 77%, transparent)', backgroundSize: '60px 60px' }} />
       )}
 
-      {/* NAV */}
+      {/* NAVBAR */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${navBg} backdrop-blur-md border-b ${borderColor} shadow-sm` : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
@@ -169,8 +193,8 @@ function TersisApp() {
               ))}
             </div>
             <div className="hidden md:flex items-center gap-3">
-              <button type="button" onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition text-xs font-bold uppercase`}><Languages className="h-3.5 w-3.5" /> {lang === 'en' ? 'LT' : 'EN'}</button>
-              <button type="button" onClick={() => setIsDark(!isDark)} className={`p-2 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition`}>{isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
+              <button onClick={() => setLang(lang === 'en' ? 'lt' : 'en')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition text-xs font-bold uppercase`}><Languages className="h-3.5 w-3.5" /> {lang === 'en' ? 'LT' : 'EN'}</button>
+              <button onClick={() => setIsDark(!isDark)} className={`p-2 rounded-md border ${borderColor} ${textSecondary} hover:text-[#0052ff] transition`}>{isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
               <button onClick={() => scrollToSection('contact')} className="bg-[#0052ff] text-white px-5 py-2 hover:bg-[#003dd6] transition font-bold text-sm uppercase rounded-md">{t.nav.getQuote}</button>
             </div>
             <div className="md:hidden flex items-center gap-2">
@@ -195,7 +219,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* FLEET - ВОССТАНОВЛЕНО ПОЛНОСТЬЮ */}
+      {/* FLEET */}
       <section id="fleet" className={`py-24 px-4 border-t ${borderColor}`}>
         <div className="max-w-7xl mx-auto">
           <h2 className={`text-4xl md:text-5xl font-black ${textPrimary} text-center mb-16 uppercase`}>{t.fleet.title}</h2>
@@ -227,7 +251,7 @@ function TersisApp() {
         </div>
       </section>
 
-      {/* FOOTER - ВОССТАНОВЛЕНО ПОЛНОСТЬЮ */}
+      {/* FOOTER */}
       <footer className={`${bg} border-t ${borderColor} py-16 px-4`}>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
           <div>
@@ -241,7 +265,7 @@ function TersisApp() {
           <div>
             <h5 className={`font-black ${textPrimary} mb-6 text-sm uppercase`}>{t.footer.servicesTitle}</h5>
             <ul className="space-y-2">
-              {t.services.items.slice(0, 6).map((svc: any, i: number) => (
+              {t.services?.items?.slice(0, 6).map((svc: any, i: number) => (
                 <li key={i}><button onClick={() => scrollToSection('services')} className={`${textSecondary} hover:text-[#0052ff] transition text-sm`}>{svc.title}</button></li>
               ))}
             </ul>
@@ -253,8 +277,4 @@ function TersisApp() {
   )
 }
 
-// Запуск приложения (то, чего не хватало для белого экрана)
-const root = document.getElementById('root')
-if (root) {
-  ReactDOM.createRoot(root).render(<TersisApp />)
-}
+export default TersisApp
