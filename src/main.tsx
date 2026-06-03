@@ -24,7 +24,7 @@ import {
   Moon,
   Languages,
 } from 'lucide-react'
-import { translations, type Lang } from '@/lib/i18n'
+import { translations, type Lang } from './lib/i18n'
 
 // Конфигурация роута (как в твоем 10 билде)
 export const Route = createFileRoute('/')({
