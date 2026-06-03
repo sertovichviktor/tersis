@@ -777,9 +777,11 @@ function TersisApp() {
           </div>
         </div>
       </footer>
-    </div>
-  )
-  САМАЯ ВАЖНАЯ ЧАСТЬ: ЗАПУСК ПРИЛОЖЕНИЯ (БЕЗ ЭТОГО БЕЛЫЙ ЭКРАН) ---
+   </div>
+    ); // Закрываем return
+} // ЭТА СКОБКА ЗАКРЫВАЕТ ФУНКЦИЮ TersisApp (обязательно!)
+
+// САМАЯ ВАЖНАЯ ЧАСТЬ: ЗАПУСК ПРИЛОЖЕНИЯ (БЕЗ ЭТОГО БЕЛЫЙ ЭКРАН)
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
@@ -788,5 +790,4 @@ if (rootElement) {
       <TersisApp />
     </React.StrictMode>
   );
-}
 }
