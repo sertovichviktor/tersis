@@ -24,7 +24,7 @@ import {
   Languages,
   Home, // <-- Добавил недостающий импорт, из-за него мог быть вылет
 } from 'lucide-react'
-import { translations, type Lang } from '@/lib/i18n'
+import { translations, type Lang } from './lib/i18n'
 
 export const Route = createFileRoute('/')({
   component: TersisApp,
