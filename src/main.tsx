@@ -779,4 +779,14 @@ function TersisApp() {
       </footer>
     </div>
   )
+  САМАЯ ВАЖНАЯ ЧАСТЬ: ЗАПУСК ПРИЛОЖЕНИЯ (БЕЗ ЭТОГО БЕЛЫЙ ЭКРАН) ---
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <TersisApp />
+    </React.StrictMode>
+  );
+}
 }
